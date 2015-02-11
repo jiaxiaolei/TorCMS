@@ -7,7 +7,7 @@ from torlite.core.base_model import BaseModel
 from torlite.model.core_tab import CabPost2Catalog
 from torlite.model.core_tab import CabCatalog
 from torlite.model.core_tab import CabPost
-
+import config
 
 class MPost2Catalog():
     def __init__(self):
@@ -69,4 +69,9 @@ class MPost2Catalog():
         return CabPost2Catalog.select().where(CabPost2Catalog.post == post_id)
         # return CabPost.select().where( CabPost.).count()
     def query_slug_by_pager(self, slug, cureent= 1):
-        return CabPost2Catalog.select().join(CabCatalog).where(CabCatalog.slug == slug)
+        # return CabPost2Catalog.select().join(CabCatalog).join(CabPost).where(CabCatalog.slug == slug).paginate(cureent, config.page_num)
+        return CabPost.select().join(CabPost2Catalog).join(CabCatalog).where(CabCatalog.slug == slug).order_by(CabPost.time_update.desc()).paginate(cureent, config.page_num)
+
+
+        # tt = CabPost.select().where(CabPost.id_cats.contains(str(cat_str))).order_by(
+        #     CabPost.time_update.desc()).paginate(cureent, config.page_num)
