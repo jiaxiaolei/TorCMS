@@ -11,6 +11,7 @@ from torlite.model.core_tab import CabPost
 
 class MPost2Catalog():
     def __init__(self):
+
         try:
             CabPost2Catalog.create_table()
         except:
@@ -20,10 +21,12 @@ class MPost2Catalog():
         recs = CabPost2Catalog.select().order_by(CabPost2Catalog.order)
         return (recs)
 
-    def get_by_slug(self, slug):
-        return CabPost2Catalog.get(slug=slug)
+    # def query_by_slug(self, slug):
+    #     return CabPost2Catalog.get(slug=slug)
 
-    def get_by_id(self, idd):
+    def query_by_catid(self, catid):
+        return CabPost2Catalog.select().where(CabPost2Catalog.catalog == catid)
+    def query_by_id(self, idd):
         return CabPost2Catalog.select().join(CabCatalog).where(CabPost2Catalog.post == idd)
 
     def get_by_info(self, post_id, catalog_id):
@@ -62,6 +65,8 @@ class MPost2Catalog():
         entry.execute()
     def get_num_by_cat(self, cat_id):
         return CabPost2Catalog.select(CabPost2Catalog.uid == cat_id).count()
+    def query_catalog(self, post_id):
+        return CabPost2Catalog.select().where(CabPost2Catalog.post == post_id)
         # return CabPost.select().where( CabPost.).count()
     def query_slug_by_pager(self, slug, cureent= 1):
         return CabPost2Catalog.select().join(CabCatalog).where(CabCatalog.slug == slug)

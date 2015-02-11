@@ -35,7 +35,7 @@ class PostHandler(BaseHandler):
         if url_str == '':
             return
         url_arr = url_str.split(r'/')
-        if len(url_arr) == 1 and url_str.endswith('.html') :
+        if len(url_arr) == 1 and url_str.endswith('.html'):
             self.wiki(url_str.split('.')[0])
         elif url_str == 'find':
             self.to_find()
@@ -53,7 +53,7 @@ class PostHandler(BaseHandler):
             kwd = {
                 'info': '页面未找到',
             }
-            self.render('html/404.html', kwd = kwd)
+            self.render('html/404.html', kwd=kwd)
 
     def post(self, input=''):
         if input == '':
@@ -114,7 +114,7 @@ class PostHandler(BaseHandler):
         self.render('tplite/post/find_list.html'.format(input),
                     kwd=kwd,
                     view=self.mpost.get_by_keyword(keyword),
-                    )
+        )
 
 
     def get_random(self):
@@ -148,7 +148,7 @@ class PostHandler(BaseHandler):
         }
         self.render('tplite/post/addwiki.html', kwd=kwd,
                     # tag_infos = self.mcat.query_all(),
-                    )
+        )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -177,9 +177,9 @@ class PostHandler(BaseHandler):
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
 
-        current_infos = self.mpost2catalog.get_by_id(uid)
+        current_infos = self.mpost2catalog.query_by_id(uid)
         new_tag_arr = []
-        for key in ['tag1', 'tag2', 'tag3', 'tag4','tag5']:
+        for key in ['tag1', 'tag2', 'tag3', 'tag4', 'tag5']:
             if post_data[key][0] == '':
                 pass
             else:
@@ -205,7 +205,6 @@ class PostHandler(BaseHandler):
         else:
             return False
 
-
         id_spec = a.id_spec
         kwd = {
             'pager': '',
@@ -216,9 +215,10 @@ class PostHandler(BaseHandler):
 
         }
         self.render('tplite/post/modify.html', kwd=kwd, unescape=tornado.escape.xhtml_unescape,
-                    tag_infos = self.mcat.query_all(),
-                    app2tag_info = self.mpost2catalog.get_by_id(id_rec),
-                    )
+                    tag_infos=self.mcat.query_all(),
+                    app2tag_info=self.mpost2catalog.query_by_id(id_rec),
+        )
+
     @tornado.web.authenticated
     def to_modify_catalog(self, id_rec):
 
@@ -244,9 +244,10 @@ class PostHandler(BaseHandler):
 
         }
         self.render('tplite/post/edit_catalog.html', kwd=kwd, unescape=tornado.escape.xhtml_unescape,
-                    tag_infos = self.mcat.query_all(),
-                    app2tag_info = self.mpost2catalog.get_by_id(id_rec),
-                    )
+                    tag_infos=self.mcat.query_all(),
+                    app2tag_info=self.mpost2catalog.query_by_id(id_rec),
+        )
+
     def get_cat_str(self, cats):
         cat_arr = cats.split(',')
         out_str = ''
@@ -269,23 +270,24 @@ class PostHandler(BaseHandler):
     def viewit(self, dbdata):
         # cats = dbdata.id_cats
         # cat_str = self.get_cat_str(cats)
+
+        uu = self.mpost2catalog.query_catalog(dbdata)
+        if uu.count() == 0:
+            dd = ''
+        else:
+            dd = uu.get().catalog
         kwd = {
             'pager': '',
             'editable': self.editable(),
-            # 'cat_id': cats.split(',')[1],
+            'cat_id': dd
         }
-
-
 
         self.render('tplite/post/viewiki.html',
                     view=dbdata,
                     unescape=tornado.escape.xhtml_unescape,
                     # cat_str=cat_str,
                     kwd=kwd,
-                    userinfo = self.userinfo,
-                    # recent = self.mpost.query_recent(8),
-                    # random_posts = self.mpost.query_random(),
-                    format_date=tools.format_date)
+                    userinfo=self.userinfo, )
 
 
     @tornado.web.authenticated

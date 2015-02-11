@@ -7,8 +7,8 @@ import config
 import uuid
 import peewee
 import datetime
-from torlite.core.base_model import BaseModel
 
+from torlite.model.core_tab import CabPost2Catalog
 from torlite.core import tools
 
 
@@ -81,11 +81,13 @@ class MPost():
             return CabPost.select().order_by(peewee.fn.Rand()).limit(num)
 
     def query_cat_random(self, cat_id, num=6):
+        if cat_id == '':
+            return self.query_random(num)
         fn = peewee.fn
         if config.dbtype == 1 or config.dbtype == 3:
-            return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_id))).order_by(peewee.fn.Random()).limit(num)
+            return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(peewee.fn.Random()).limit(num)
         elif config.dbtype == 2:
-            return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_id))).order_by(peewee.fn.Rand()).limit(num)
+            return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(peewee.fn.Rand()).limit(num)
 
     def get_by_id(self, in_uid):
         tt = CabPost.select().where(CabPost.uid == in_uid).count()

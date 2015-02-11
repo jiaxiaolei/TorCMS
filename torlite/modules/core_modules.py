@@ -82,13 +82,13 @@ class post_recent(tornado.web.UIModule):
 class post_category_recent(tornado.web.UIModule):
     def render(self, cat_id, num):
         self.mpost = MPost()
-        recs = self.mpost.query_cat_recent(cat_id, num)
+        self.mpost2cat = MPost2Catalog()
+        recs = self.mpost2cat.query_by_catid(1)
         kwd = {
             'date': False,
         }
-        return self.render_string('tplite/modules/post_list.html',
-                                  recs = recs, kwd=kwd,
-                                  format_yr=tools.format_yr)
+        return self.render_string('tplite/modules/post_cat.html',
+                                  recs = recs, kwd=kwd,    )
 
 class next_post_link(tornado.web.UIModule):
     def render(self, current_id):
@@ -105,16 +105,16 @@ class the_category(tornado.web.UIModule):
     def render(self, post_id):
         self.mpost = MPost()
         self.mcat = MCatalog()
-        current_record = self.mpost.get_by_id(post_id)
+        self.mpost2cat = MPost2Catalog()
+        current_record = self.mpost2cat.query_catalog(post_id)
+        # current_record = self.mpost.get_by_id(post_id)
 
-        cat_arr = current_record.id_cats.split(',')
+        # cat_arr = current_record.id_cats.split(',')
         # print(cat_arr)
-        if cat_arr[1] != '':
-            first_cat = cat_arr[1]
-            cat_record = self.mcat.get_by_id(first_cat)
-            outstr = '''<a href="/category/{0}">{1}</a>'''.format(cat_record.slug, cat_record.name)
-        else:
-            outstr = ''
+        outstr = ''
+        for uu in current_record:
+            tmp_str = '''<a href="/category/{0}">{1}</a>'''.format( uu.catalog.slug, uu.catalog.name)
+            outstr += tmp_str
         return outstr
 
 class list_categories(tornado.web.UIModule):
@@ -150,7 +150,7 @@ class category_menu(tornado.web.UIModule):
 class post_catalogs(tornado.web.UIModule):
     def render(self, signature):
         self.mapp2tag = MPost2Catalog()
-        tag_infos = self.mapp2tag.get_by_id(signature)
+        tag_infos = self.mapp2tag.query_by_id(signature)
         # tag_infos = self.mapp2tag.query_all()
         out_str = ''
         ii = 1
