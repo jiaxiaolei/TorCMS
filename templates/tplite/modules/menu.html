@@ -1,0 +1,4 @@
+
+    {% for x in kwd['cats'] %}
+    <li><a href="/category/{{ x.slug }}">{{ x.name }} [{{ x.app_count}}] </a></li>
+    {% end %}

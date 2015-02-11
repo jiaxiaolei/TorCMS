@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ static_url('pure-min.css') }}">
+    <meta name="author" content="云算笔记">
+    <meta name="Copyright" content="yunsuan.org 版权所有">
+
+
+    <!--[if lte IE 8]>
+
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+
+    <!--<![endif]-->
+
+
+    <script type="text/javascript" src="{{ static_url('jslib/jquery-1.11.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('jslib/coffee-script.js') }}"></script>
+    <script type="text/javascript" src="{{ static_url('jslib/validate/jquery.validate.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ static_url('tass/css/style.css') }}">
+
+    {% block head %}{% end %}
+
+
+</head>
+<body>
+
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span>
+
+        </span>
+    </a>
+
+    <div id="menu">
+        <div class="pure-menu pure-menu-open">
+            <a class="pure-menu-heading" href="/">云算笔记</a>
+
+            <ul>
+                <li><a href="/post/recent">文档</a></li>
+                <li><a href="/spec/">专题</a></li>
+                <li class="menu-item-divided pure-menu-selected">
+                    <a href="/page/help.html">帮助</a>
+                </li>
+
+                <li><a href="/page/about.html">关于</a></li>
+                <li><a href="/page/terms.html">应用条款</a></li>
+                <li><a href="/page/contact.html">联系方式</a></li>
+                <li class="menu-item-divided pure-menu-selected">
+                    <a href="#">用户</a>
+                </li>
+
+
+                <li><a href="/user/info">我的信息</a></li>
+            </ul>
+
+
+        </div>
+
+
+    </div>
+
+    <div id="main">
+        <div class="panel">
+            {% block zhuti %}{% end %}
+        </div>
+    </div>
+</div>
+<script src="{{ static_url('ui.js') }}"></script>
+</body>
+
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17633794.js"></script>
+<noscript><a href="http://www.51.la/?17633794" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="http://img.users.51.la/17633794.asp" style="border:none" /></a></noscript>
+
+</html>

@@ -1,0 +1,31 @@
+{% extends "../theme/bage.html" %}
+
+{% block zhuti %}
+
+
+
+<div class="panel-heading">
+    <h1>404 页面未找到</h1>
+</div>
+<div class="panel-body">
+
+
+
+<p>非常抱歉，出于未知原因，您要查看的页面没有找到。</p>
+    <p> <br /> </p>
+    <p>如果是要查找云算应用，请点击<a href="/calc/recent"  class="pure-button pure-button-primary">云算应用</a>。</p>
+    <p> <br /> </p>
+    <p>如果是要查找文档，请点击<a href="/post/recent"  class="pure-button pure-button-primary">文档中心</a>。</p>
+
+
+    <hr />
+        <h2>详细信息</h2>
+
+    {% if kwd is not None %}
+
+    <p> {{ kwd['info'] }}</p>
+
+    {% end %}
+</div>
+
+{% end %}
