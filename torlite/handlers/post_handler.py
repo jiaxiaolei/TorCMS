@@ -35,7 +35,7 @@ class PostHandler(BaseHandler):
         if url_str == '':
             return
         url_arr = url_str.split(r'/')
-        if len(url_arr) == 1 and url_str.endswith('.html') and (len(url_str) == 10 or len(url_str) == 9):
+        if len(url_arr) == 1 and url_str.endswith('.html') :
             self.wiki(url_str.split('.')[0])
         elif url_str == 'find':
             self.to_find()
