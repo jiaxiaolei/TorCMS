@@ -80,15 +80,16 @@ class post_recent(tornado.web.UIModule):
                                   format_yr=tools.format_yr)
 
 class post_category_recent(tornado.web.UIModule):
-    def render(self, cat_id, num):
+    def render(self, cat_id, num = 10):
         self.mpost = MPost()
         self.mpost2cat = MPost2Catalog()
-        recs = self.mpost2cat.query_by_catid(1)
+        recs = self.mpost2cat.query_by_catid(cat_id)
         kwd = {
             'date': False,
         }
         return self.render_string('tplite/modules/post_cat.html',
-                                  recs = recs, kwd=kwd,    )
+                                  recs = recs,
+                                  kwd=kwd, )
 
 class next_post_link(tornado.web.UIModule):
     def render(self, current_id):

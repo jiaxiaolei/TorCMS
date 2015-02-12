@@ -17,8 +17,8 @@
     <h3>查找结果</h3>
     <ul>
         {% for rec in infos %}
-        <li><a href="/post/{{ rec.post.uid }}.html">{{ rec.post.title }}</a>
-            <span class="post_catalog">{% module post_catalogs(rec.post.uid) %}</span>
+        <li><a href="/post/{{ rec.uid }}.html">{{ rec.title }}</a>
+            <span class="post_catalog">{% module post_catalogs(rec.uid) %}</span>
         </li>
         {% end %}
     </ul>
