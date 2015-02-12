@@ -1,16 +1,13 @@
 # -*- coding:utf-8 -*-
-# import tornpg
-import uuid
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
+
 import hashlib
-
 import peewee
-
-import config
 from torlite.core.base_model import BaseModel
-
-import random
-
-
 from torlite.model.core_tab import CabMember
 
 class MUser(BaseModel):

@@ -1,6 +1,9 @@
 # -*- coding:utf-8 -*-
-
-# import cgi
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 import tornado.web
 from torlite.model.mpost import MPost
 from torlite.model.mpage import MPage

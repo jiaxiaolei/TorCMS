@@ -1,10 +1,15 @@
 # -*- coding:utf-8 -*-
-__author__ = 'bukun'
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 
 import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 from config import menu_arr
+
 class ModuleCatMenu(tornado.web.UIModule):
     def render(self, with_count = True):
         self.mcat = MCatalog()
@@ -33,5 +38,4 @@ class TopMenu(tornado.web.UIModule):
             tmp_str = '''<li><a href="{0}">{1}</a></li>'''.format(x[1], x[0])
             outstr += tmp_str
 
-        # yyinfos = self.mrefresh.get_by_id(info_id)
         return outstr

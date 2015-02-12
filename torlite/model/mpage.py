@@ -1,22 +1,14 @@
 # -*- coding:utf-8 -*-
-# import tornpg
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
+
 import time
-
-import tornado.escape
-import markdown2
-
-
-import config
-
 import uuid
-import peewee
 import datetime
-from torlite.core.base_model import BaseModel
-
-#
-#
 from torlite.model.core_tab import  CabPage
-
 
 class MPage():
     def __init__(self):

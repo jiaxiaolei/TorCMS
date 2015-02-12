@@ -1,10 +1,13 @@
 # -*- coding:utf-8 -*-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 
 import time
 import tornado.escape
-import markdown2
 import config
-import uuid
 import peewee
 import datetime
 
@@ -33,10 +36,9 @@ class MPost():
             cnt_html= tools.markdown2html(post_data['cnt_md'][0]),
 
             user_name=post_data['user_name'],
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),  # 版本历史
+            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
-            # id_cats=str_id_cats,  # 引用方式
-            id_spec=id_spec,  # 学科
+            id_spec=id_spec,
             logo=post_data['logo'][0],
 
         ).where(CabPost.uid == uid)
@@ -98,9 +100,7 @@ class MPost():
     def get_num_by_cat(self, cat_str):
         return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_str))).count()
 
-    # def query_by_cat(self, cat_str, limit_num=20):
-    #     return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_str))).order_by(CabPost.time_update.desc()).limit(
-    #         limit_num)
+
 
     def query_recent(self, num=8):
         return CabPost.select().order_by(CabPost.time_update.desc()).limit(num)

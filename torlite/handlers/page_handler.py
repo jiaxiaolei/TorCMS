@@ -1,21 +1,19 @@
 # -*- coding:utf-8 -*-
-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 import tornado.web
 import tornado.escape
 
 
-# html_parser = HTMLParser()
 from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpage import MPage
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 
-# 数据库的 id_cats ，使用了
-# ,1,3,4,5,
-# 的形式。
-# 两端的逗号，是为了方便使用  like  进行查询。  like '%,3,%'
-#
 class PageHandler(BaseHandler):
     def initialize(self):
 

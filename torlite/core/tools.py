@@ -1,4 +1,10 @@
 # -*- coding:utf-8 -*-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
+
 import datetime
 import uuid
 import random
@@ -17,7 +23,6 @@ def get_uuid():
 
 def get_uu4d():
     sel_arr = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
-    # list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     slice = random.sample(sel_arr, 4)
     return( ''.join(slice))
 def gen_pager(cat_slug, page_num, current):

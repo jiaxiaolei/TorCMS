@@ -1,4 +1,9 @@
 # -*- coding:utf-8 -*-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 
 import uuid
 import os
@@ -10,11 +15,6 @@ from torlite.model.pic_model import MPic
 
 
 
-# 数据库的 id_cats ，使用了
-# ,1,3,4,5,
-# 的形式。
-# 两端的逗号，是为了方便使用  like  进行查询。  like '%,3,%'
-#
 class PicHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.mpic = MPic()

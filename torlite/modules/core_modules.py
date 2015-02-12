@@ -1,12 +1,18 @@
 # -*- coding:utf-8 -*-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
+
 __author__ = 'bukun'
 
 import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mpost import MPost
 from torlite.model.mpost2catalog import MPost2Catalog
-from torlite.model.mspec import SpesubModel
-from torlite.core import tools
+# from torlite.model.mspec import SpesubModel
+# from torlite.core import tools
 import bs4
 
 

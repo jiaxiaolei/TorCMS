@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 import tornado.web
 import tornado.escape
 
 
-# html_parser = HTMLParser()
-from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpost import MPost
 from torlite.model.mcatalog import MCatalog

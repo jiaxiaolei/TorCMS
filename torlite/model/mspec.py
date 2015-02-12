@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 
 
 import uuid
 
-import peewee
-
-from torlite.core.base_model import BaseModel
 
 
 from torlite.model.core_tab import  CabSpec
@@ -28,7 +30,6 @@ class SpesubModel():
             img=post_data['img'][0],
             desc=post_data['desc'][0],
             abstract = post_data['abstract'][0],
-            # id_cat = post_data['id_cat'][0],
         )
 
 

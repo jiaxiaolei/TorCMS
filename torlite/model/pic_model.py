@@ -1,13 +1,12 @@
 # -*- coding:utf-8 -*-
-# import tornpg
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 import time
 import cgi
-import peewee
-import config
 import  uuid
-
-# from torlite.core.base_model import BaseModel
-
 
 from torlite.model.core_tab import CabPic
 

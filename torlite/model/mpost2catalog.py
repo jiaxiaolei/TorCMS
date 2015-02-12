@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
-# import tornpg
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 import peewee
 import uuid
 from torlite.core.base_model import BaseModel
@@ -21,8 +25,6 @@ class MPost2Catalog():
         recs = CabPost2Catalog.select().order_by(CabPost2Catalog.order)
         return (recs)
 
-    # def query_by_slug(self, slug):
-    #     return CabPost2Catalog.get(slug=slug)
 
     def query_by_catid(self, catid):
         return CabPost2Catalog.select().where(CabPost2Catalog.catalog == catid)

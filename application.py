@@ -1,11 +1,15 @@
 # -*- coding:utf-8 -*-
-#author: bukun@osgeo.cn
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 
 import tornado.web
 import os
 from urls import urls
 from torlite.core.core_cfg import core_modules as modules
-# from extend_config import extend_modules
+
 from modules.extends import *
 
 # 定义模板

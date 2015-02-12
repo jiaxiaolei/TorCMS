@@ -1,10 +1,13 @@
 # -*- coding:utf-8 -*-
-# 配置路由
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 
 
 from torlite.handlers.post_handler import PostHandler
 from torlite.handlers.user_handler import UserHandler
-# from torlite.handlers.login_handler import LoginHandler
 from torlite.handlers.cat_handler import CatHandler
 from torlite.handlers.pic_handler import PicHandler
 from torlite.handlers.spec_handler import SpecHandler
@@ -20,7 +23,5 @@ urls = [
     (r"/post/(.*)", PostHandler, dict()),
     (r"/page/(.*)", PageHandler, dict()),
     (r"/html/(.*)", StaticHandler, dict()),
-    # (r"/login", LoginHandler, dict()),
     (r"/", IndexHandler, dict()),
-    # (r"/(.*)", PostHandler, dict()),
 ]
