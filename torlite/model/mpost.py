@@ -83,7 +83,6 @@ class MPost():
     def query_cat_random(self, cat_id, num=6):
         if cat_id == '':
             return self.query_random(num)
-        fn = peewee.fn
         if config.dbtype == 1 or config.dbtype == 3:
             return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(peewee.fn.Random()).limit(num)
         elif config.dbtype == 2:
@@ -110,8 +109,9 @@ class MPost():
         return CabPost.select().order_by(CabPost.time_update).limit(num)
 
     def query_cat_recent(self, cat_id, num=8):
-        return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_id))).order_by(
-            CabPost.time_update.desc()).limit(num)
+        # return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_id))).order_by(
+        #     CabPost.time_update.desc()).limit(num)
+        return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(CabPost.time_update.desc()).limit(num)
 
     def query_most(self, num=8):
         return CabPost.select().order_by(CabPost.view_count.desc()).limit(num)

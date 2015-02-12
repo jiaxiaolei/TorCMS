@@ -1,4 +1,10 @@
 
     {% for x in kwd['cats'] %}
-    <li><a href="/category/{{ x.slug }}">{{ x.name }} [{{ x.app_count}}] </a></li>
+    <li><a href="/category/{{ x.slug }}">
+
+        {{ x.name }}
+        {% if kwd['with_count'] %}
+        [{{ x.app_count}}]
+        {% end %}
+    </a></li>
     {% end %}

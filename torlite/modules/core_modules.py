@@ -32,64 +32,78 @@ class previous_post_link(tornado.web.UIModule):
             outstr = '''<a href="/post/{0}.html">上一篇</a>'''.format(prev_record.uid, prev_record.title)
         return outstr
 
+
 class post_most_view(tornado.web.UIModule):
-    def render(self, num):
+    def render(self, num, with_date = True, with_catalog = True):
         self.mpost = MPost()
         recs = self.mpost.query_most(num)
         kwd = {
-            'date': False,
+                        'with_date': with_date,
+            'with_catalog': with_catalog,
         }
-        return self.render_string('tplite/modules/post_list.html', recs = recs, kwd=kwd)
+        return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
+
+
 class post_random(tornado.web.UIModule):
-    def render(self, num):
+    def render(self, num, with_date = True, with_catalog = True):
         self.mpost = MPost()
         recs = self.mpost.query_random(num)
         kwd = {
-            'date': False,
+                        'with_date': with_date,
+            'with_catalog': with_catalog,
         }
-        return self.render_string('tplite/modules/post_list.html', recs = recs, kwd=kwd)
+        return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
+
 
 class post_cat_random(tornado.web.UIModule):
-    def render(self, cat_id, num):
-        print(cat_id)
-        print(num)
+    def render(self, cat_id, num, with_date = True, with_catalog = True ):
         self.mpost = MPost()
         recs = self.mpost.query_cat_random(cat_id, num)
         kwd = {
-            'date': False,
+            'with_date': with_date,
+            'with_catalog': with_catalog,
         }
-        return self.render_string('tplite/modules/post_list.html', recs = recs, kwd=kwd)
+        return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
+
 
 class post_recent_most_view(tornado.web.UIModule):
-    def render(self, num, recent):
+    def render(self, num, recent, with_date = True, with_catalog = True):
         self.mpost = MPost()
         recs = self.mpost.query_recent_most(num, recent)
         kwd = {
-            'date': False,
+                        'with_date': with_date,
+            'with_catalog': with_catalog,
         }
-        return self.render_string('tplite/modules/post_list.html', recs = recs, kwd = kwd)
+        return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
+
+
 class post_recent(tornado.web.UIModule):
-    def render(self, num, date = False):
+    def render(self, num=10, with_catalog=True, with_date=True):
         self.mpost = MPost()
         recs = self.mpost.query_recent(num)
         kwd = {
-            'date': date,
+            'with_date': with_date,
+            'with_catalog': with_catalog,
         }
         return self.render_string('tplite/modules/post_list.html',
-                                  recs = recs, kwd=kwd,
-                                  format_yr=tools.format_yr)
+                                  recs=recs,
+                                  kwd=kwd, )
+
 
 class post_category_recent(tornado.web.UIModule):
-    def render(self, cat_id, num = 10):
+    def render(self, cat_id, num=10, with_catalog=True, width_date=True):
         self.mpost = MPost()
         self.mpost2cat = MPost2Catalog()
-        recs = self.mpost2cat.query_by_catid(cat_id)
+        # recs = self.mpost2cat.query_by_catid(cat_id)
+        recs = self.mpost.query_cat_random(cat_id, num)
         kwd = {
-            'date': False,
+            'with_catalog': with_catalog,
+            'with_date': width_date,
         }
-        return self.render_string('tplite/modules/post_cat.html',
-                                  recs = recs,
+        return self.render_string('tplite/modules/post_list.html',
+                                  recs=recs,
                                   kwd=kwd, )
+
 
 class next_post_link(tornado.web.UIModule):
     def render(self, current_id):
@@ -104,19 +118,14 @@ class next_post_link(tornado.web.UIModule):
 
 class the_category(tornado.web.UIModule):
     def render(self, post_id):
-        self.mpost = MPost()
-        self.mcat = MCatalog()
         self.mpost2cat = MPost2Catalog()
         current_record = self.mpost2cat.query_catalog(post_id)
-        # current_record = self.mpost.get_by_id(post_id)
-
-        # cat_arr = current_record.id_cats.split(',')
-        # print(cat_arr)
         outstr = ''
         for uu in current_record:
-            tmp_str = '''<a href="/category/{0}">{1}</a>'''.format( uu.catalog.slug, uu.catalog.name)
+            tmp_str = '''<a href="/category/{0}">{1}</a>'''.format(uu.catalog.slug, uu.catalog.name)
             outstr += tmp_str
         return outstr
+
 
 class list_categories(tornado.web.UIModule):
     def render(self, cat_id, list_num):
@@ -128,12 +137,14 @@ class list_categories(tornado.web.UIModule):
             out_str += tmp_str
         return out_str
 
+
 class generate_abstract(tornado.web.UIModule):
     def render(self, html_str):
-        tmp_str = bs4.BeautifulSoup( tornado.escape.xhtml_unescape(html_str))
+        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str))
         return tmp_str.get_text()[:130] + '....'
 
         # 
+
 
 class category_menu(tornado.web.UIModule):
     def render(self):
@@ -148,6 +159,7 @@ class category_menu(tornado.web.UIModule):
             out_str += tmp_str
         return out_str
 
+
 class post_catalogs(tornado.web.UIModule):
     def render(self, signature):
         self.mapp2tag = MPost2Catalog()
@@ -157,7 +169,8 @@ class post_catalogs(tornado.web.UIModule):
         ii = 1
         for tag_info in tag_infos:
             # print(tag_info.owner.name)
-            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format( tag_info.catalog.slug, ii, tag_info.catalog.name)
+            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(tag_info.catalog.slug, ii,
+                                                                              tag_info.catalog.name)
             out_str += tmp_str
             print(ii)
             ii += 1

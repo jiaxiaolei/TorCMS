@@ -1,9 +1,0 @@
-
-{% for x in recs %}
-{% if kwd['date'] == False %}
-
-<li><a href="/post/{{ x.uid }}.html" title="{{x.post.title}}">{{x.post.title}}</a>
-    <span class="equation_catalog">{% module post_catalogs(x.uid) %}</span>
- <em class="date">{{ x.post.date}}</em></li>
-{% end %}
-{% end %}

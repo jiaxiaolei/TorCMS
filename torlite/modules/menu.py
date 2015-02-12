@@ -6,11 +6,12 @@ from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 from config import menu_arr
 class ModuleCatMenu(tornado.web.UIModule):
-    def render(self):
+    def render(self, with_count = True):
         self.mcat = MCatalog()
         all_cats = self.mcat.query_all()
         kwd = {
             'cats': all_cats,
+            'with_count' : with_count,
         }
         # yyinfos = self.mrefresh.get_by_id(info_id)
         return self.render_string('tplite/modules/menu.html', kwd=kwd)
