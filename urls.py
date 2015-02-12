@@ -1,6 +1,9 @@
 # -*- coding:utf-8 -*-
-# 配置路由
-
+'''
+Author: Bu Kun
+E-mail: bukun@osgeo.cn
+CopyRight: http://yunsuan.org
+'''
 import router
 import torlite.core.router
 

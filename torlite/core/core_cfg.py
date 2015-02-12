@@ -21,7 +21,6 @@ from torlite.modules.menu import ModuleCatMenu
 from torlite.modules.menu import ModuleSpecMenu
 from torlite.modules.menu import TopMenu
 from torlite.modules.core_modules import *
-# from modules.extends import most_use
 
 page_num = 10
 
@@ -42,5 +41,4 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'generate_abstract': generate_abstract,
                 'category_menu': category_menu,
                 'post_catalogs': post_catalogs,
-                # 'most_use':most_use,
                 }
