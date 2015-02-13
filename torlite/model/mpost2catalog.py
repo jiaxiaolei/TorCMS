@@ -66,7 +66,7 @@ class MPost2Catalog():
         entry = CabPost2Catalog.delete().where( CabPost2Catalog.uid == uid)
         entry.execute()
     def get_num_by_cat(self, cat_id):
-        return CabPost2Catalog.select(CabPost2Catalog.uid == cat_id).count()
+        return CabPost2Catalog.select().where(CabPost2Catalog.catalog == cat_id).count()
     def query_catalog(self, post_id):
         return CabPost2Catalog.select().where(CabPost2Catalog.post == post_id)
         # return CabPost.select().where( CabPost.).count()

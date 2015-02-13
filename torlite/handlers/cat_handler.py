@@ -48,6 +48,8 @@ class CatHandler(BaseHandler):
         cat_rec = self.mcat.get_by_slug(cat_slug)
 
         num_of_cat = self.mpost2catalog.get_num_by_cat(cat_rec.uid)
+        print('-------')
+        print(num_of_cat)
         page_num = int(num_of_cat / config.page_num ) + 1
 
         cat_name = cat_rec.name

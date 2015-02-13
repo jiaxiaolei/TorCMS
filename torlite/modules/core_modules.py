@@ -97,14 +97,14 @@ class post_recent(tornado.web.UIModule):
 
 
 class post_category_recent(tornado.web.UIModule):
-    def render(self, cat_id, num=10, with_catalog=True, width_date=True):
+    def render(self, cat_id, num=10, with_catalog=True, with_date=True):
         self.mpost = MPost()
         self.mpost2cat = MPost2Catalog()
         # recs = self.mpost2cat.query_by_catid(cat_id)
-        recs = self.mpost.query_cat_random(cat_id, num)
+        recs = self.mpost.query_cat_recent(cat_id, num)
         kwd = {
             'with_catalog': with_catalog,
-            'with_date': width_date,
+            'with_date': with_date,
         }
         return self.render_string('tplite/modules/post_list.html',
                                   recs=recs,
