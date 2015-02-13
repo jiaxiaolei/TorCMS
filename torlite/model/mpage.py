@@ -24,16 +24,12 @@ class MPage():
             date=datetime.datetime.now(),
             cnt_html=self.md2html(post_data['cnt_md'][0]),
             id_user='',
-            # slug = slug,
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
         ).where(CabPage.slug == slug)
         entry.execute()
 
-
-
     def insert_data(self, post_data):
-        # tmp_title = post_data['title'][0]
         uu = self.get_by_slug( post_data['slug'][0])
         if uu is None:
             pass
@@ -43,19 +39,14 @@ class MPage():
             id_spec = int(post_data['id_spec'][0])
         else:
             id_spec = 0
-        id_post = str(uuid.uuid1())
-        fkey = 'id_cats'
-        if fkey in post_data:
-            str_id_cats = ',%s,' % (','.join(post_data[fkey]))
-        else:
-            str_id_cats = ',,'
-        entry = CabPage.create(
+        # id_post = str(uuid.uuid1())
 
+        entry = CabPage.create(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
             slug = post_data['slug'][0],
             cnt_html=self.md2html(post_data['cnt_md'][0]),
-            id_post=id_post,
+            # id_post=id_post,
             time_create=time.time(),
             id_user='',
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),

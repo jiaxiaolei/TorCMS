@@ -148,9 +148,7 @@ class PostHandler(BaseHandler):
             'uid': uid,
             'pager': '',
         }
-        self.render('tplite/post/addwiki.html', kwd=kwd,
-                    # tag_infos = self.mcat.query_all(),
-        )
+        self.render('tplite/post/addwiki.html', kwd=kwd,        )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -254,9 +252,7 @@ class PostHandler(BaseHandler):
         cat_arr = cats.split(',')
         out_str = ''
         for xx in self.cats:
-            # print(xx.id_cat)
             if str(xx.uid) in cat_arr:
-                # 下面使用Tornado的utf8函数。向下兼容 Python 2.x
                 tmp_str = '''<li><a href="/category/{0}" style="margin:10px auto;"> {1} </a></li>
                 '''.format(xx.slug, tornado.escape.xhtml_escape(xx.name))
                 out_str += tmp_str
@@ -269,25 +265,21 @@ class PostHandler(BaseHandler):
             if x['id_cat'] == id_cat:
                 return (x['name'])
 
-    def viewit(self, dbdata):
-        # cats = dbdata.id_cats
-        # cat_str = self.get_cat_str(cats)
-
-        uu = self.mpost2catalog.query_catalog(dbdata)
-        if uu.count() == 0:
-            dd = ''
+    def viewit(self, post_id):
+        cats = self.mpost2catalog.query_catalog(post_id)
+        if cats.count() == 0:
+            cat_id = ''
         else:
-            dd = uu.get().catalog
+            cat_id = cats.get().catalog
         kwd = {
             'pager': '',
             'editable': self.editable(),
-            'cat_id': dd
+            'cat_id': cat_id
         }
 
         self.render('tplite/post/viewiki.html',
-                    view=dbdata,
+                    view=post_id,
                     unescape=tornado.escape.xhtml_unescape,
-                    # cat_str=cat_str,
                     kwd=kwd,
                     userinfo=self.userinfo, )
 

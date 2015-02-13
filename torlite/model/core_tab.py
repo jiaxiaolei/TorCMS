@@ -51,14 +51,11 @@ class CabPostHist(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
     date = peewee.DateTimeField()
-    # cnt_html = peewee.TextField()
-    # tags = peewee.CharField()
     post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     time_create = peewee.IntegerField()
     user_name = peewee.CharField()
     cnt_md = peewee.TextField()
     time_update = peewee.IntegerField()
-    # id_cats = peewee.CharField()
     id_spec = peewee.CharField()
     logo = peewee.CharField()
 
@@ -78,8 +75,7 @@ class CabMember(BaseModel):
     '''
     privilege:
     11111
-    读、写、改、删、管
-    默认具有读的权限
+    read,add,edit,delete,manage
     '''
     uid = peewee.IntegerField(null=False, index=True, unique=True, primary_key=True, help_text='', )
     user_name = peewee.CharField(null=False, index=True, unique=True, max_length=16, help_text='', )
@@ -89,7 +85,6 @@ class CabMember(BaseModel):
 
 
 class CabPic(BaseModel):
-    # user_id = peewee.CharField()
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, )
     imgpath = peewee.CharField(null=False, unique=True, max_length=255, help_text='', )
     create_timestamp = peewee.IntegerField()

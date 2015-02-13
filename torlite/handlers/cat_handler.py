@@ -60,22 +60,12 @@ class CatHandler(BaseHandler):
              'pager': tools.gen_pager(cat_slug, page_num, current),
              'title': cat_name,
         }
-        # for x in self.cats:
-        #     if x.slug == cat_slug:
-        #         search_str = ',{0},'.format(x.id_cat)
+
         dbdata = self.mpost2catalog.query_slug_by_pager(cat_slug,current)
-            # .query_cat_by_pager(search_str, current)
 
 
-        # infos = self.mpost2catalog.query_slug_by_pager(cat_slug)
         infos = dbdata
         self.render('tplite/catalog/list.html', infos=infos, kwd=kwd)
-
-        # self.render('tplite/post/all2.html',
-        #             kwd = kwd,
-        #             view=dbdata,
-        #             rand_recs = self.get_random(),)
-        #             # format_date = tools.format_date)
 
     def view_cat(self, cat_slug, cur_p=''):
         if cur_p == '':

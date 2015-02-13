@@ -13,6 +13,7 @@ from torlite.model.core_tab import CabCatalog
 from torlite.model.core_tab import CabPost
 import config
 
+
 class MPost2Catalog():
     def __init__(self):
 
@@ -28,17 +29,21 @@ class MPost2Catalog():
 
     def query_by_catid(self, catid):
         return CabPost2Catalog.select().where(CabPost2Catalog.catalog == catid)
+
     def query_by_id(self, idd):
         return CabPost2Catalog.select().join(CabCatalog).where(CabPost2Catalog.post == idd)
 
     def get_by_info(self, post_id, catalog_id):
-        if CabPost2Catalog.select().where((CabPost2Catalog.post == post_id) & (CabPost2Catalog.catalog == catalog_id)).count() == 1:
+        if CabPost2Catalog.select().where(
+                        (CabPost2Catalog.post == post_id) & (CabPost2Catalog.catalog == catalog_id)).count() == 1:
             return CabPost2Catalog.get((CabPost2Catalog.post == post_id) & (CabPost2Catalog.catalog == catalog_id))
         else:
             return False
 
     def query_count(self):
-        recs = CabPost2Catalog.select(CabPost2Catalog.catalog, peewee.fn.COUNT(CabPost2Catalog.catalog).alias('num')).group_by(CabPost2Catalog.catalog)
+        recs = CabPost2Catalog.select(CabPost2Catalog.catalog,
+                                      peewee.fn.COUNT(CabPost2Catalog.catalog).alias('num')).group_by(
+            CabPost2Catalog.catalog)
         return (recs)
 
     def add_record(self, post_id, catalog_id, order=1):
@@ -51,29 +56,23 @@ class MPost2Catalog():
                 post=post_id,
                 catalog=catalog_id,
                 order=order,
-                # catalog_name = self.mtabtag.get_by_id(catalog_id).name,
-                # slug = self.mtabtag.get_by_id(catalog_id).slug,
             )
-            # entry.execute()
         else:
             entry = CabPost2Catalog.update(
                 order=order,
-                # catalog_name = self.mtabtag.get_by_id(catalog_id).name,
-                # slug = self.mtabtag.get_by_id(catalog_id).slug,
             ).where(CabPost2Catalog.uid == tt.uid)
             entry.execute()
+
     def delete_by_id(self, uid):
-        entry = CabPost2Catalog.delete().where( CabPost2Catalog.uid == uid)
+        entry = CabPost2Catalog.delete().where(CabPost2Catalog.uid == uid)
         entry.execute()
+
     def get_num_by_cat(self, cat_id):
         return CabPost2Catalog.select().where(CabPost2Catalog.catalog == cat_id).count()
+
     def query_catalog(self, post_id):
         return CabPost2Catalog.select().where(CabPost2Catalog.post == post_id)
-        # return CabPost.select().where( CabPost.).count()
-    def query_slug_by_pager(self, slug, cureent= 1):
-        # return CabPost2Catalog.select().join(CabCatalog).join(CabPost).where(CabCatalog.slug == slug).paginate(cureent, config.page_num)
-        return CabPost.select().join(CabPost2Catalog).join(CabCatalog).where(CabCatalog.slug == slug).order_by(CabPost.time_update.desc()).paginate(cureent, config.page_num)
 
-
-        # tt = CabPost.select().where(CabPost.id_cats.contains(str(cat_str))).order_by(
-        #     CabPost.time_update.desc()).paginate(cureent, config.page_num)
+    def query_slug_by_pager(self, slug, cureent=1):
+        return CabPost.select().join(CabPost2Catalog).join(CabCatalog).where(CabCatalog.slug == slug).order_by(
+            CabPost.time_update.desc()).paginate(cureent, config.page_num)

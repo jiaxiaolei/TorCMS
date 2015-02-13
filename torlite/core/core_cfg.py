@@ -6,13 +6,13 @@ CopyRight: http://yunsuan.org
 '''
 
 '''
-权限
-0: 读
-1: 加
-2: 改
-3: 删
-4: 管理
-其他根据需要可在后面添加
+privilege
+[0]: read
+[1]: add
+[2]: edit
+[3]: delete
+[4]: manage
+And, could be extended.
 '''
 mask  = '11111'
 __author__ = 'bukun'

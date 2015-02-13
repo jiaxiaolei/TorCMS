@@ -14,8 +14,8 @@ import datetime
 from torlite.model.core_tab import CabPost2Catalog
 from torlite.core import tools
 
+from torlite.model.core_tab import CabPost
 
-from torlite.model.core_tab import  CabPost
 
 class MPost():
     def __init__(self):
@@ -33,7 +33,7 @@ class MPost():
         entry = CabPost.update(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            cnt_html= tools.markdown2html(post_data['cnt_md'][0]),
+            cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
 
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
@@ -58,10 +58,10 @@ class MPost():
         entry = CabPost.create(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            cnt_html=  tools.markdown2html(post_data['cnt_md'][0]),
+            cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
             uid=id_post,
             time_create=time.time(),
-            user_name= post_data['user_name'],
+            user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
             view_count=1,
@@ -69,8 +69,6 @@ class MPost():
             logo=post_data['logo'][0],
         )
         return (id_post)
-
-
 
 
     def query_old(self):
@@ -86,9 +84,11 @@ class MPost():
         if cat_id == '':
             return self.query_random(num)
         if config.dbtype == 1 or config.dbtype == 3:
-            return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(peewee.fn.Random()).limit(num)
+            return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(
+                peewee.fn.Random()).limit(num)
         elif config.dbtype == 2:
-            return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(peewee.fn.Rand()).limit(num)
+            return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(
+                peewee.fn.Rand()).limit(num)
 
     def get_by_id(self, in_uid):
         tt = CabPost.select().where(CabPost.uid == in_uid).count()
@@ -101,7 +101,6 @@ class MPost():
         return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_str))).count()
 
 
-
     def query_recent(self, num=8):
         return CabPost.select().order_by(CabPost.time_update.desc()).limit(num)
 
@@ -109,9 +108,8 @@ class MPost():
         return CabPost.select().order_by(CabPost.time_update).limit(num)
 
     def query_cat_recent(self, cat_id, num=8):
-        # return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_id))).order_by(
-        #     CabPost.time_update.desc()).limit(num)
-        return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(CabPost.time_update.desc()).limit(num)
+        return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(
+            CabPost.time_update.desc()).limit(num)
 
     def query_most(self, num=8):
         return CabPost.select().order_by(CabPost.view_count.desc()).limit(num)
@@ -164,5 +162,4 @@ class MPost():
         return tt
 
     def get_by_keyword(self, par2):
-        # return CabPost.select().where(CabPost.title ** '*{0}*'.format(par2)).order_by(CabPost.time_update.desc()).limit(20)
         return CabPost.select().where(CabPost.title.contains(par2)).order_by(CabPost.time_update.desc()).limit(20)

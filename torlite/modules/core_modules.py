@@ -11,8 +11,6 @@ import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mpost import MPost
 from torlite.model.mpost2catalog import MPost2Catalog
-# from torlite.model.mspec import SpesubModel
-# from torlite.core import tools
 import bs4
 
 
@@ -23,7 +21,6 @@ class get_footer(tornado.web.UIModule):
         kwd = {
             'cats': all_cats,
         }
-        # yyinfos = self.mrefresh.get_by_id(info_id)
         return self.render_string('tplite/modules/menu.html', kwd=kwd)
 
 
@@ -31,7 +28,6 @@ class previous_post_link(tornado.web.UIModule):
     def render(self, current_id):
         self.mpost = MPost()
         prev_record = self.mpost.get_previous_record(current_id)
-        # print(prev_record)
         if prev_record is None:
             outstr = '已经是最后一篇了'
         else:
@@ -40,29 +36,29 @@ class previous_post_link(tornado.web.UIModule):
 
 
 class post_most_view(tornado.web.UIModule):
-    def render(self, num, with_date = True, with_catalog = True):
+    def render(self, num, with_date=True, with_catalog=True):
         self.mpost = MPost()
         recs = self.mpost.query_most(num)
         kwd = {
-                        'with_date': with_date,
+            'with_date': with_date,
             'with_catalog': with_catalog,
         }
         return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
 
 
 class post_random(tornado.web.UIModule):
-    def render(self, num, with_date = True, with_catalog = True):
+    def render(self, num, with_date=True, with_catalog=True):
         self.mpost = MPost()
         recs = self.mpost.query_random(num)
         kwd = {
-                        'with_date': with_date,
+            'with_date': with_date,
             'with_catalog': with_catalog,
         }
         return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
 
 
 class post_cat_random(tornado.web.UIModule):
-    def render(self, cat_id, num, with_date = True, with_catalog = True ):
+    def render(self, cat_id, num, with_date=True, with_catalog=True):
         self.mpost = MPost()
         recs = self.mpost.query_cat_random(cat_id, num)
         kwd = {
@@ -73,11 +69,11 @@ class post_cat_random(tornado.web.UIModule):
 
 
 class post_recent_most_view(tornado.web.UIModule):
-    def render(self, num, recent, with_date = True, with_catalog = True):
+    def render(self, num, recent, with_date=True, with_catalog=True):
         self.mpost = MPost()
         recs = self.mpost.query_recent_most(num, recent)
         kwd = {
-                        'with_date': with_date,
+            'with_date': with_date,
             'with_catalog': with_catalog,
         }
         return self.render_string('tplite/modules/post_list.html', recs=recs, kwd=kwd)
@@ -170,16 +166,12 @@ class post_catalogs(tornado.web.UIModule):
     def render(self, signature):
         self.mapp2tag = MPost2Catalog()
         tag_infos = self.mapp2tag.query_by_id(signature)
-        # tag_infos = self.mapp2tag.query_all()
         out_str = ''
         ii = 1
         for tag_info in tag_infos:
-            # print(tag_info.owner.name)
-            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(tag_info.catalog.slug, ii,
-                                                                              tag_info.catalog.name)
+            tmp_str = '''<a href="/category/{0}" class="tag{1}">{2}</a>
+            '''.format(tag_info.catalog.slug, ii, tag_info.catalog.name)
             out_str += tmp_str
-            print(ii)
             ii += 1
 
-        # print(out_str)
         return out_str

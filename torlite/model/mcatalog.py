@@ -45,9 +45,6 @@ class MCatalog():
         entry.execute()
     def initial_db(self, post_data):
         '''
-        初始化数据库
-        :param post_data:
-        :return:
         '''
         entry = CabCatalog.create(
             name=post_data['name'],

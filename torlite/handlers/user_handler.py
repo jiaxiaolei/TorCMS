@@ -34,7 +34,6 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def logout(self):
         self.clear_all_cookies()
-        # self.set_secure_cookie("user", u_name)
         self.redirect('/')
 
     @tornado.web.authenticated
@@ -63,13 +62,11 @@ class UserHandler(BaseHandler):
         form = SumForm(self.request.arguments)
 
         if form.validate():
-            # self.write(str(form.data['user_name'] + form.data['user_pass']))
             if self.muser.insert_data(post_data) == True:
                 self.redirect('/user/login')
             else:
                 self.render('html/404.html')
                 self.set_status(400)
-                # self.write("{0}".format(form.errors))
 
     def __to_register__(self):
         kwd = {

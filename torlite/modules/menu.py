@@ -10,16 +10,17 @@ from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 from config import menu_arr
 
+
 class ModuleCatMenu(tornado.web.UIModule):
-    def render(self, with_count = True):
+    def render(self, with_count=True):
         self.mcat = MCatalog()
         all_cats = self.mcat.query_all()
         kwd = {
             'cats': all_cats,
-            'with_count' : with_count,
+            'with_count': with_count,
         }
-        # yyinfos = self.mrefresh.get_by_id(info_id)
         return self.render_string('tplite/modules/menu.html', kwd=kwd)
+
 
 class ModuleSpecMenu(tornado.web.UIModule):
     def render(self):
@@ -28,8 +29,8 @@ class ModuleSpecMenu(tornado.web.UIModule):
         kwd = {
             'cats': all_cats,
         }
-        # yyinfos = self.mrefresh.get_by_id(info_id)
         return self.render_string('tplite/modules/spec_menu.html', kwd=kwd)
+
 
 class TopMenu(tornado.web.UIModule):
     def render(self):
