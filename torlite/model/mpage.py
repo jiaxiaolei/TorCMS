@@ -8,7 +8,10 @@ CopyRight: http://yunsuan.org
 import time
 import uuid
 import datetime
-from torlite.model.core_tab import  CabPage
+import tornado
+import markdown2
+from torlite.model.core_tab import CabPage
+
 
 class MPage():
     def __init__(self):
@@ -30,7 +33,7 @@ class MPage():
         entry.execute()
 
     def insert_data(self, post_data):
-        uu = self.get_by_slug( post_data['slug'][0])
+        uu = self.get_by_slug(post_data['slug'][0])
         if uu is None:
             pass
         else:
@@ -39,12 +42,11 @@ class MPage():
             id_spec = int(post_data['id_spec'][0])
         else:
             id_spec = 0
-        # id_post = str(uuid.uuid1())
 
         entry = CabPage.create(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            slug = post_data['slug'][0],
+            slug=post_data['slug'][0],
             cnt_html=self.md2html(post_data['cnt_md'][0]),
             # id_post=id_post,
             time_create=time.time(),
@@ -80,7 +82,7 @@ class MPage():
         return tt
 
 
-    def get_by_slug(self, slug ):
+    def get_by_slug(self, slug):
 
         entry = CabPage.update(
             view_count=CabPage.view_count + 1,  # 版权声明
