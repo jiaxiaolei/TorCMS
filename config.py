@@ -19,6 +19,7 @@ menu_arr = [['首页', '/'],
 
 page_num = 10
 
+site_url = 'http://lab.osgeo.cn'
 
 # if hostname() == 'v':
 #     dbconnect = peewee.MySQLDatabase(host = '127.0.0.1', user = 'root', passwd = 'fdfsrwt', database = 'yunsuan', )

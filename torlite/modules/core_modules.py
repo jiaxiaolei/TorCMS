@@ -12,6 +12,7 @@ from torlite.model.mcatalog import MCatalog
 from torlite.model.mpost import MPost
 from torlite.model.mpost2catalog import MPost2Catalog
 import bs4
+import config
 
 
 class get_footer(tornado.web.UIModule):
@@ -106,6 +107,9 @@ class post_category_recent(tornado.web.UIModule):
                                   recs=recs,
                                   kwd=kwd, )
 
+class site_url(tornado.web.UIModule):
+    def render(self):
+        return config.site_url
 
 class next_post_link(tornado.web.UIModule):
     def render(self, current_id):

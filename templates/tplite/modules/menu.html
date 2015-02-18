@@ -1,6 +1,6 @@
 
     {% for x in kwd['cats'] %}
-    <li><a href="/category/{{ x.slug }}">
+    <li><a href="{% module site_url() %}/category/{{ x.slug }}">
 
         {{ x.name }}
         {% if kwd['with_count'] %}

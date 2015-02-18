@@ -41,4 +41,5 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'generate_abstract': generate_abstract,
                 'category_menu': category_menu,
                 'post_catalogs': post_catalogs,
+                'site_url': site_url,
                 }
