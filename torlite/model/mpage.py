@@ -33,7 +33,8 @@ class MPage():
         entry.execute()
 
     def insert_data(self, post_data):
-        uu = self.get_by_slug(post_data['slug'][0])
+        slug =  post_data['slug'][0]
+        uu = self.get_by_slug(slug)
         if uu is None:
             pass
         else:
@@ -43,10 +44,11 @@ class MPage():
         else:
             id_spec = 0
 
-        entry = CabPage.create(
+        try:
+            entry = CabPage.create(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            slug=post_data['slug'][0],
+            slug= slug,
             cnt_html=self.md2html(post_data['cnt_md'][0]),
             # id_post=id_post,
             time_create=time.time(),
@@ -54,8 +56,11 @@ class MPage():
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
             view_count=1,
-        )
-        return (id_post)
+            )
+        except:
+            return ''
+        return slug
+        # return (id_post)
 
     def md2html(self, text):
         html = markdown2.markdown(text, extras=["wiki-tables"])

@@ -156,9 +156,6 @@ class category_menu(tornado.web.UIModule):
     def render(self):
         self.mcat = MCatalog()
         recs = self.mcat.query_all()
-        kwd = {
-            'date': False,
-        }
         out_str = ''
         for rec in recs:
             tmp_str = '''<li><a href="/category/{0}" title="{1}">{1}</a></li>'''.format(rec.slug, rec.name)

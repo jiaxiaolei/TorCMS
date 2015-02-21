@@ -15,8 +15,11 @@ class MCatalog():
         except:
             pass
 
-    def query_all(self):
-        recs = CabCatalog.select().order_by(CabCatalog.name)
+    def query_all(self, with_count = False):
+        if with_count == True:
+            recs = CabCatalog.select().order_by(CabCatalog.post_count.desc())
+        else:
+            recs = CabCatalog.select().order_by(CabCatalog.name)
         return (recs)
 
     def query_field_count(self, limit_num):

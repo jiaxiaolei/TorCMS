@@ -14,12 +14,12 @@ from config import menu_arr
 class ModuleCatMenu(tornado.web.UIModule):
     def render(self, with_count=True):
         self.mcat = MCatalog()
-        all_cats = self.mcat.query_all()
+        all_cats = self.mcat.query_all(with_count=True)
         kwd = {
             'cats': all_cats,
             'with_count': with_count,
         }
-        return self.render_string('tplite/modules/menu.html', kwd=kwd)
+        return self.render_string('tplite/modules/menu_post.html', kwd=kwd)
 
 
 class ModuleSpecMenu(tornado.web.UIModule):
