@@ -36,7 +36,7 @@ class MPost2Catalog():
     def get_by_info(self, post_id, catalog_id):
         recs = CabPost2Catalog.select().where(
             (CabPost2Catalog.post == post_id) & (CabPost2Catalog.catalog == catalog_id))
-        if recs.count > 1:
+        if recs.count() > 1:
             for rec in recs:
                 self.delete_by_id(rec.uid)
             return False
