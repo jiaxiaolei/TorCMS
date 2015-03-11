@@ -4,10 +4,7 @@ Author: Bu Kun
 E-mail: bukun@osgeo.cn
 CopyRight: http://yunsuan.org
 '''
-
-
 import uuid
-
 
 from torlite.model.core_tab import  CabWikiHist
 
