@@ -10,6 +10,8 @@ import uuid
 import random
 import tornado
 import markdown2
+from docutils.core import publish_string
+
 
 
 def format_yr(indate):
@@ -63,6 +65,14 @@ def gen_pager(cat_slug, page_num, current):
 
 def markdown2html( markdown_text):
     html = markdown2.markdown(markdown_text, extras=["wiki-tables"])
+    return tornado.escape.xhtml_escape(html)
+
+def rst2html(rst_text):
+    html = publish_string(
+        source=rst_text,
+        writer_name='html',
+        settings_overrides={'output_encoding': 'utf-8'}
+    )
     return tornado.escape.xhtml_escape(html)
 
 

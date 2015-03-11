@@ -34,7 +34,7 @@ class CabPage(BaseModel):
 class CabPost(BaseModel):
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
                            max_length=5, help_text='', )
-    title = peewee.CharField(null=False, unique=True, help_text='Title')
+    title = peewee.CharField(null=False,  help_text='Title')
     date = peewee.DateTimeField()
     time_create = peewee.IntegerField()
     user_name = peewee.CharField(null=False, max_length=35, help_text='UserName', )
@@ -44,6 +44,8 @@ class CabPost(BaseModel):
     logo = peewee.CharField()
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
+    src_type = peewee.IntegerField( default= 0) # 0 for markdown, 1 for rst
+
 
 
 # Todo: 是否添加单独的首页滚动图片字段 ??

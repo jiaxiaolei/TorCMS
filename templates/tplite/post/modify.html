@@ -4,7 +4,7 @@
 
 
 <title>云算笔记 云计算 在线计算 科学计算 工程计算</title>
-<meta name="baidu-site-verification" content="a69zyHriZP" />
+<meta name="baidu-site-verification" content="a69zyHriZP"/>
 <meta name="description"
       content="由科学家与工程师维护的，专注在线计算、云计算应用的网站，提供科学计算与工程计算应用,包括环境影响评价计算,地理学计算,数学计算,物理计算,化学计算">
 <meta name="keywords"
@@ -12,7 +12,6 @@
 
 
 {% end %}
-
 
 
 {% block zhuti %}
@@ -27,23 +26,17 @@
                         title: {
                             required: true
                         },
-
                         cnt_md: {
                             required: true
                         }
-
                     },
                     messages: {
                         title: {
                             required: "<span class='red'>请输入标题</span>"
-
                         },
                         cnt_md: {
                             required: "<span class='red'>请输入内容</span>"
-
                         }
-
-
                     }
                 }
         );
@@ -51,90 +44,94 @@
 </script>
 
 <div class="content">
-<form action="" method="post" class="pure-form pure-form-aligned" id="form_post">
+    <form action="" method="post" class="pure-form pure-form-stacked" id="form_post">
 
 
-    <fieldset>
+        <fieldset>
 
 
-        <input type="hidden" id="id_post" name="id_post" value="{{ kwd['view'].uid }}"/>
+            <input type="hidden" id="id_post" name="id_post" value="{{ dbrec.uid }}"/>
 
 
-        <div class="pure-control-group">
+            <div class="pure-control-group">
 
 
-            <label for="title">标题</label>
-            <input type="text" id="title" name="title" value="{{ kwd['view'].title }}" size=58/>
-        </div>
+                <label for="title">标题</label>
+                <input type="text" id="title" name="title" value="{{ dbrec.title }}" size=58/>
+            </div>
 
-        <div class="pure-control-group">
+            <div class="pure-control-group">
+                <label for="src_type">文档类型</label>
+                <select id="src_type" name="src_type">
+                    <option value="0" {% if dbrec.src_type == 0 %} selected {% end %}>MarkDown</option>
+                    <option value="1" {% if dbrec.src_type == 1 %} selected {% end %}>RestructedText</option>
+                </select>
+            </div>
 
-
-            <label for="id_spec">所属专题</label>
-
-            <select id="id_spec" name="id_spec">
-
-                <option value="0" selected>无专题</option>
-
-                {% for x in kwd['specs'] %}
-                {% if str(x.id) == kwd['id_spec'] %}
-                <option value="{{ x.id }}" selected>
-                    {{ x.name }}
-                </option>
-                {% else %}
-                <option value="{{ x.id }}">
-                    {{ x.name }}
-                </option>
-                {% end %}
-                {% end %}
+            <div class="pure-control-group">
 
 
-            </select>
+                <label for="id_spec">所属专题</label>
 
-        </div>
+                <select id="id_spec" name="id_spec">
+
+                    <option value="0" selected>无专题</option>
+
+                    {% for x in kwd['specs'] %}
+                    {% if str(x.id) == kwd['id_spec'] %}
+                    <option value="{{ x.id }}" selected>
+                        {{ x.name }}
+                    </option>
+                    {% else %}
+                    <option value="{{ x.id }}">
+                        {{ x.name }}
+                    </option>
+                    {% end %}
+                    {% end %}
 
 
-        <div class="pure-control-group">
+                </select>
+
+            </div>
 
 
-            <label for="logo">特色图片</label>
+            <div class="pure-control-group">
 
 
-            <input id="logo" name="logo" type="text" value="{{ kwd['view'].logo }}"/>
+                <label for="logo">特色图片</label>
 
 
-        </div>
-
-        <div class="pure-control-group">
+                <input id="logo" name="logo" type="text" value="{{ dbrec.logo }}"/>
 
 
-            <label for="up"></label>
+            </div>
 
-            <span id="up"><a href="/pic/add" target="_blank">上传图片</a></span>
+            <div class="pure-control-group">
 
-        </div>
 
-        <div class="pure-control-group">
+                <label for="up"></label>
 
-            <label for="cnt_md">内容<br/>(MarkDown语法)</label>
+                <span id="up"><a href="/pic/add" target="_blank">上传图片</a></span>
+
+            </div>
+
+            <div class="pure-control-group">
+
+                <label for="cnt_md">内容<br/>(MarkDown语法)</label>
 
             <textarea rows=26 id="cnt_md" name="cnt_md" cols="100">
-                {% raw unescape(kwd['view'].cnt_md) %}
+                {% raw unescape(dbrec.cnt_md) %}
             </textarea>
-        </div>
+            </div>
 
-        <div class="pure-control-group">
+            <div class="pure-control-group">
+                <label for="sub1"></label>
+                <input id="sub1" type="submit" value="更新数据">
+            </div>
 
+        </fieldset>
 
-            <label for="sub1"></label>
-
-
-            <input id="sub1" type="submit" value="更新数据"/>
-        </div>
-
-    </fieldset>
-
-</form>
+    </form>
 </div>
 
 {% end %}

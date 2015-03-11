@@ -34,13 +34,12 @@ class MPost():
             title=post_data['title'][0],
             date=datetime.datetime.now(),
             cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
-
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
             id_spec=id_spec,
             logo=post_data['logo'][0],
-
+            src_type = post_data['src_type'][0]
         ).where(CabPost.uid == uid)
         entry.execute()
 
@@ -55,10 +54,15 @@ class MPost():
             id_spec = post_data['id_spec'][0]
         else:
             id_spec = 0
+        if post_data['src_type'] == 1:
+            cnt_html = tools.rst2html(post_data['cnt_md'][0])
+        else:
+            cnt_html = tools.markdown2html(post_data['cnt_md'][0])
+
         entry = CabPost.create(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
+            cnt_html=cnt_html,
             uid=id_post,
             time_create=time.time(),
             user_name=post_data['user_name'],
@@ -67,6 +71,7 @@ class MPost():
             view_count=1,
             id_spec=id_spec,
             logo=post_data['logo'][0],
+            src_type = post_data['src_type'][0]
         )
         return (id_post)
 
@@ -139,6 +144,7 @@ class MPost():
             self.update_view_count(citiao)
             return CabPost.get(CabPost.title == citiao)
 
+
     def get_next_record(self, in_uid):
         current_rec = self.get_by_id(in_uid)
         query = CabPost.select().where(CabPost.time_update < current_rec.time_update).order_by(
@@ -147,6 +153,7 @@ class MPost():
             return None
         else:
             return query.get()
+
 
     def get_previous_record(self, in_uid):
         current_rec = self.get_by_id(in_uid)

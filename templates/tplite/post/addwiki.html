@@ -23,17 +23,20 @@
         $("#form_add").validate(
                 {
                     rules: {
+                        title:{
+                            required:true
+                        },
                         cnt_md: {
-                            required: true,
+                            required: true
                         }
-
                     },
                     messages: {
+                        title:{
+                            required: "<span class='red'>请输入标题</span>"
+                        },
                         cnt_md: {
-                            required: "<span class='red'>请输入内容</span>",
+                            required: "<span class='red'>请输入内容</span>"
                         }
-
-
                     }
                 }
         );
@@ -41,34 +44,29 @@
 </script>
 
 <div class="header">
-
-
+    <h1>添加文档</h1>
 </div>
 <div class="content">
     <form action="/post/add/{{ kwd['uid'] }}" method="post" class="pure-form pure-form-stacked" id="form_add">
 
 
         <fieldset>
+            <div class="pure-control-group">
+                <label for="title">标题</label>
+                <input id="title" type="text" name="title">
+            </div>
 
             <div class="pure-control-group">
-
-
-                <label for="title">标题</label>
-
-
-                <input id="title" type="text" name="title">
-
-
+                <label for="src_type">文档类型</label>
+                <select id="src_type" name="src_type">
+                    <option value="0" selected>MarkDown</option>
+                    <option value="1">RestructedText</option>
+                </select>
             </div>
 
 
-
-
             <div class="pure-control-group">
-
-
                 <label for="id_spec">所属专题</label>
-
                 <select id="id_spec" name="id_spec">
                     <option value="0" selected>无专题</option>
                     {% for x in kwd['specs'] %}
@@ -77,36 +75,24 @@
                     </option>
                     {% end %}
                 </select>
-
             </div>
 
 
             <div class="pure-control-group">
-
-
                 <label for="logo">特色图片</label>
-
-
                 <input id="logo" name="logo" type="text"/>
-
             </div>
 
 
             <div class="pure-control-group">
-
-
                 <label for="up"></label>
-
                 <label id="up"><a href="/pic/add" target="_blank">上传图片</a></label>
-
             </div>
 
 
             <div class="pure-control-group">
                 <label for="cnt_md">内容 (下面输入内容，使用MarkDown语法)</label>
-
                 <textarea rows=26 id="cnt_md" name="cnt_md" cols="100"></textarea> <br/>
-
             </div>
 
             <div class="pure-control-group">
@@ -115,8 +101,6 @@
             </div>
 
         </fieldset>
-
     </form>
-
 </div>
 {% end %}

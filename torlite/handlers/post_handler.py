@@ -210,13 +210,14 @@ class PostHandler(BaseHandler):
             'pager': '',
             'cats': self.cats,
             'specs': self.specs,
-            'view': a,
+
             'id_spec': id_spec,
 
         }
         self.render('tplite/post/modify.html', kwd=kwd, unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
+                    dbrec =  a,
         )
 
     @tornado.web.authenticated
