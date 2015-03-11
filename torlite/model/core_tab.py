@@ -46,7 +46,18 @@ class CabPost(BaseModel):
     cnt_html = peewee.TextField()
     src_type = peewee.IntegerField( default= 0) # 0 for markdown, 1 for rst
 
-
+class CabWiki(BaseModel):
+    uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
+                           max_length=36, help_text='', )
+    title = peewee.CharField(null=False, unique=True, help_text='Title')
+    date = peewee.DateTimeField()
+    time_create = peewee.IntegerField()
+    user_name = peewee.CharField(null=False, max_length=35, help_text='UserName', )
+    time_update = peewee.IntegerField()
+    view_count = peewee.IntegerField()
+    cnt_md = peewee.TextField()
+    cnt_html = peewee.TextField()
+    src_type = peewee.IntegerField( default= 0) # 0 for markdown, 1 for rst
 
 # Todo: 是否添加单独的首页滚动图片字段 ??
 class CabPostHist(BaseModel):
@@ -60,6 +71,17 @@ class CabPostHist(BaseModel):
     time_update = peewee.IntegerField()
     id_spec = peewee.CharField()
     logo = peewee.CharField()
+
+class CabWikiHist(BaseModel):
+    uid = peewee.CharField(null=False, index=True, unique=True, help_text='', primary_key=True, max_length=36)
+    title = peewee.CharField(null=False, max_length=255, help_text='', )
+    date = peewee.DateTimeField()
+    wiki_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    time_create = peewee.IntegerField()
+    user_name = peewee.CharField()
+    cnt_md = peewee.TextField()
+    time_update = peewee.IntegerField()
+
 
 
 class CabSpec(BaseModel):

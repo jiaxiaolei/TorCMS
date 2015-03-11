@@ -74,8 +74,9 @@ def rst2html(rst_text):
         writer_name='html',
     )
     soup = BeautifulSoup(html)
-    id1_cnt = soup.find(id='id1')
+    id1_cnt = soup.find("div", { "class" : "document" })
     return tornado.escape.xhtml_escape(str(id1_cnt))
+
 
 
 

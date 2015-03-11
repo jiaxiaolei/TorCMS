@@ -12,6 +12,7 @@ from torlite.handlers.pic_handler import PicHandler
 from torlite.handlers.spec_handler import SpecHandler
 from torlite.handlers.index import IndexHandler
 from torlite.handlers.page_handler import PageHandler
+from torlite.handlers.wiki_handler import WikiHandler
 from torlite.handlers.static_handler import StaticHandler
 
 urls = [
@@ -21,5 +22,6 @@ urls = [
     (r"/user/(.*)", UserHandler, dict()),
     (r"/post/(.*)", PostHandler, dict()),
     (r"/page/(.*)", PageHandler, dict()),
+    (r"/wiki/(.*)", WikiHandler, dict()),
     (r"/", IndexHandler, dict()),
 ]
