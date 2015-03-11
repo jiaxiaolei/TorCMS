@@ -11,6 +11,7 @@ import random
 import tornado
 import markdown2
 from docutils.core import publish_string
+from bs4 import BeautifulSoup
 
 
 
@@ -71,9 +72,10 @@ def rst2html(rst_text):
     html = publish_string(
         source=rst_text,
         writer_name='html',
-        settings_overrides={'output_encoding': 'utf-8'}
     )
-    return tornado.escape.xhtml_escape(html)
+    soup = BeautifulSoup(html)
+    id1_cnt = soup.find(id='id1')
+    return tornado.escape.xhtml_escape(str(id1_cnt))
 
 
 

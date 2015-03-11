@@ -30,16 +30,22 @@ class MPost():
         else:
             id_spec = 0
 
+        print(post_data['src_type'][0])
+        if post_data['src_type'][0] == '1':
+            cnt_html = tools.rst2html(post_data['cnt_md'][0])
+        else:
+            cnt_html = tools.markdown2html(post_data['cnt_md'][0])
+
         entry = CabPost.update(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
+            cnt_html=cnt_html,
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
             id_spec=id_spec,
             logo=post_data['logo'][0],
-            src_type = post_data['src_type'][0]
+            src_type=post_data['src_type'][0]
         ).where(CabPost.uid == uid)
         entry.execute()
 
@@ -54,7 +60,7 @@ class MPost():
             id_spec = post_data['id_spec'][0]
         else:
             id_spec = 0
-        if post_data['src_type'] == 1:
+        if post_data['src_type'][0] == '1':
             cnt_html = tools.rst2html(post_data['cnt_md'][0])
         else:
             cnt_html = tools.markdown2html(post_data['cnt_md'][0])
@@ -71,7 +77,7 @@ class MPost():
             view_count=1,
             id_spec=id_spec,
             logo=post_data['logo'][0],
-            src_type = post_data['src_type'][0]
+            src_type=post_data['src_type'][0]
         )
         return (id_post)
 
