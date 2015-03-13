@@ -13,7 +13,7 @@ import sys
 
 from application import application
 
-PORT = '8008'
+PORT = '8088'
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

@@ -152,7 +152,7 @@ class WikiHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
         self.mwiki.update(uid, post_data)
         self.mwiki_hist.insert_data(raw_data)
-        self.redirect('/wiki/{0}'.format(post_data['title'][0]))
+        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'][0])))
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
@@ -208,4 +208,4 @@ class WikiHandler(BaseHandler):
         if tt is None:
             uid = self.mwiki.insert_data( post_data)
 
-        self.redirect('/wiki/{0}'.format(post_data['title'][0]))
+        self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'][0])))
