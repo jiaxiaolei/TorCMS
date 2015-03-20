@@ -35,6 +35,7 @@ class CabPost(BaseModel):
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
                            max_length=5, help_text='', )
     title = peewee.CharField(null=False,  help_text='Title')
+    keywords = peewee.CharField(null=False,  help_text='Keywords')
     date = peewee.DateTimeField()
     time_create = peewee.IntegerField()
     user_name = peewee.CharField(null=False, max_length=35, help_text='UserName', )

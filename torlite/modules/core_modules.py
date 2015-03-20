@@ -149,6 +149,10 @@ class generate_abstract(tornado.web.UIModule):
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str))
         return tmp_str.get_text()[:130] + '....'
 
+class generate_description(tornado.web.UIModule):
+    def render(self, html_str):
+        tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str))
+        return tmp_str.get_text()[:100]
         # 
 
 
