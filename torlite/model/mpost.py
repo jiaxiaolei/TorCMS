@@ -102,11 +102,11 @@ class MPost():
                 peewee.fn.Rand()).limit(num)
 
     def get_by_id(self, in_uid):
-        tt = CabPost.select().where(CabPost.uid == in_uid).count()
-        if tt == 0:
+        recs = CabPost.select().where(CabPost.uid == in_uid)
+        if recs.count() == 0:
             return None
         else:
-            return CabPost.get(CabPost.uid == in_uid)
+            return recs.get()
 
     def get_num_by_cat(self, cat_str):
         return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_str))).count()

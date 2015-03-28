@@ -164,7 +164,6 @@ class PostHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
         self.mpost.update(uid, post_data)
         self.mpost_hist.insert_data(raw_data)
-
         self.redirect('/post/{0}.html'.format(uid))
 
     @tornado.web.authenticated

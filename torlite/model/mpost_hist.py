@@ -19,6 +19,9 @@ class MPostHist():
             pass
 
     def insert_data(self, raw_data):
+        print('============')
+        print(raw_data.uid)
+        print('--------------')
         uid = str(uuid.uuid1())
         entry = CabPostHist.create(
             uid=uid,

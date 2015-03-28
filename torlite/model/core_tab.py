@@ -60,12 +60,12 @@ class CabWiki(BaseModel):
     cnt_html = peewee.TextField()
     src_type = peewee.IntegerField( default= 0) # 0 for markdown, 1 for rst
 
-# Todo: 是否添加单独的首页滚动图片字段 ??
+
 class CabPostHist(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
     date = peewee.DateTimeField()
-    wiki_id = peewee.CharField(null=False, max_length=8, help_text='', )
+    post_id = peewee.CharField(null=False, max_length=5, help_text='', )
     time_create = peewee.IntegerField()
     user_name = peewee.CharField()
     cnt_md = peewee.TextField()
@@ -77,7 +77,7 @@ class CabWikiHist(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, help_text='', primary_key=True, max_length=36)
     title = peewee.CharField(null=False, max_length=255, help_text='', )
     date = peewee.DateTimeField()
-    wiki_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    wiki_id = peewee.CharField(null=False, max_length=8, help_text='', )
     time_create = peewee.IntegerField()
     user_name = peewee.CharField()
     cnt_md = peewee.TextField()
@@ -104,7 +104,7 @@ class CabMember(BaseModel):
     '''
     uid = peewee.IntegerField(null=False, index=True, unique=True, primary_key=True, help_text='', )
     user_name = peewee.CharField(null=False, index=True, unique=True, max_length=16, help_text='', )
-    privilege = peewee.CharField(null=False, default='10000', help_text='用户权限', )
+    privilege = peewee.CharField(null=False, default='10000', help_text='Member Privilege', )
     user_pass = peewee.CharField(null=False, max_length=255, )
     user_email = peewee.CharField(null=False, max_length=255, )
 
