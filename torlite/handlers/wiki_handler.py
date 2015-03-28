@@ -7,7 +7,6 @@ CopyRight: http://yunsuan.org
 import tornado.web
 import tornado.escape
 
-
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mwiki import MWiki
 from torlite.model.mcatalog import MCatalog
@@ -39,12 +38,12 @@ class WikiHandler(BaseHandler):
         if url_str == 'find':
             self.to_find()
         # elif url_arr[0] == 'find':
-        #     self.find(url_arr[1])
+        # self.find(url_arr[1])
         elif url_str == 'recent':
             self.recent()
         elif url_str == 'refresh':
             self.refresh()
-        elif (url_arr[0] == 'modify'):
+        elif (url_arr[0] == 'edit'):
             self.to_modify(url_arr[1])
         elif len(url_arr) == 1:
             self.wiki(url_str)
@@ -58,14 +57,12 @@ class WikiHandler(BaseHandler):
         if input == '':
             return
         url_arr = input.split(r'/')
-        if url_arr[0] == 'modify':
+        if url_arr[0] == 'edit':
             self.update(url_arr[1])
-        # elif input == 'find':
-        #     self.post_find()
         elif url_arr[0] == 'add':
             self.wikinsert()
         else:
-            self.redirect('html/404.html')
+            self.redirect('static/404.html')
 
 
     def to_find(self, ):
@@ -84,7 +81,6 @@ class WikiHandler(BaseHandler):
         self.render('tplite/wiki/all.html'.format(input),
                     kwd=kwd,
                     view=self.mwiki.query_recent(),
-                    # rand_recs=self.get_random(),
                     format_date=tools.format_date, )
 
     def refresh(self):
@@ -97,28 +93,6 @@ class WikiHandler(BaseHandler):
                     kwd=kwd,
                     view=self.mwiki.query_dated(16),
                     format_date=tools.format_date, )
-
-    # def post_find(self):
-    #     keyword = self.get_argument('keyword')
-    #     self.find(keyword)
-
-    # def find(self, keyword):
-    #     kwd = {
-    #         'pager': '',
-    #         'unescape': tornado.escape.xhtml_unescape,
-    #         'title': '查找结果',
-    #     }
-    #     self.render('tplite/wiki/find_list.html'.format(input),
-    #                 kwd=kwd,
-    #                 view=self.mwiki.get_by_keyword(keyword),
-    #     )
-
-
-    def get_random(self):
-        return self.mwiki.query_random()
-
-
-
 
     def wiki(self, title):
         dbdate = self.mwiki.get_by_wiki(title)
@@ -174,9 +148,8 @@ class WikiHandler(BaseHandler):
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(),
-                    dbrec =  a,
+                    dbrec=a,
         )
-
 
 
     def viewit(self, view):
@@ -206,6 +179,6 @@ class WikiHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
         tt = self.mwiki.get_by_wiki(post_data['title'][0])
         if tt is None:
-            uid = self.mwiki.insert_data( post_data)
+            uid = self.mwiki.insert_data(post_data)
 
         self.redirect('/wiki/{0}'.format(tornado.escape.url_escape(post_data['title'][0])))

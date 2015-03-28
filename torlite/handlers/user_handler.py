@@ -20,6 +20,7 @@ class SumForm(Form):
 class UserHandler(BaseHandler):
     def initialize(self):
         self.muser = MUser()
+        self.user_name = self.get_current_user()
 
     def get(self, input):
         if input == 'regist':
@@ -38,7 +39,8 @@ class UserHandler(BaseHandler):
 
     @tornado.web.authenticated
     def show_info(self):
-        self.render('tplite/user/info.html', user_info = self.muser)
+        self.render('tplite/user/info.html',
+                    user_info = self.muser.get_by_id(self.user_name))
 
     def post(self, input):
         if input == 'regist':

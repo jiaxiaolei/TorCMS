@@ -23,5 +23,6 @@ urls = [
     (r"/post/(.*)", PostHandler, dict()),
     (r"/page/(.*)", PageHandler, dict()),
     (r"/wiki/(.*)", WikiHandler, dict()),
+    (r"/html/(.*)", StaticHandler, dict()),
     (r"/", IndexHandler, dict()),
 ]

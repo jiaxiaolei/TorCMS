@@ -18,10 +18,10 @@ class IndexHandler(tornado.web.RequestHandler):
             self.render('/html/404.html')
 
     def index(self):
-        # dbdata = self.mpost.query_by_cat(',6,')
+        dbdata = self.mpost.query_cat_recent(5, 16)
         recent = self.mpost.query_recent(8)
         self.render('tplite/index/index.html',
-                    # view=dbdata,
+                    view=dbdata,
                     recent=recent,
                     unescape=tornado.escape.xhtml_unescape,
                     format_yr=tools.format_yr)

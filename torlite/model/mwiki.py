@@ -63,12 +63,11 @@ class MWiki():
         else:
             cnt_html = tools.markdown2html(post_data['cnt_md'][0])
 
-        uid = tools.get_uuid()
         entry = CabWiki.create(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
             cnt_html=cnt_html,
-            uid=uid,
+            uid=tools.get_uu8d(),
             time_create=time.time(),
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
@@ -76,7 +75,7 @@ class MWiki():
             view_count=1,
             src_type=post_data['src_type'][0]
         )
-        return (uid)
+        return (entry.uid)
 
 
     def query_old(self):
@@ -96,6 +95,12 @@ class MWiki():
             return None
         else:
             return CabWiki.get(CabWiki.uid == in_uid)
+
+    def get_by_title(self, in_title):
+        try:
+            return CabWiki.get(CabWiki.title == in_title)
+        except:
+            return None
 
     def get_num_by_cat(self, cat_str):
         return CabWiki.select().where(CabWiki.id_cats.contains(',{0},'.format(cat_str))).count()

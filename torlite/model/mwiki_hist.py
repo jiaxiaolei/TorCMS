@@ -4,10 +4,10 @@ Author: Bu Kun
 E-mail: bukun@osgeo.cn
 CopyRight: http://yunsuan.org
 '''
-import uuid
+
 
 from torlite.model.core_tab import  CabWikiHist
-
+from torlite.core import tools
 class MWikiHist():
     def __init__(self):
         try:
@@ -16,9 +16,8 @@ class MWikiHist():
             pass
 
     def insert_data(self, raw_data):
-        uid = str(uuid.uuid1())
         entry = CabWikiHist.create(
-            uid=uid,
+            uid=tools.get_uuid(),
             title=raw_data.title,
             date=raw_data.date,
             wiki_id=raw_data.uid,
@@ -27,7 +26,7 @@ class MWikiHist():
             cnt_md=raw_data.cnt_md,
             time_update=raw_data.time_update,
         )
-        return (uid)
+        return (entry.uid)
 
     def get_by_id(self, in_uid):
         tt = CabWikiHist.get(CabWikiHist.uid == in_uid)

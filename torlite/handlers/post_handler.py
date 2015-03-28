@@ -95,13 +95,14 @@ class PostHandler(BaseHandler):
     def refresh(self):
         kwd = {
             'pager': '',
-            'unescape': tornado.escape.xhtml_unescape,
+
             'title': '最近文档',
         }
         self.render('tplite/post/all.html'.format(input),
                     kwd=kwd,
-                    view=self.mpost.query_dated(16),
-                    format_date=tools.format_date, )
+                    view=self.mpost.query_dated(60),
+                    format_date=tools.format_date,
+                    unescape = tornado.escape.xhtml_unescape,)
 
     def post_find(self):
         keyword = self.get_argument('keyword')
