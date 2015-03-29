@@ -38,6 +38,13 @@ class MUser(BaseModel):
             return 1
         return 0
 
+    def update_pass(self,u_name, newpass):
+        entry = CabMember.update(
+            user_pass = hashlib.md5(newpass.encode('utf-8')).hexdigest() ,
+        ).where(CabMember.user_name == u_name)
+        entry.execute()
+        return entry
+
     def insert_data(self, post_data):
 
         uu = CabMember.select().aggregate(peewee.fn.Max(CabMember.uid))

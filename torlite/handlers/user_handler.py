@@ -22,15 +22,42 @@ class UserHandler(BaseHandler):
         self.muser = MUser()
         self.user_name = self.get_current_user()
 
-    def get(self, input):
-        if input == 'regist':
+    def get(self, url_str):
+        url_arr = url_str.split('/')
+        if url_str == 'regist':
             self.__to_register__()
-        elif input == 'login':
+        elif url_str == 'login':
             self.to_login()
-        elif input == 'info':
+        elif url_str == 'info':
             self.show_info()
-        elif input == 'logout':
+        elif url_str == 'logout':
             self.logout()
+    def post(self, url_str):
+        url_arr = url_str.split('/')
+        if url_str == 'regist':
+            self.register()
+        elif url_str == 'login':
+            self.login()
+        elif url_str == 'changepass':
+            self.changepassword()
+
+
+
+    @tornado.web.authenticated
+    def changepassword(self):
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+
+        uu = self.muser.check_user(self.user_name, post_data['rawpass'][0])
+        print(uu)
+        if uu == 1:
+            self.muser.update_pass(self.user_name, post_data['user_pass'][0])
+            self.redirect(('/user/info'))
+        else:
+            return False
+
+
 
     @tornado.web.authenticated
     def logout(self):
@@ -42,11 +69,8 @@ class UserHandler(BaseHandler):
         self.render('tplite/user/info.html',
                     user_info = self.muser.get_by_id(self.user_name))
 
-    def post(self, input):
-        if input == 'regist':
-            self.register()
-        elif input == 'login':
-            self.login()
+
+
 
     def to_login(self):
         if self.get_current_user():
