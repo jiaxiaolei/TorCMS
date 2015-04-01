@@ -12,7 +12,7 @@ from torlite.core.base_model import BaseModel
 
 class CabCatalog(BaseModel):
     uid = peewee.IntegerField(null=False, index=True, unique=True, primary_key=True, help_text='', )
-    slug = peewee.CharField(null=False, index=True, unique=True, max_length=35, help_text='', )
+    slug = peewee.CharField(null=False, index=True, unique=True, max_length=36, help_text='', )
     name = peewee.CharField(null=False, max_length=255, help_text='', )
     order = peewee.IntegerField()
     post_count = peewee.IntegerField(default=0)
@@ -21,7 +21,7 @@ class CabCatalog(BaseModel):
 
 class CabPage(BaseModel):
     title = peewee.CharField(null=False, max_length=255, )
-    slug = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=35, help_text='', )
+    slug = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     date = peewee.DateTimeField()
     cnt_html = peewee.TextField()
     time_create = peewee.IntegerField()
@@ -38,7 +38,7 @@ class CabPost(BaseModel):
     keywords = peewee.CharField(null=False,  help_text='Keywords')
     date = peewee.DateTimeField()
     time_create = peewee.IntegerField()
-    user_name = peewee.CharField(null=False, max_length=35, help_text='UserName', )
+    user_name = peewee.CharField(null=False, max_length=36, help_text='UserName', )
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField()
     id_spec = peewee.CharField()
@@ -53,7 +53,7 @@ class CabWiki(BaseModel):
     title = peewee.CharField(null=False, unique=True, help_text='Title')
     date = peewee.DateTimeField()
     time_create = peewee.IntegerField()
-    user_name = peewee.CharField(null=False, max_length=35, help_text='UserName', )
+    user_name = peewee.CharField(null=False, max_length=36, help_text='UserName', )
     time_update = peewee.IntegerField()
     view_count = peewee.IntegerField()
     cnt_md = peewee.TextField()
@@ -88,7 +88,7 @@ class CabWikiHist(BaseModel):
 class CabSpec(BaseModel):
     uid = peewee.CharField()
     name = peewee.CharField()
-    slug = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=35, help_text='', )
+    slug = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     order = peewee.IntegerField()
     img = peewee.CharField()
     abstract = peewee.CharField()
@@ -102,7 +102,7 @@ class CabMember(BaseModel):
     11111
     read,add,edit,delete,manage
     '''
-    uid = peewee.IntegerField(null=False, index=True, unique=True, primary_key=True, help_text='', )
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     user_name = peewee.CharField(null=False, index=True, unique=True, max_length=16, help_text='', )
     privilege = peewee.CharField(null=False, default='10000', help_text='Member Privilege', )
     user_pass = peewee.CharField(null=False, max_length=255, )
@@ -116,7 +116,7 @@ class CabPic(BaseModel):
 
 
 class CabPost2Catalog(BaseModel):
-    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=35, help_text='', )
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     catalog = peewee.ForeignKeyField(CabCatalog, related_name='cat_id')
     post = peewee.ForeignKeyField(CabPost, related_name='post_id')
     order = peewee.IntegerField()
