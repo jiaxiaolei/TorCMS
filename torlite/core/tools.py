@@ -39,26 +39,30 @@ def gen_pager(cat_slug, page_num, current):
 
 
     pager_shouye = '''
-    <li class="first {0}">
-    <a href="/category/{1}">&lt;&lt; 首页</a>
+    <li class="pure-menu-item first {0}">
+    <a class="pure-menu-link" href="/category/{1}">&lt;&lt; 首页</a>
                 </li>'''.format( 'hidden' if current <= 1 else '', cat_slug)
 
     pager_pre = '''
-                <li class="previous {0}"><a href="/category/{1}/{2}">&lt; 前页</a>
+                <li class="pure-menu-item previous {0}">
+                <a class="pure-menu-link" href="/category/{1}/{2}">&lt; 前页</a>
                 </li>
                 '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
     pager_mid = ''
     for ind in range(0, page_num):
         tmp_mid = '''
-                <li class="page {0}"><a href="/category/{1}/{2}">{2}</a></li>
+                <li class="pure-menu-item page {0}">
+                <a class="pure-menu-link" href="/category/{1}/{2}">{2}</a></li>
                 '''.format('selected' if ind+1 == current else '', cat_slug, ind + 1)
         pager_mid += tmp_mid
     pager_next = '''
-                <li class="next {0}"><a href="/category/{1}/{2}">后页 &gt;</a>
+                <li class="pure-menu-item next {0}">
+                <a class="pure-menu-link" href="/category/{1}/{2}">后页 &gt;</a>
                 </li>
                 '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
     pager_last = '''
-                <li class="last {0}"><a href="/category/{1}/{2}">末页
+                <li class="pure-menu-item last {0}">
+                <a class="pure-menu-link" href="/category/{1}/{2}">末页
                     &gt;&gt;</a>
                 </li>
                 '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
