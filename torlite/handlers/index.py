@@ -15,16 +15,22 @@ class IndexHandler(tornado.web.RequestHandler):
         if input == '':
             self.index()
         else:
-            self.render('/html/404.html')
+            self.render('html/404.html')
 
     def index(self):
-        dbdata = self.mpost.query_cat_recent(5, 16)
-        recent = self.mpost.query_recent(8)
+        # dbdata = self.mpost.query_cat_recent(5, 16)
+        # recent = self.mpost.query_recent(10,8)
+        # recent = self.mpost.query_cat_recent(10,8)
+        cstr = tools.get_uuid()
+        self.set_cookie('user_pass', cstr)
+        kwd = {
+            'cookie_str': cstr
+        }
         self.render('tplite/index/index.html',
-                    view=dbdata,
-                    recent=recent,
-                    unescape=tornado.escape.xhtml_unescape,
-                    format_yr=tools.format_yr)
+                    kwd = kwd,
+                    # view=dbdata,
+                    # recent=recent,
+                    )
 
 
 

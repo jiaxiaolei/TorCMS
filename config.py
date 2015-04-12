@@ -22,11 +22,6 @@ page_num = 10
 # Change
 site_url = ''
 
-# if hostname() == 'v':
-#     dbconnect = peewee.MySQLDatabase(host = '127.0.0.1', user = 'root', passwd = 'fdfsrwt', database = 'yunsuan', )
-# else:
-#     dbconnect = peewee.MySQLDatabase(host = '127.0.0.1', user = 'yunsuan', passwd = 'yunsuan_pass', database = 'yunsuan', )
-
 # 使用DataBase的不同形式，以应对Peewe针对数据库的不同语法
 # 1 for SQLite
 # 2 for MySQL

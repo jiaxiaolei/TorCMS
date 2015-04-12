@@ -131,7 +131,7 @@ class MPost():
         return CabPost.select().order_by(CabPost.view_count.desc()).limit(num)
 
     def query_recent_most(self, num=8, recent=30):
-        time_that = int(time.time()) - 30 * 24 * 3600
+        time_that = int(time.time()) - recent * 24 * 3600
         return CabPost.select().where(CabPost.time_update > time_that).order_by(CabPost.view_count.desc()).limit(num)
 
     def query_cat_by_pager(self, cat_str, cureent):

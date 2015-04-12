@@ -25,7 +25,10 @@ class UserHandler(BaseHandler):
     def get(self, url_str):
         url_arr = url_str.split('/')
         if url_str == 'regist':
-            self.__to_register__()
+            if self.get_current_user():
+                self.redirect('/')
+            else:
+                self.__to_register__()
         elif url_str == 'login':
             self.to_login()
         elif url_str == 'info':

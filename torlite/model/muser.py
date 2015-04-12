@@ -9,6 +9,7 @@ import hashlib
 import peewee
 from torlite.core.base_model import BaseModel
 from torlite.model.core_tab import CabMember
+from torlite.core import tools
 
 class MUser(BaseModel):
     def __init__(self):
@@ -47,15 +48,9 @@ class MUser(BaseModel):
 
     def insert_data(self, post_data):
 
-        uu = CabMember.select().aggregate(peewee.fn.Max(CabMember.uid))
-        if uu:
-            pass
-        else:
-            uu = 0
-
         try:
             entry = CabMember.create(
-            uid = uu + 1,
+            uid = tools.get_uuid(),
             user_name = post_data['user_name'][0],
             user_pass =hashlib.md5(post_data['user_pass'][0].encode('utf-8')).hexdigest() ,
             user_email = post_data['user_email'][0]

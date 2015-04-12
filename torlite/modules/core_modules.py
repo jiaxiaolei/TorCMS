@@ -107,6 +107,25 @@ class post_category_recent(tornado.web.UIModule):
                                   recs=recs,
                                   kwd=kwd, )
 
+class showout_recent(tornado.web.UIModule):
+    def render(self, cat_id, num=10, with_catalog=True, with_date=True, width=160,height=120):
+        self.mpost = MPost()
+        self.mpost2cat = MPost2Catalog()
+        # recs = self.mpost2cat.query_by_catid(cat_id)
+        recs = self.mpost.query_cat_recent(cat_id, num)
+        for x in recs:
+            print(x.title)
+        kwd = {
+            'with_catalog': with_catalog,
+            'with_date': with_date,
+            'width': width,
+            'height': height,
+        }
+
+        return self.render_string('tplite/modules/showout_list.html',
+                                  recs=recs,
+                                  kwd=kwd, )
+
 class site_url(tornado.web.UIModule):
     def render(self):
         return config.site_url
@@ -165,6 +184,8 @@ class category_menu(tornado.web.UIModule):
             tmp_str = '''<li><a href="/category/{0}" title="{1}">{1}</a></li>'''.format(rec.slug, rec.name)
             out_str += tmp_str
         return out_str
+
+
 
 
 class post_catalogs(tornado.web.UIModule):
