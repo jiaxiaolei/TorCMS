@@ -19,7 +19,6 @@ menu_arr = [['首页', '/'],
 
 page_num = 10
 
-# Change
 site_url = ''
 
 # 使用DataBase的不同形式，以应对Peewe针对数据库的不同语法
@@ -27,7 +26,6 @@ site_url = ''
 # 2 for MySQL
 # 3 for PostgreSQL
 dbtype = 1
-
 dbconnect = peewee.SqliteDatabase('./db/torcms.db')
 
 

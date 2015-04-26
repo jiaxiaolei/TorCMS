@@ -113,8 +113,7 @@ class showout_recent(tornado.web.UIModule):
         self.mpost2cat = MPost2Catalog()
         # recs = self.mpost2cat.query_by_catid(cat_id)
         recs = self.mpost.query_cat_recent(cat_id, num)
-        for x in recs:
-            print(x.title)
+
         kwd = {
             'with_catalog': with_catalog,
             'with_date': with_date,
