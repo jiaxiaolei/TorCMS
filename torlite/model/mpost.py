@@ -26,10 +26,12 @@ class MPost():
 
 
     def update(self, uid, post_data):
+
         if 'id_spec' in post_data:
             id_spec = post_data['id_spec'][0]
         else:
             id_spec = 0
+  
 
         if 'src_type' in post_data and post_data['src_type'][0] == '1':
             cnt_html = tools.rst2html(post_data['cnt_md'][0])

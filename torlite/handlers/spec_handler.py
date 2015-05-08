@@ -5,6 +5,7 @@ E-mail: bukun@osgeo.cn
 CopyRight: http://yunsuan.org
 '''
 import tornado.web
+from torlite.model.muser import MUser
 from torlite.model.mpost import MPost
 from torlite.model.mpage import MPage
 from torlite.model.mcatalog import MCatalog
@@ -14,11 +15,16 @@ from torlite.core.base_handler import BaseHandler
 
 class SpecHandler(BaseHandler):
     def initialize(self):
+        self.muser = MUser()
         self.mpage = MPage()
         self.mdb = MPost()
         self.mcat = MCatalog()
         self.cats = self.mcat.query_all()
         self.mspec = SpesubModel()
+        if self.get_current_user():
+            self.userinfo = self.muser.get_by_id(self.get_current_user())
+        else:
+            self.userinfo = None
 
 
     def get(self, input=''):
@@ -71,8 +77,9 @@ class SpecHandler(BaseHandler):
     @tornado.web.authenticated
     def to_add(self):
         # spec_rec = self.mspec.get_by_id(uid)
-        uuu = self.mcat.query_all()
-        self.render('tplite/spec/add.html', cat_recs=uuu)
+        # uuu = self.mcat.query_all()
+        print('to_add')
+        self.render('tplite/spec/add.html')
 
     def list(self, spec_slug):
         '''
@@ -86,7 +93,7 @@ class SpecHandler(BaseHandler):
         #     self.redirect(re_url)
 
 
-        recs = self.mdb.query_by_spec(page_rec.id)
+
         kwd = {
             # 'spec': content,
             # 'view': recs,
@@ -97,7 +104,8 @@ class SpecHandler(BaseHandler):
                     kwd=kwd,
                     spec=page_rec,
                     unescape=tornado.escape.xhtml_unescape,
-                    spec_recs=recs)
+                    spec_recs=self.mdb.query_by_spec(page_rec.uid),
+        )
 
 
     def index(self):

@@ -21,7 +21,7 @@ class SpesubModel():
             pass
 
 
-    def addata(self, post_data):
+    def addata(self,post_data):
         entry = CabSpec.create(
             uid=str(uuid.uuid1()),
             name=post_data['title'][0],
@@ -40,8 +40,7 @@ class SpesubModel():
         user = CabSpec.get(slug=input)
         return (user)
 
-    def update(self, uid, post_data):
-
+    def update(self,uid, post_data):
         entry = CabSpec.update(
             name=post_data['title'][0],
             slug=post_data['slug'][0],

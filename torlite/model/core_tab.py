@@ -93,6 +93,7 @@ class CabSpec(BaseModel):
     img = peewee.CharField()
     abstract = peewee.CharField()
     desc = peewee.CharField()
+    date = peewee.DateTimeField()
 
 
 class CabMember(BaseModel):
