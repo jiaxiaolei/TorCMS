@@ -49,8 +49,8 @@ class PostHandler(BaseHandler):
             self.refresh()
         elif (url_arr[0] == 'modify'):
             self.to_modify(url_arr[1])
-        elif (url_arr[0] == 'edit_catalog'):
-            self.to_modify_catalog(url_arr[1])
+        # elif (url_arr[0] == 'edit_catalog'):
+        #     self.to_modify_catalog(url_arr[1])
         else:
             kwd = {
                 'info': '页面未找到',
@@ -63,12 +63,12 @@ class PostHandler(BaseHandler):
         url_arr = input.split(r'/')
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
-        elif url_arr[0] == 'edit_catalog':
-            self.update_catalog(url_arr[1])
+        # elif url_arr[0] == 'edit_catalog':
+        #     self.update_catalog(url_arr[1])
         elif input == 'find':
             self.post_find()
         elif url_arr[0] == 'add':
-            self.wikinsert(url_arr[1])
+            self.add_post(url_arr[1])
         else:
             self.redirect('html/404.html')
 
@@ -149,7 +149,7 @@ class PostHandler(BaseHandler):
             'uid': uid,
             'pager': '',
         }
-        self.render('tplite/post/addwiki.html', kwd=kwd,        )
+        self.render('tplite/post/addwiki.html', kwd=kwd,  tag_infos=self.mcat.query_all(),      )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -163,6 +163,7 @@ class PostHandler(BaseHandler):
             post_data[key] = self.get_arguments(key)
         post_data['user_name'] = self.get_current_user()
         self.mpost.update(uid, post_data)
+        self.update_catalog(uid)
         self.mpost_hist.insert_data(raw_data)
         self.redirect('/post/{0}.html'.format(uid))
 
@@ -210,11 +211,11 @@ class PostHandler(BaseHandler):
             'pager': '',
             'cats': self.cats,
             'specs': self.specs,
-
             'id_spec': id_spec,
-
         }
-        self.render('tplite/post/modify.html', kwd=kwd, unescape=tornado.escape.xhtml_unescape,
+        self.render('tplite/post/modify.html',
+                    kwd=kwd,
+                    unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
                     dbrec =  a,
@@ -284,9 +285,8 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     userinfo=self.userinfo, )
 
-
     @tornado.web.authenticated
-    def wikinsert(self, id_post):
+    def add_post(self, id_post):
         if self.userinfo.privilege[1] == '1':
             pass
         else:
@@ -296,8 +296,8 @@ class PostHandler(BaseHandler):
             post_data[key] = self.get_arguments(key)
 
         post_data['user_name'] = self.get_current_user()
-        tt = self.mpost.get_by_id(id_post)
-        if tt is None:
+        cur_post_rec = self.mpost.get_by_id(id_post)
+        if cur_post_rec is None:
             uid = self.mpost.insert_data(id_post, post_data)
-
+            self.update_catalog(uid)
         self.redirect('/post/{0}.html'.format(id_post))

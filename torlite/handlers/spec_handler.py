@@ -92,12 +92,7 @@ class SpecHandler(BaseHandler):
         # re_url = '/page/{0}'.format(tornado.escape.url_escape(page_rec.name))
         #     self.redirect(re_url)
 
-
-
         kwd = {
-            # 'spec': content,
-            # 'view': recs,
-
             'editable': self.editable()
         }
         self.render('tplite/spec/list.html',

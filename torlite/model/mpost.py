@@ -180,7 +180,6 @@ class MPost():
         else:
             return query.get()
 
-
     def query_by_spec(self, spec_id):
         tt = CabPost.select().where(CabPost.id_spec == spec_id).order_by(CabPost.time_update.desc())
         return tt

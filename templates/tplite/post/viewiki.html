@@ -26,9 +26,9 @@
         <a href="/post/modify/{{ view.uid }}">修改</a>
         {% end %}
 
-        {% if userinfo is not None and userinfo.privilege[4] == '1' %}
-        <a href="/post/edit_catalog/{{ view.uid }}">修改分类</a>
-        {% end %}
+        <!--{% if userinfo is not None and userinfo.privilege[4] == '1' %}-->
+        <!--<a href="/post/edit_catalog/{{ view.uid }}">修改分类</a>-->
+        <!--{% end %}-->
     </p>
 
     <p><span class="equation_catalog">{% module post_catalogs(view.uid ) %}</span></p>

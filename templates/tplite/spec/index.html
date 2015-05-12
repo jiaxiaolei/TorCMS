@@ -21,10 +21,10 @@
 
                 <p class="binfo">
                     {% if kwd['editable'] == 1 %}
-                    <a href="/spec/{{rec.id}}/edit" class="date">编辑</a>
+                    <a href="/spec/{{rec.uid}}/edit" class="date">编辑</a>
                     {% else %}
                     {% end %}
-                    <span class="date">时间&nbsp;: 2013-10-25</span>
+                    <span class="date">时间: {{ str(rec.date)[:10]}}</span>
                 </p>
             </li>
 

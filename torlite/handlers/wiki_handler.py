@@ -7,11 +7,11 @@ CopyRight: http://yunsuan.org
 import tornado.web
 import tornado.escape
 
+from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mwiki import MWiki
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
-from torlite.core import tools
 from torlite.model.mwiki_hist import MWikiHist
 from torlite.model.muser import MUser
 
@@ -130,11 +130,11 @@ class WikiHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
-        a = self.mwiki.get_by_id(id_rec)
+        wiki_rec = self.mwiki.get_by_id(id_rec)
         # 用户具有管理权限，
         # 或
         # 文章是用户自己发布的。
-        if self.userinfo.privilege[2] == '1' or a.user_name == self.get_current_user():
+        if self.userinfo.privilege[2] == '1' or wiki_rec.user_name == self.get_current_user():
             pass
         else:
             return False
@@ -148,9 +148,8 @@ class WikiHandler(BaseHandler):
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(),
-                    dbrec=a,
-        )
-
+                    dbrec=wiki_rec,
+                    )
 
     def viewit(self, view):
         # cats = self.mpost2catalog.query_catalog(post_id)

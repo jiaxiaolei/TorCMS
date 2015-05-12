@@ -6,10 +6,10 @@ CopyRight: http://yunsuan.org
 '''
 
 
-import uuid
+# import uuid
 
-
-
+import datetime
+from torlite.core import tools
 from torlite.model.core_tab import  CabSpec
 
 
@@ -20,18 +20,17 @@ class SpesubModel():
         except:
             pass
 
-
     def addata(self,post_data):
         entry = CabSpec.create(
-            uid=str(uuid.uuid1()),
+            uid=tools.get_uuid(),
             name=post_data['title'][0],
             slug=post_data['slug'][0],
             order=post_data['order'][0],
             img=post_data['img'][0],
             desc=post_data['desc'][0],
             abstract = post_data['abstract'][0],
+            date = datetime.datetime.now(),
         )
-
 
     def get_by_id(self, uid):
         return CabSpec.get(uid=uid)
@@ -48,6 +47,7 @@ class SpesubModel():
             img=post_data['img'][0],
             desc=post_data['desc'][0],
             abstract = post_data['abstract'][0],
+            date = datetime.datetime.now(),
         ).where(CabSpec.uid == uid)
         entry.execute()
 
@@ -56,10 +56,10 @@ class SpesubModel():
         return (recs)
 
 
-    def initial_db(self, post_data):
-        entry = CabSpec.create(
-            name=post_data['name'],
-            id_cat=post_data['id_cat'],
-            slug=post_data['slug'],
-            order=post_data['order'],
-        )
+    # def initial_db(self, post_data):
+    #     entry = CabSpec.create(
+    #         name=post_data['name'],
+    #         id_cat=post_data['id_cat'],
+    #         slug=post_data['slug'],
+    #         order=post_data['order'],
+    #     )

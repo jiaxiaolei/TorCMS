@@ -48,7 +48,10 @@ class CabPost(BaseModel):
     src_type = peewee.IntegerField( default= 0) # 0 for markdown, 1 for rst
 
 class CabWiki(BaseModel):
-    uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
+    uid = peewee.CharField(null=False, index=False,
+                           unique=True,
+                           primary_key=True,
+                           default='00000',
                            max_length=8, help_text='', )
     title = peewee.CharField(null=False, unique=True, help_text='Title')
     date = peewee.DateTimeField()
@@ -121,3 +124,9 @@ class CabPost2Catalog(BaseModel):
     catalog = peewee.ForeignKeyField(CabCatalog, related_name='cat_id')
     post = peewee.ForeignKeyField(CabPost, related_name='post_id')
     order = peewee.IntegerField()
+
+# class CabPost2Spec(BaseModel):
+#     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+#     spec_id = peewee.ForeignKeyField(CabSpec, related_name='spec_post_id')
+#     post_id = peewee.ForeignKeyField(CabPost, related_name='post_spec_id')
+#     # order = peewee.IntegerField()

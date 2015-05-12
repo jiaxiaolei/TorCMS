@@ -47,45 +47,70 @@
         <fieldset>
             <input type="hidden" id="uid" name="uid" value="{{ dbrec.uid }}"/>
 
-            <div class="pure-control-group">
-                <label for="title">标题</label>
-                <input type="text" id="title" name="title" value="{{ dbrec.title }}" size=58/>
-            </div>
+            <div class="pure-g">
+                <div class="pure-u-3-5">
+                    <div class="pure-control-group">
+                        <label for="title">标题</label>
+                        <input type="text" id="title" name="title" value="{{ dbrec.title }}" size=58/>
+                    </div>
 
-            <div class="pure-control-group">
-                <label for="src_type">文档类型</label>
-                <select id="src_type" name="src_type">
-                    <option value="0" {% if dbrec.src_type== 0 %} selected {% end %}>MarkDown</option>
-                    <option value="1" {% if dbrec.src_type== 1 %} selected {% end %}>RestructedText</option>
-                </select>
-            </div>
+                    <div class="pure-control-group">
+                        <label for="src_type">文档类型</label>
+                        <select id="src_type" name="src_type">
+                            <option value="0" {% if dbrec.src_type== 0 %} selected {% end %}>MarkDown</option>
+                            <option value="1" {% if dbrec.src_type== 1 %} selected {% end %}>RestructedText</option>
+                        </select>
+                    </div>
 
-            <div class="pure-control-group">
-                <label for="id_spec">所属专题</label>
-                <select id="id_spec" name="id_spec">
-                    <option value="0" selected>无专题</option>
-                    {% for x in kwd['specs'] %}
-                    {% if str(x.id) == kwd['id_spec'] %}
-                    <option value="{{ x.id }}" selected>
-                        {{ x.name }}
-                    </option>
-                    {% else %}
-                    <option value="{{ x.id }}">
-                        {{ x.name }}
-                    </option>
+                    <div class="pure-control-group">
+                        <label for="id_spec">所属专题</label>
+                        <select id="id_spec" name="id_spec">
+                            <option value="0" selected>无专题</option>
+                            {% for x in kwd['specs'] %}
+                            {% if str(x.id) == kwd['id_spec'] %}
+                            <option value="{{ x.uid }}" selected>
+                                {{ x.name }}
+                            </option>
+                            {% else %}
+                            <option value="{{ x.uid }}">
+                                {{ x.name }}
+                            </option>
+                            {% end %}
+                            {% end %}
+                        </select>
+                    </div>
+
+                    <div class="pure-control-group">
+                        <label for="logo">特色图片</label>
+                        <input id="logo" name="logo" type="text" value="{{ dbrec.logo }}"/>
+                    </div>
+
+                    <div class="pure-control-group">
+                        <label for="up"></label>
+                        <span id="up"><a href="/pic/add" target="_blank">上传图片</a></span>
+                    </div>
+
+                </div>
+                <div class="pure-u-2-5">
+                    {% for ii in range(1,6) %}
+                    <div class="pure-control-group">
+                        <label for="tag{{ii}}">标签{{ii}}</label>
+                        <select name="tag{{ii}}" id="tag1">
+                            <option value="">请选择</option>
+                            {% for taginfo in tag_infos %}
+                            <option value="{{ taginfo.uid }}"
+                                    {% for tt in app2tag_info %}
+                                    {% if tt.order== ii and tt.catalog.uid== taginfo.uid %}
+                                    selected
+                                    {% end %}
+                                    {% end %}
+                                    >{{ taginfo.name }}
+                            </option>
+                            {% end %}
+                        </select>
+                    </div>
                     {% end %}
-                    {% end %}
-                </select>
-            </div>
-
-            <div class="pure-control-group">
-                <label for="logo">特色图片</label>
-                <input id="logo" name="logo" type="text" value="{{ dbrec.logo }}"/>
-            </div>
-
-            <div class="pure-control-group">
-                <label for="up"></label>
-                <span id="up"><a href="/pic/add" target="_blank">上传图片</a></span>
+                </div>
             </div>
 
             <div class="pure-control-group">
