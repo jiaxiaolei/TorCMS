@@ -2,8 +2,8 @@
 
 {% block head %}
 <title>{{ view.title }}</title>
-<meta name="description" content="由科学家与工程师维护的，专注在线计算、云计算应用的网站，提供科学计算与工程计算应用。包括环境影响评价计算、地理学计算、数学计算、物理计算、化学计算">
-<meta name="keywords" content="云计算 在线计算 科学计算 工程计算 环评计算 地理计算 数学计算 物理计算 化学计算">
+<meta name="description" content="{% module generate_description(view.cnt_html) %}">
+<meta name="keywords" content="{{ view.keywords }}">
 
 {% end %}
 

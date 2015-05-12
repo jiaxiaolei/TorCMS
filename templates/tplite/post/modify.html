@@ -55,6 +55,11 @@
                     </div>
 
                     <div class="pure-control-group">
+                        <label for="keywords">关键词</label>
+                        <input id="keywords" name="keywords" type="text" value="{{ dbrec.keywords }}">
+                    </div>
+
+                    <div class="pure-control-group">
                         <label for="src_type">文档类型</label>
                         <select id="src_type" name="src_type">
                             <option value="0" {% if dbrec.src_type== 0 %} selected {% end %}>MarkDown</option>
@@ -120,9 +125,17 @@
             </textarea>
             </div>
 
+
+            <div class="pure-control-group">
+                <label for="is_update_time">更新编辑时间</label>
+                <input id="is_update_time" type="radio" name="is_update_time" value="1">更新
+                <input id="is_update_time" type="radio" name="is_update_time" value="0" checked>不更新
+
+            </div>
+
             <div class="pure-control-group">
                 <label for="sub1"></label>
-                <input id="sub1" type="submit" value="更新数据">
+                <input id="sub1" type="submit" value="更新数据" class="pure-button pure-button-primary">
             </div>
         </fieldset>
     </form>

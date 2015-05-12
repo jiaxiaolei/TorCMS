@@ -162,7 +162,11 @@ class PostHandler(BaseHandler):
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
         post_data['user_name'] = self.get_current_user()
-        self.mpost.update(uid, post_data)
+
+        # if update the time
+        is_update_time = True if post_data['is_update_time'][0] == '1' else False
+
+        self.mpost.update(uid, post_data, update_time = is_update_time)
         self.update_catalog(uid)
         self.mpost_hist.insert_data(raw_data)
         self.redirect('/post/{0}.html'.format(uid))

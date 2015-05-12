@@ -25,30 +25,44 @@ class MPost():
             pass
 
 
-    def update(self, uid, post_data):
+    def update(self, uid, post_data, update_time=False):
 
         if 'id_spec' in post_data:
             id_spec = post_data['id_spec'][0]
         else:
             id_spec = 0
-  
 
         if 'src_type' in post_data and post_data['src_type'][0] == '1':
             cnt_html = tools.rst2html(post_data['cnt_md'][0])
         else:
             cnt_html = tools.markdown2html(post_data['cnt_md'][0])
 
-        entry = CabPost.update(
-            title=post_data['title'][0],
-            date=datetime.datetime.now(),
-            cnt_html=cnt_html,
-            user_name=post_data['user_name'],
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-            time_update=time.time(),
-            id_spec=id_spec,
-            logo=post_data['logo'][0],
-            src_type=post_data['src_type'][0] if ('src_type' in post_data) else 0
-        ).where(CabPost.uid == uid)
+        if update_time == True:
+            entry = CabPost.update(
+                title=post_data['title'][0],
+                date=datetime.datetime.now(),
+                cnt_html=cnt_html,
+                user_name=post_data['user_name'],
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
+                time_update=time.time(),
+                id_spec=id_spec,
+                logo=post_data['logo'][0],
+                keywords=post_data['keywords'][0],
+                src_type=post_data['src_type'][0] if ('src_type' in post_data) else 0
+            ).where(CabPost.uid == uid)
+        else:
+            entry = CabPost.update(
+                title=post_data['title'][0],
+                # date=datetime.datetime.now(),
+                cnt_html=cnt_html,
+                user_name=post_data['user_name'],
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
+                # time_update=time.time(),
+                id_spec=id_spec,
+                logo=post_data['logo'][0],
+                keywords=post_data['keywords'][0],
+                src_type=post_data['src_type'][0] if ('src_type' in post_data) else 0
+            ).where(CabPost.uid == uid)
         entry.execute()
 
 
@@ -79,6 +93,7 @@ class MPost():
             view_count=1,
             id_spec=id_spec,
             logo=post_data['logo'][0],
+            keywords=post_data['keywords'][0],
             src_type=post_data['src_type'][0] if ('src_type' in post_data) else 0
         )
         return (id_post)
@@ -117,7 +132,7 @@ class MPost():
         return CabPost.select()
 
     def query_keywords_empty(self):
-        return CabPost.select().where( CabPost.keywords == '')
+        return CabPost.select().where(CabPost.keywords == '')
 
     def query_recent(self, num=8):
         return CabPost.select().order_by(CabPost.time_update.desc()).limit(num)
