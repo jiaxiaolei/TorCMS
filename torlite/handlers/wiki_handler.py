@@ -2,7 +2,7 @@
 '''
 Author: Bu Kun
 E-mail: bukun@osgeo.cn
-CopyRight: http://yunsuan.org
+CopyRight: http://www.yunsuan.org
 '''
 import tornado.web
 import tornado.escape

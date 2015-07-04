@@ -7,6 +7,7 @@ CopyRight: http://yunsuan.org
 
 import tornado.autoreload
 import tornado.ioloop
+import tornado.locale
 
 import sys
 
@@ -16,6 +17,7 @@ from application import application
 PORT = '8088'
 
 if __name__ == "__main__":
+    tornado.locale.load_gettext_translations('locale', 'yunsuan')
     if len(sys.argv) > 1:
         PORT = sys.argv[1]
     application.listen(PORT)

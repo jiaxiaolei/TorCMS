@@ -2,7 +2,7 @@
 '''
 Author: Bu Kun
 E-mail: bukun@osgeo.cn
-CopyRight: http://yunsuan.org
+CopyRight: http://www.yunsuan.org
 '''
 
 
@@ -15,9 +15,11 @@ class MCatalog():
         except:
             pass
 
-    def query_all(self, with_count = False):
+    def query_all(self, with_count = False, by_order = False):
         if with_count == True:
             recs = CabCatalog.select().order_by(CabCatalog.post_count.desc())
+        elif by_order == True:
+            recs = CabCatalog.select().order_by(CabCatalog.order)
         else:
             recs = CabCatalog.select().order_by(CabCatalog.name)
         return (recs)

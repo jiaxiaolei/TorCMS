@@ -2,7 +2,7 @@
 '''
 Author: Bu Kun
 E-mail: bukun@osgeo.cn
-CopyRight: http://yunsuan.org
+CopyRight: http://www.yunsuan.org
 '''
 
 import datetime
@@ -69,6 +69,44 @@ def gen_pager(cat_slug, page_num, current):
     pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
     return(pager)
 
+def gen_pager_bootstrap(cat_slug, page_num, current):
+    # cat_slug 分类
+    # page_num 页面总数
+    # current 当前页面
+    if page_num == 1:
+        return ''
+
+
+    pager_shouye = '''
+    <li class="{0}">
+    <a href="/category/{1}">&lt;&lt; 首页</a>
+                </li>'''.format( 'hidden' if current <= 1 else '', cat_slug)
+
+    pager_pre = '''
+                <li class="{0}">
+                <a href="/category/{1}/{2}">&lt; 前页</a>
+                </li>
+                '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
+    pager_mid = ''
+    for ind in range(0, page_num):
+        tmp_mid = '''
+                <li class="{0}">
+                <a  href="/category/{1}/{2}">{2}</a></li>
+                '''.format('active' if ind+1 == current else '', cat_slug, ind + 1)
+        pager_mid += tmp_mid
+    pager_next = '''
+                <li class=" {0}">
+                <a  href="/category/{1}/{2}">后页 &gt;</a>
+                </li>
+                '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
+    pager_last = '''
+                <li class=" {0}">
+                <a href="/category/{1}/{2}">末页
+                    &gt;&gt;</a>
+                </li>
+                '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
+    pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
+    return(pager)
 
 def markdown2html( markdown_text):
     html = markdown2.markdown(markdown_text, extras=["wiki-tables"])

@@ -10,8 +10,8 @@
     <!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="{{ static_url('css/side-menu.css') }}">
     <!--<![endif]-->
-    <meta name="author" content="云算笔记">
-    <meta name="Copyright" content="yunsuan.org 版权所有">
+    <meta name="author" content="Yun Suan Note">
+    <meta name="Copyright" content="yunsuan.org CopyRight">
     <script type="text/javascript" src="{{ static_url('jslib/jquery-1.11.2.min.js') }}"></script>
     <script type="text/javascript" src="{{ static_url('jslib/validate/jquery.validate.min.js') }}"></script>
     <link rel="stylesheet" href="{{ static_url('tass/css/style.css') }}">
@@ -27,25 +27,25 @@
 
     <div id="menu">
         <div class="pure-menu">
-            <a class="pure-menu-heading" href="/">云算笔记</a>
+            <a class="pure-menu-heading" href="/">Yun Suan Note</a>
 
             <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="/post/recent" class="pure-menu-link">文档</a></li>
-                <li class="pure-menu-item"><a href="/spec/" class="pure-menu-link">专题</a></li>
+                <li class="pure-menu-item"><a href="/post/recent" class="pure-menu-link">{{ _("Document") }}</a></li>
+                <li class="pure-menu-item"><a href="/spec/" class="pure-menu-link">{{ _("Special") }}</a></li>
                 <li class="menu-item-divided pure-menu-selected">
-                    <a href="/page/help.html" class="pure-menu-link">帮助</a>
+                    <a href="/page/help.html" class="pure-menu-link">{{ _('Help') }}</a>
                 </li>
 
-                <li class="pure-menu-item"><a href="/page/about.html" class="pure-menu-link">关于</a></li>
-                <li class="pure-menu-item"><a href="/page/terms.html" class="pure-menu-link">应用条款</a></li>
-                <li class="pure-menu-item"><a href="/page/contact.html" class="pure-menu-link">联系方式</a></li>
+                <li class="pure-menu-item"><a href="/page/about.html" class="pure-menu-link">{{ _('About') }}</a></li>
+                <li class="pure-menu-item"><a href="/page/terms.html" class="pure-menu-link">{{ _('Terms') }}</a></li>
+                <li class="pure-menu-item"><a href="/page/contact.html" class="pure-menu-link">{{ _('Contact') }}</a></li>
 
 
                 <li class="menu-item-divided pure-menu-selected">
-                    <a href="/user/info" class="pure-menu-link">用户</a>
+                    <a href="/user/info" class="pure-menu-link">{{ _('User') }}</a>
                 </li>
 
-                <li class="pure-menu-item"><a href="/user/info" class="pure-menu-link" class="pure-menu-link">我的信息</a>
+                <li class="pure-menu-item"><a href="/user/info" class="pure-menu-link" class="pure-menu-link">{{ _('My Info') }}</a>
                 </li>
             </ul>
 

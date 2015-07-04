@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-14 12:40+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../templates/theme/bage.html:33
+msgid "Document"
+msgstr ""
+
+#: ../../templates/theme/bage.html:34
+msgid "Special"
+msgstr ""
+
+#: ../../templates/theme/bage.html:36
+msgid "Help"
+msgstr ""
+
+#: ../../templates/theme/bage.html:39
+msgid "About"
+msgstr ""
+
+#: ../../templates/theme/bage.html:40
+msgid "Terms"
+msgstr ""
+
+#: ../../templates/theme/bage.html:41
+msgid "Contact"
+msgstr ""
+
+#: ../../templates/theme/bage.html:45
+msgid "User"
+msgstr ""
+
+#: ../../templates/theme/bage.html:48
+msgid "My Info"
+msgstr ""
+
+#: ../../templates/theme/view_js.html:25
+msgid "View Document"
+msgstr ""
+
+#: ../../templates/theme/view_js.html:29
+msgid "Modify"
+msgstr ""
+
+#: ../../templates/tplite/index/index.html:73
+msgid "Copyright"
+msgstr ""
+
+#: ../../templates/tplite/modules/entry.html:7
+msgid "Edit this post"
+msgstr ""

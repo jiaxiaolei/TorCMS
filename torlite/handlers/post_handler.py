@@ -1,13 +1,13 @@
 # -*- coding:utf-8 -*-
+
 '''
 Author: Bu Kun
 E-mail: bukun@osgeo.cn
-CopyRight: http://yunsuan.org
+CopyRight: http://www.yunsuan.org
 '''
+
 import tornado.web
 import tornado.escape
-
-
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpost import MPost
 from torlite.model.mcatalog import MCatalog
@@ -34,6 +34,7 @@ class PostHandler(BaseHandler):
             self.userinfo = None
 
     def get(self, url_str=''):
+
         if url_str == '':
             return
         url_arr = url_str.split(r'/')
@@ -49,36 +50,30 @@ class PostHandler(BaseHandler):
             self.refresh()
         elif (url_arr[0] == 'modify'):
             self.to_modify(url_arr[1])
-        # elif (url_arr[0] == 'edit_catalog'):
-        #     self.to_modify_catalog(url_arr[1])
         else:
             kwd = {
                 'info': '页面未找到',
             }
             self.render('html/404.html', kwd=kwd)
 
-    def post(self, input=''):
-        if input == '':
+    def post(self, url_str=''):
+        if url_str == '':
             return
-        url_arr = input.split(r'/')
+        url_arr = url_str.split(r'/')
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
-        # elif url_arr[0] == 'edit_catalog':
-        #     self.update_catalog(url_arr[1])
-        elif input == 'find':
+        elif url_str == 'find':
             self.post_find()
         elif url_arr[0] == 'add':
             self.add_post(url_arr[1])
         else:
             self.redirect('html/404.html')
 
-
     def to_find(self, ):
         kwd = {
             'pager': '',
         }
         self.render('tplite/post/find.html', topmenu='', kwd=kwd)
-
 
     def recent(self):
         kwd = {
@@ -102,7 +97,7 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     view=self.mpost.query_dated(60),
                     format_date=tools.format_date,
-                    unescape = tornado.escape.xhtml_unescape,)
+                    unescape=tornado.escape.xhtml_unescape, )
 
     def post_find(self):
         keyword = self.get_argument('keyword')
@@ -117,12 +112,10 @@ class PostHandler(BaseHandler):
         self.render('tplite/post/find_list.html'.format(input),
                     kwd=kwd,
                     view=self.mpost.get_by_keyword(keyword),
-        )
-
+                    )
 
     def get_random(self):
         return self.mpost.query_random()
-
 
     def view_cat(self, cat_slug):
         for x in self.cats:
@@ -130,7 +123,6 @@ class PostHandler(BaseHandler):
                 search_str = ',{0},'.format(x.id_cat)
         dbdata = self.mpost.query_by_cat(search_str)
         self.render('tplite/post/all.html', view=dbdata, unescape=tornado.escape.xhtml_unescape)
-
 
     def wiki(self, uid):
         dbdate = self.mpost.get_by_id(uid)
@@ -140,7 +132,6 @@ class PostHandler(BaseHandler):
         else:
             self.to_add(uid)
 
-
     @tornado.web.authenticated
     def to_add(self, uid):
         kwd = {
@@ -149,7 +140,7 @@ class PostHandler(BaseHandler):
             'uid': uid,
             'pager': '',
         }
-        self.render('tplite/post/addwiki.html', kwd=kwd,  tag_infos=self.mcat.query_all(),      )
+        self.render('tplite/post/addwiki.html', kwd=kwd, tag_infos=self.mcat.query_all(), )
 
     @tornado.web.authenticated
     def update(self, uid):
@@ -166,7 +157,7 @@ class PostHandler(BaseHandler):
         # if update the time
         is_update_time = True if post_data['is_update_time'][0] == '1' else False
 
-        self.mpost.update(uid, post_data, update_time = is_update_time)
+        self.mpost.update(uid, post_data, update_time=is_update_time)
         self.update_catalog(uid)
         self.mpost_hist.insert_data(raw_data)
         self.redirect('/post/{0}.html'.format(uid))
@@ -195,12 +186,10 @@ class PostHandler(BaseHandler):
             if cur_info.catalog.uid not in new_tag_arr:
                 self.mpost2catalog.delete_by_id(cur_info.uid)
 
-        self.redirect('/post/{0}.html'.format(uid))
-
+        # self.redirect('/post/{0}.html'.format(uid))
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
-
         a = self.mpost.get_by_id(id_rec)
         # 用户具有管理权限，
         # 或
@@ -222,37 +211,34 @@ class PostHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
-                    dbrec =  a,
-        )
+                    dbrec=a,
+                    )
 
-    @tornado.web.authenticated
-    def to_modify_catalog(self, id_rec):
-
-
-        # 用户具有管理权限，
-        # 或
-        # 文章是用户自己发布的。
-        print(self.userinfo.privilege)
-        if self.userinfo.privilege[4] == '1':
-            pass
-        else:
-            print('Error')
-            return False
-        a = self.mpost.get_by_id(id_rec)
-
-        id_spec = a.id_spec
-        kwd = {
-            'pager': '',
-            'cats': self.cats,
-            'specs': self.specs,
-            'view': a,
-            'id_spec': id_spec,
-
-        }
-        self.render('tplite/post/edit_catalog.html', kwd=kwd, unescape=tornado.escape.xhtml_unescape,
-                    tag_infos=self.mcat.query_all(),
-                    app2tag_info=self.mpost2catalog.query_by_id(id_rec),
-        )
+    # @tornado.web.authenticated
+    # def to_modify_catalog(self, id_rec):
+    #     # 用户具有管理权限，
+    #     # 或
+    #     # 文章是用户自己发布的。
+    #     print(self.userinfo.privilege)
+    #     if self.userinfo.privilege[4] == '1':
+    #         pass
+    #     else:
+    #         print('Error')
+    #         return False
+    #     a = self.mpost.get_by_id(id_rec)
+    #
+    #     id_spec = a.id_spec
+    #     kwd = {
+    #         'pager': '',
+    #         'cats': self.cats,
+    #         'specs': self.specs,
+    #         'view': a,
+    #         'id_spec': id_spec,
+    #     }
+    #     self.render('tplite/post/edit_catalog.html', kwd=kwd, unescape=tornado.escape.xhtml_unescape,
+    #                 tag_infos=self.mcat.query_all(),
+    #                 app2tag_info=self.mpost2catalog.query_by_id(id_rec),
+    #                 )
 
     def get_cat_str(self, cats):
         cat_arr = cats.split(',')
@@ -264,7 +250,6 @@ class PostHandler(BaseHandler):
                 out_str += tmp_str
 
         return (out_str)
-
 
     def get_cat_name(self, id_cat):
         for x in self.cats:
