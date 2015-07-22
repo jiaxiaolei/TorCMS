@@ -14,15 +14,18 @@ from torlite.handlers.index import IndexHandler
 from torlite.handlers.page_handler import PageHandler
 from torlite.handlers.wiki_handler import WikiHandler
 from torlite.handlers.static_handler import StaticHandler
+from torlite.handlers.search_handler import SearchHandler
 
 urls = [
-    (r"/pic/(.*)", PicHandler, dict()),
-    (r"/category/(.*)", CatHandler, dict()),
-    (r"/spec/(.*)", SpecHandler, dict()),
-    (r"/user/(.*)", UserHandler, dict()),
-    (r"/post/(.*)", PostHandler, dict()),
-    (r"/page/(.*)", PageHandler, dict()),
-    (r"/wiki/(.*)", WikiHandler, dict()),
-    (r"/html/(.*)", StaticHandler, dict()),
-    (r"/", IndexHandler, dict()),
+    ("/pic/(.*)", PicHandler, dict()),
+    ("/category/(.*)", CatHandler, dict()),
+    ("/spec/(.*)", SpecHandler, dict()),
+    ("/user/(.*)", UserHandler, dict()),
+    ("/post/(.*)", PostHandler, dict()),
+    ("/page/(.*)", PageHandler, dict()),
+    ("/wiki/(.*)", WikiHandler, dict()),
+    ("/html/(.*)", StaticHandler, dict()),
+    ("/search/(.*)", SearchHandler, dict()),
+
+    ("/", IndexHandler, dict()),
 ]
