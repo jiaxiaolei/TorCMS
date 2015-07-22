@@ -3,7 +3,7 @@ Flexible, extensible web CMS framework built on Tornado, Peewee and Purecss, com
 
 # Case
 
-* [http://wetland.ac.cn](http://wetland.ac.cn)
+* [http://www.wetland.ac.cn](http://www.wetland.ac.cn)
 * [http://www.osgeo.cn](http://www.osgeo.cn)
 * [http://www.yunsuan.org](http://www.yunsuan.org)
 
