@@ -10,15 +10,15 @@
 <meta name="keywords"
       content="计算,在线计算器,云计算,在线计算,常用数据,常规数据,科学计算,工程计算,环评计算,地理计算,数学计算,物理计算,化学计算,数学公式,物理公式,建筑计算">
 
-
 {% end %}
 
 
 
 {% block zhuti %}
-<div class="header">
 
-</div>
+
+
+
 
 
 <div class="content find_equation">
@@ -26,22 +26,14 @@
     <h3>{{ kwd['title'] }}</h3>
 
     <ul>
-
-
-        {% module post_recent(8) %}
-
-    </ul>
-
-
-</div>
-
-
-<div class="content find_equation">
-
-    <h3>随机文档</h3>
-
-    <ul>
-        {% module post_random(8) %}
+        {% for x in srecs %}
+        <li style="margin:10px;"><b>{% raw x['type'] %}</b><a href="{% raw x['link'] %}" title="{{x['title']}}">{{x['title']}}</a><br />
+            <span style="color: #888;">{% raw (x.highlights('content')) %}</span>
+        </li>
+        {% end %}
     </ul>
 </div>
+
+
+
 {% end %}

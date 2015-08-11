@@ -38,14 +38,17 @@
 
                 <li class="pure-menu-item"><a href="/page/about.html" class="pure-menu-link">{{ _('About') }}</a></li>
                 <li class="pure-menu-item"><a href="/page/terms.html" class="pure-menu-link">{{ _('Terms') }}</a></li>
-                <li class="pure-menu-item"><a href="/page/contact.html" class="pure-menu-link">{{ _('Contact') }}</a></li>
+                <li class="pure-menu-item"><a href="/page/contact.html" class="pure-menu-link">{{ _('Contact') }}</a>
+                </li>
 
 
                 <li class="menu-item-divided pure-menu-selected">
                     <a href="/user/info" class="pure-menu-link">{{ _('User') }}</a>
                 </li>
 
-                <li class="pure-menu-item"><a href="/user/info" class="pure-menu-link" class="pure-menu-link">{{ _('My Info') }}</a>
+                <li class="pure-menu-item">
+                    <a href="/user/info" class="pure-menu-link" class="pure-menu-link">
+                        {{ _('My Info') }}</a>
                 </li>
             </ul>
 
@@ -56,17 +59,17 @@
 
     <div id="main">
         <div class="panel">
-            <div>
-                    <form class="pure-form pure-form-aligned" method="post" id="find_calc" action="/search/">
-        <fieldset>
+            <div class="panel-heading" style="border-bottom: none; text-align: left;max-width: 800px;margin:0 auto;">
+                <form class="pure-form pure-form-aligned" method="post" id="find_calc" action="/search/">
+                    <fieldset>
+
+                        <input id="keyword" type="text" name="keyword" placeholder="关键词">
+                        <button type="submit" id="d" type="text" name="d" class="pure-button pure-button-primary">查找文档
+                        </button>
 
 
-            <input id="keyword" type="text" name="keyword" placeholder="关键词">
-            <button type="submit" id="d" type="text" name="d" class="pure-button pure-button-primary">查找文档</button>
-
-
-        </fieldset>
-    </form>
+                    </fieldset>
+                </form>
 
             </div>
             {% block zhuti %}{% end %}
@@ -77,42 +80,42 @@
 </body>
 
 
- <script type="text/javascript">
-        (function (window, document) {
+<script type="text/javascript">
+    (function (window, document) {
 
-    var layout   = document.getElementById('layout'),
-        menu     = document.getElementById('menu'),
-        menuLink = document.getElementById('menuLink');
+        var layout = document.getElementById('layout'),
+                menu = document.getElementById('menu'),
+                menuLink = document.getElementById('menuLink');
 
-    function toggleClass(element, className) {
-        var classes = element.className.split(/\s+/),
-            length = classes.length,
-            i = 0;
+        function toggleClass(element, className) {
+            var classes = element.className.split(/\s+/),
+                    length = classes.length,
+                    i = 0;
 
-        for(; i < length; i++) {
-          if (classes[i] === className) {
-            classes.splice(i, 1);
-            break;
-          }
+            for (; i < length; i++) {
+                if (classes[i] === className) {
+                    classes.splice(i, 1);
+                    break;
+                }
+            }
+            // The className is not found
+            if (length === classes.length) {
+                classes.push(className);
+            }
+
+            element.className = classes.join(' ');
         }
-        // The className is not found
-        if (length === classes.length) {
-            classes.push(className);
-        }
 
-        element.className = classes.join(' ');
-    }
+        menuLink.onclick = function (e) {
+            var active = 'active';
 
-    menuLink.onclick = function (e) {
-        var active = 'active';
+            e.preventDefault();
+            toggleClass(layout, active);
+            toggleClass(menu, active);
+            toggleClass(menuLink, active);
+        };
 
-        e.preventDefault();
-        toggleClass(layout, active);
-        toggleClass(menu, active);
-        toggleClass(menuLink, active);
-    };
-
-}(this, this.document));
-    </script>
+    }(this, this.document));
+</script>
 
 </html>
