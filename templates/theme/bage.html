@@ -56,6 +56,19 @@
 
     <div id="main">
         <div class="panel">
+            <div>
+                    <form class="pure-form pure-form-aligned" method="post" id="find_calc" action="/search/">
+        <fieldset>
+
+
+            <input id="keyword" type="text" name="keyword" placeholder="关键词">
+            <button type="submit" id="d" type="text" name="d" class="pure-button pure-button-primary">查找文档</button>
+
+
+        </fieldset>
+    </form>
+
+            </div>
             {% block zhuti %}{% end %}
         </div>
     </div>
