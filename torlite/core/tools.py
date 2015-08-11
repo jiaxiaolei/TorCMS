@@ -12,7 +12,7 @@ import tornado
 import markdown2
 from docutils.core import publish_string
 from bs4 import BeautifulSoup
-
+from torlite.core.tool.whoosh_tool import search as whoosh_search
 
 
 def format_yr(indate):

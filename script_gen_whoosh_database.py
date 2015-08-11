@@ -69,3 +69,4 @@ for rec in app_recs:
     )
 
 writer.commit()
+searcher = ix.searcher()

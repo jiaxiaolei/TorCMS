@@ -2,6 +2,9 @@
 
 try:
     import tornadoredis
+    c = tornadoredis.Client()
+    c.connect()
+
 except:
     pass
 import tornado.web
@@ -15,8 +18,6 @@ try:
 except:
     pass
 
-c = tornadoredis.Client()
-c.connect()
 
 class IndexHandler(tornado.web.RequestHandler):
     def initialize(self):

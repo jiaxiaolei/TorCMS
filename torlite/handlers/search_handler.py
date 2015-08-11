@@ -9,10 +9,10 @@ CopyRight: http://www.yunsuan.org
 import tornado.web
 import tornado.escape
 
-from whoosh.index import create_in,open_dir
-from whoosh.fields import *
-from whoosh.qparser import QueryParser
-from jieba.analyse import ChineseAnalyzer
+# from whoosh.index import create_in,open_dir
+# from whoosh.fields import *
+# from whoosh.qparser import QueryParser
+# from jieba.analyse import ChineseAnalyzer
 
 
 from torlite.core.base_handler import BaseHandler
@@ -24,14 +24,17 @@ from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
 
+from torlite.core.tools import whoosh_search
+
 
 class SearchHandler(BaseHandler):
     def initialize(self):
-        analyzer = ChineseAnalyzer()
-        schema = Schema(title=TEXT(stored=True, analyzer = analyzer), path=ID(stored=True), content=TEXT(stored=True, analyzer=analyzer))
-        ix = open_dir("lib/whoosh") # for read only
-        self.searcher = ix.searcher()
-        self.parser = QueryParser("content", schema=ix.schema)
+        # analyzer = ChineseAnalyzer()
+        # schema = Schema(title=TEXT(stored=True, analyzer = analyzer), path=ID(stored=True), content=TEXT(stored=True, analyzer=analyzer))
+        # ix = config.ix
+        # self.searcher = config.searcher
+        # self.parser = config.parser
+        # self.parser = QueryParser("content", schema=ix.schema)
 
         self.muser = MUser()
         self.mpost = MPost()
@@ -50,6 +53,8 @@ class SearchHandler(BaseHandler):
 
         if url_str == '':
             return
+        elif len(url_str) > 0:
+            self.search(url_str)
         else:
             kwd = {
                 'info': '页面未找到',
@@ -66,9 +71,8 @@ class SearchHandler(BaseHandler):
         }
         self.render('tplite/post/find.html', topmenu='', kwd=kwd)
     def search(self, keyword):
-
-        q = self.parser.parse(keyword)
-        results = self.searcher.search(q, limit=30)
+        results = whoosh_search(keyword, 20)
+        # reswhoosh_search.keyworde limit=3limit=30)
         kwd = {'title':'查找结果'}
         self.render('tplite/search/search.html',
                     kwd=kwd,
