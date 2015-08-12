@@ -14,23 +14,22 @@ def get_dic():
                 out_arr.append(tt)
     return (out_arr)
 
+
 def do_for_x(rec):
     kw_dic = get_dic()
 
     out_dic = {}
 
     for kw in kw_dic:
-        # print(kw)
-        # print(rec.title)
-        # print(rec.cnt_md)
+
         count = rec.title.count(kw[0])
         count2 = rec.cnt_md.count(kw[0])
-        # print(count)
-        # print(count2)
+
         if count > 0:
             out_dic[kw[0]] = count * .3 + count2 * .2 + int(kw[1]) * .5
-    out_dic2 = sorted(out_dic.items(), key = lambda asd:asd[1], reverse=True)
-    return (out_dic2[:8] )
+    out_dic2 = sorted(out_dic.items(), key=lambda asd: asd[1], reverse=True)
+    return (out_dic2[:8])
+
 
 if __name__ == '__main__':
     mpost = MPost()
@@ -38,9 +37,8 @@ if __name__ == '__main__':
     for x in uu:
         tt = (do_for_x(x))
         vv = [x[0] for x in tt]
-        if len(vv)> 0:
+        if len(vv) > 0:
             print(','.join(vv))
             mpost.update_keywords(x.uid, ','.join(vv))
         else:
             mpost.update_keywords(x.uid, 'OSGeo中国中心,开放地理空间实验室')
-

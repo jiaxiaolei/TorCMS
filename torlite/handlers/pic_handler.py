@@ -7,18 +7,14 @@ CopyRight: http://www.yunsuan.org
 
 import uuid
 import os
-
 import tornado.web
 import tornado.ioloop
-
 from torlite.model.pic_model import MPic
-
 
 
 class PicHandler(tornado.web.RequestHandler):
     def initialize(self):
         self.mpic = MPic()
-
 
     def get(self, input=''):
         if input == '':
@@ -42,16 +38,12 @@ class PicHandler(tornado.web.RequestHandler):
         else:
             self.render('/html/404.html')
 
-
-
     def list(self):
         recs = self.mpic.getall()
         kwd = {
             'pager': '',
         }
         self.render('tplite/pic/list.html', imgs=recs, kwd=kwd)
-
-
 
     def to_add(self):
         kwd = {

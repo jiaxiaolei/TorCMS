@@ -14,13 +14,13 @@ privilege
 [4]: manage
 And, could be extended.
 '''
-mask  = '11111'
-__author__ = 'bukun'
-
 from torlite.modules.menu import ModuleCatMenu
 from torlite.modules.menu import ModuleSpecMenu
 from torlite.modules.menu import TopMenu
 from torlite.modules.core_modules import *
+
+mask = '11111'
+__author__ = 'bukun'
 
 page_num = 10
 

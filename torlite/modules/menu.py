@@ -1,15 +1,15 @@
 # -*- coding:utf-8 -*-
 '''
 Author: Bu Kun
-E-mail: bukun@osgeo.cn
+E-mail: bukun#osgeo.cn
 CopyRight: http://www.yunsuan.org
+Bu Kun's Homepage: http://bukun.net
 '''
 
 import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 from config import menu_arr
-
 
 class ModuleCatMenu(tornado.web.UIModule):
     def render(self, with_count=True):

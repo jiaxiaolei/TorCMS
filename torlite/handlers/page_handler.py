@@ -4,25 +4,23 @@ Author: Bu Kun
 E-mail: bukun@osgeo.cn
 CopyRight: http://www.yunsuan.org
 '''
+
 import tornado.web
 import tornado.escape
-
-
 from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpage import MPage
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 
+
 class PageHandler(BaseHandler):
     def initialize(self):
-
         self.mdb = MPage()
         self.mcat = MCatalog()
         self.cats = self.mcat.query_all()
         self.mspec = SpesubModel()
         self.specs = self.mspec.get_all()
-
 
     def get(self, input=''):
         if input == '':
@@ -45,7 +43,6 @@ class PageHandler(BaseHandler):
             self.update(ip_arr[1])
         else:
             uuid = self.wikinsert()
-
 
     def wiki(self, slug):
         dbdate = self.mdb.get_by_slug(slug)
@@ -79,10 +76,9 @@ class PageHandler(BaseHandler):
 
         }
         self.render('tplite/page/modify.html',
-                    view = self.mdb.get_by_slug(slug),
+                    view=self.mdb.get_by_slug(slug),
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape, )
-
 
     def viewit(self, dbdata):
         kwd = {
@@ -106,4 +102,3 @@ class PageHandler(BaseHandler):
             uid = self.mdb.insert_data(post_data)
 
         self.redirect('/page/{0}.html'.format(post_data['slug'][0]))
-

@@ -1,17 +1,16 @@
 # -*- coding:utf-8 -*-
 '''
 Author: Bu Kun
-E-mail: bukun@osgeo.cn
+E-mail: bukun#osgeo.cn
 CopyRight: http://www.yunsuan.org
+Bu Kun's Homepage: http://bukun.net
 '''
 
-__author__ = 'bukun'
-
+import bs4
 import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mpost import MPost
 from torlite.model.mpost2catalog import MPost2Catalog
-import bs4
 import config
 
 
@@ -107,8 +106,9 @@ class post_category_recent(tornado.web.UIModule):
                                   recs=recs,
                                   kwd=kwd, )
 
+
 class showout_recent(tornado.web.UIModule):
-    def render(self, cat_id, num=10, with_catalog=True, with_date=True, width=160,height=120):
+    def render(self, cat_id, num=10, with_catalog=True, with_date=True, width=160, height=120):
         self.mpost = MPost()
         self.mpost2cat = MPost2Catalog()
         # recs = self.mpost2cat.query_by_catid(cat_id)
@@ -125,9 +125,11 @@ class showout_recent(tornado.web.UIModule):
                                   recs=recs,
                                   kwd=kwd, )
 
+
 class site_url(tornado.web.UIModule):
     def render(self):
         return config.site_url
+
 
 class next_post_link(tornado.web.UIModule):
     def render(self, current_id):
@@ -167,11 +169,11 @@ class generate_abstract(tornado.web.UIModule):
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str))
         return tmp_str.get_text()[:130] + '....'
 
+
 class generate_description(tornado.web.UIModule):
     def render(self, html_str):
         tmp_str = bs4.BeautifulSoup(tornado.escape.xhtml_unescape(html_str))
         return tmp_str.get_text()[:100]
-        # 
 
 
 class category_menu(tornado.web.UIModule):
@@ -183,8 +185,6 @@ class category_menu(tornado.web.UIModule):
             tmp_str = '''<li><a href="/category/{0}" title="{1}">{1}</a></li>'''.format(rec.slug, rec.name)
             out_str += tmp_str
         return out_str
-
-
 
 
 class post_catalogs(tornado.web.UIModule):
