@@ -5,6 +5,19 @@ import html2text
 import tornado.escape
 sys.path.append("../")
 
+if os.path.exists('locale'):
+    pass
+else:
+    os.mkdir('locale')
+if os.path.exists('lib'):
+    pass
+else:
+    os.mkdir('lib')
+if os.path.exists('lib/whoosh'):
+    pass
+else:
+    os.mkdir('lib/whoosh')
+
 def html_strip(html):
     from HTMLParser import HTMLParser
     html = html.strip()

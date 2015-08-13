@@ -24,7 +24,7 @@ from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
 
-from torlite.core.tools import whoosh_search
+from torlite.core.tool.whoosh_tool import search as whoosh_search
 
 
 class SearchHandler(BaseHandler):
