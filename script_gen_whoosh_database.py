@@ -25,7 +25,7 @@ from jieba.analyse import ChineseAnalyzer
 sys.path.append('/opt/torlite/yunsuan')
 
 from torlite.model.mpost import MPost
-from torapp.model.app_model import MApp
+# from torapp.model.app_model import MApp
 
 mpost = MPost()
 
@@ -55,18 +55,18 @@ for rec in recs:
     )
 
 
-mapp = MApp()
-app_recs = mapp.query_recent(2000)
-for rec in app_recs:
-    # text2 =  html2text.html2text(rec.cnt_html)
-    text2 =  html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
-    print(text2)
-    writer.add_document(
-        title=rec.title,
-        type='<span style="color:red;">[计算]</span>',
-        link='/app/{0}'.format(rec.uid),
-        content= text2
-    )
+#  mapp = MApp()
+#  app_recs = mapp.query_recent(2000)
+#  for rec in app_recs:
+#      # text2 =  html2text.html2text(rec.cnt_html)
+#      text2 =  html2text.html2text(tornado.escape.xhtml_unescape(rec.cnt_html))
+#      print(text2)
+#      writer.add_document(
+#          title=rec.title,
+#          type='<span style="color:red;">[计算]</span>',
+#          link='/app/{0}'.format(rec.uid),
+#          content= text2
+#      )
 
 writer.commit()
-searcher = ix.searcher()
+# searcher = ix.searcher()
