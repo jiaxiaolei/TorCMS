@@ -1,6 +1,26 @@
 # TorCMS
 Flexible, extensible web CMS framework built on Tornado, Peewee and Purecss, compatible with Python 3.4 .
 
+# Hown to Run
+
+You should be under Python 3.4.
+
+Install libs for Python 3.4
+
+    pip install -r  requirements.txt
+
+Do some initialize work
+
+    python script_init_env.py
+
+Run the web application
+
+    python server.py
+
+Open web brower and navigate to http://127.0.0.1:8008 .
+
+Enjoy it.
+
 # Case
 
 * [http://www.wetland.ac.cn](http://www.wetland.ac.cn)
