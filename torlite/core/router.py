@@ -26,6 +26,5 @@ urls = [
     ("/wiki/(.*)", WikiHandler, dict()),
     ("/html/(.*)", StaticHandler, dict()),
     ("/search/(.*)", SearchHandler, dict()),
-
     ("/", IndexHandler, dict()),
 ]

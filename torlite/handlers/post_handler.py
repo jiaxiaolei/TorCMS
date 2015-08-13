@@ -8,15 +8,14 @@ Bu Kun's Homepage: http://bukun.net
 
 import tornado.web
 import tornado.escape
+from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpost import MPost
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
-from torlite.core import tools
 from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
-
 
 class PostHandler(BaseHandler):
     def initialize(self):
@@ -34,7 +33,6 @@ class PostHandler(BaseHandler):
             self.userinfo = None
 
     def get(self, url_str=''):
-
         if url_str == '':
             return
         url_arr = url_str.split(r'/')
