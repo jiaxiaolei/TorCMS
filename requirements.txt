@@ -1,0 +1,13 @@
+beautifulsoup4
+docutils
+html2text
+jieba
+markdown2
+peewee
+Pillow
+PyMySQL3
+tornado
+tornado-redis
+Whoosh
+WTForms
+wtforms-tornado

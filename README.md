@@ -1,7 +1,7 @@
 # TorCMS
 Flexible, extensible web CMS framework built on Tornado, Peewee and Purecss, compatible with Python 3.4 .
 
-# Hown to Run
+# How to Run
 
 You should be under Python 3.4.
 
