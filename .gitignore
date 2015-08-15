@@ -56,3 +56,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#  The SQLite3 database
+database/torcms.db
+
+# For whoosh
+database/whoosh

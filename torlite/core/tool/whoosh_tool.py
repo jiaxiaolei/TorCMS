@@ -12,7 +12,7 @@ from jieba.analyse import ChineseAnalyzer
 from whoosh.qparser import QueryParser
 
 analyzer = ChineseAnalyzer()
-ix = open_dir("lib/whoosh")
+ix = open_dir("database/whoosh")
 parser = QueryParser("content", schema=ix.schema)
 
 

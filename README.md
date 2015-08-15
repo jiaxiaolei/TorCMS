@@ -3,6 +3,13 @@ Flexible, extensible web CMS framework built on Tornado, Peewee and Purecss, com
 
 # How to Run
 
+## Initialize the SQLite3 database
+
+    cd database
+    sqlite3 torcms.db < initdb.sql
+
+## For Python.
+
 You should be under Python 3.4.
 
 Install libs for Python 3.4,

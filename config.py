@@ -26,6 +26,6 @@ site_url = ''
 # 2 for MySQL
 # 3 for PostgreSQL
 dbtype = 1
-dbconnect = peewee.SqliteDatabase('./db/torcms.db')
+dbconnect = peewee.SqliteDatabase('./database/torcms.db')
 
 

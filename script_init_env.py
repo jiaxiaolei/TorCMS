@@ -15,16 +15,17 @@ from whoosh.qparser import QueryParser
 from jieba.analyse import ChineseAnalyzer
 from torlite.model.mpost import MPost
 
+whoosh_database = 'database/whoosh'
 def build_directory():
     if os.path.exists('locale'):
         pass
     else:
         os.mkdir('locale')
 
-    if os.path.exists('lib/whoosh'):
+    if os.path.exists(whoosh_database):
         pass
     else:
-        os.makedirs ('lib/whoosh')
+        os.makedirs (whoosh_database)
 
 
 def build_whoosh_database():
@@ -32,7 +33,7 @@ def build_whoosh_database():
     analyzer = ChineseAnalyzer()
     schema = Schema(title=TEXT(stored=True, analyzer = analyzer), type=TEXT(stored=True), link=ID(stored=True),
                     content=TEXT(stored=True, analyzer=analyzer))
-    ix = create_in("lib/whoosh", schema)
+    ix = create_in(whoosh_database, schema)
 
     writer = ix.writer()
 
