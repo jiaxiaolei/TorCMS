@@ -53,17 +53,21 @@
         $.ajax({
             type: "POST",
             url: "/post/comment_add/" + view_id,
-            data: "cnt_md=" + $("#cnt_md").val()
+            data: "cnt_md=" + $("#cnt_md").val(),
+
+            // dataType: "json",
+            success:  function (msg)
+            {
+                // alert(msg);
+                var msg_json = $.parseJSON(msg);
+                // alert(msg_json.pinglun);
 
 
-        })
-        $('#tj').click(function () {
-            if ($("pl_form").valid()) {
+                $("#pinglun").load('/reply/get/' + msg_json.pinglun);
 
             }
-            else {
 
-            }
+
         })
 
 
@@ -141,42 +145,46 @@
 
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
-    {% set ii = 0 %}
-    {% for reply in replys %}
+    <div >
 
-    <div id="del_zan_{{ ii }}">
+        <div id="pinglun"></div>
 
-        <ul id="wiki_cnt">
-            <li>{{ reply.user_name }}</li>
+        {% set ii = 0 %}
+        {% for reply in replys %}
 
-            <li style="font-size: 16px; font-weight: bold">{% raw unescape(reply.cnt_html) %}</li>
-            <li>编辑于{{ str(reply.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
-                <span id="text_zan_{{ ii }}">{{ reply.vote }}</span>
-                个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div id="del_zan_{{ ii }}">
 
-                <a class="pure-button button-secondary" style="padding:3px 8px; margin-right: 5px"
-                   onclick="zan('{{ reply.uid }}', {{ ii }} );">
-                    赞
-                </a>
+            <ul id="wiki_cnt">
+                <li>{{ reply.user_name }}</li>
+
+                <li style="font-size: 16px; font-weight: bold">{% raw unescape(reply.cnt_html) %}</li>
+                <li>编辑于{{ str(reply.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
+                    <span id="text_zan_{{ ii }}">{{ reply.vote }}</span>
+                    个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <a class="pure-button button-secondary" style="padding:3px 8px; margin-right: 5px"
+                       onclick="zan('{{ reply.uid }}', {{ ii }} );">
+                        赞
+                    </a>
 
 
-                {% if userinfo is not None and userinfo.privilege[4] == '1' %}
+                    {% if userinfo is not None and userinfo.privilege[4] == '1' %}
 
 
-                <a class="pure-button button-secondary" style="padding:3px 8px;"
-                   onclick="del('{{ reply.uid }}', {{ ii }} );">
-                    删除
-                </a>
-                {% end %}
+                    <a class="pure-button button-secondary" style="padding:3px 8px;"
+                       onclick="del('{{ reply.uid }}', {{ ii }} );">
+                        删除
+                    </a>
+                    {% end %}
 
-            </li>
-        </ul>
-        <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+                </li>
+            </ul>
+            <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
+        </div>
+        {% set ii = ii + 1 %}
+        {% end %}
     </div>
-    {% set ii = ii + 1 %}
-    {% end %}
-
 
 </div>
 {% end %}

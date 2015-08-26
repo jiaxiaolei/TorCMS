@@ -30,13 +30,13 @@ class MReply():
 
         pass
 
-    def update_vote(self, reply_id, count ):
+    def update_vote(self, reply_id, count):
 
-         entry = CabReply.update(
-                vote=count
-          ).where(CabReply.uid == reply_id)
+        entry = CabReply.update(
+            vote=count
+        ).where(CabReply.uid == reply_id)
 
-         entry.execute()
+        entry.execute()
 
 
     def update(self, uid, post_data, update_time=False):
@@ -82,20 +82,22 @@ class MReply():
 
     def insert_data(self, id_post, post_data):
 
-        entry = CabReply.create(
-
-            uid=tools.get_uuid(),
-            post_id=id_post,
-            user_name= post_data['user_name'],
-            user_id= post_data['user_id'],
-            timestamp=time.time(),
-            date=datetime.datetime.now(),
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-            cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
-            vote=0,
-
-        )
-        return (id_post)
+        uid = tools.get_uuid()
+        try:
+            entry = CabReply.create(
+                uid=uid,
+                post_id=id_post,
+                user_name=post_data['user_name'],
+                user_id=post_data['user_id'],
+                timestamp=time.time(),
+                date=datetime.datetime.now(),
+                cnt_md=post_data['cnt_md'][0],
+                cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
+                vote=0,
+            )
+            return (uid)
+        except:
+            return False
 
 
     def query_old(self):
@@ -121,6 +123,9 @@ class MReply():
         recs = CabReply.select().where(CabReply.post_id == in_uid).order_by(CabReply.timestamp.desc())
         return recs
 
+    def get_reply_by_uid(self, reply_id):
+        rec = CabReply.get(CabReply.uid == reply_id)
+        return rec
     def get_num_by_cat(self, cat_str):
         return CabReply.select().where(CabReply.id_cats.contains(',{0},'.format(cat_str))).count()
 

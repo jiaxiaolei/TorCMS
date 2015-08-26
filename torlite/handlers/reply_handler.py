@@ -42,8 +42,14 @@ class ReplyHandler(BaseHandler):
 
         if url_arr[0] == 'delete_reply':
             self.delete_by_id(url_arr[1])
+        elif url_arr[0] == 'get':
+            self.get_by_id(url_arr[1])
         elif url_arr[0] == 'zan':
             self.zan(url_arr[1])
+    def get_by_id(self, reply_id):
+        reply = self.mreply.get_reply_by_uid(reply_id)
+        # print(reply)
+        self.render( 'tplite/reply/show_reply.html',  cnt = reply.cnt_md)
 
 
     # @tornado.web.authenticated

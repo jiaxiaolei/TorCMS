@@ -8,6 +8,7 @@ Bu Kun's Homepage: http://bukun.net
 
 import tornado.web
 import tornado.escape
+import json
 from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpost import MPost
@@ -17,7 +18,6 @@ from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
 from torlite.model.mreply import MReply
-
 
 
 class PostHandler(BaseHandler):
@@ -31,7 +31,6 @@ class PostHandler(BaseHandler):
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
         self.mreply = MReply()
-
 
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
@@ -81,8 +80,6 @@ class PostHandler(BaseHandler):
             self.redirect('html/404.html')
 
 
-
-
     def to_find(self, ):
         kwd = {
             'pager': '',
@@ -126,8 +123,7 @@ class PostHandler(BaseHandler):
         self.render('tplite/post/find_list.html'.format(input),
                     kwd=kwd,
                     view=self.mpost.get_by_keyword(keyword),
-                    )
-
+        )
 
 
     def get_random(self):
@@ -202,7 +198,7 @@ class PostHandler(BaseHandler):
             if cur_info.catalog.uid not in new_tag_arr:
                 self.mpost2catalog.delete_by_id(cur_info.uid)
 
-        # self.redirect('/post/{0}.html'.format(uid))
+                # self.redirect('/post/{0}.html'.format(uid))
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
@@ -228,11 +224,11 @@ class PostHandler(BaseHandler):
                     tag_infos=self.mcat.query_all(),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
                     dbrec=a,
-                    )
+        )
 
     # @tornado.web.authenticated
     # def to_modify_catalog(self, id_rec):
-    #     # 用户具有管理权限，
+    # # 用户具有管理权限，
     #     # 或
     #     # 文章是用户自己发布的。
     #     print(self.userinfo.privilege)
@@ -295,9 +291,9 @@ class PostHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
-                    replys = replys,
+                    replys=replys,
 
-                    )
+        )
 
     @tornado.web.authenticated
     def add_post(self, id_post):
@@ -326,27 +322,37 @@ class PostHandler(BaseHandler):
 
         post_data = {}
 
-
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
 
+        print(post_data)
         post_data['user_id'] = self.userinfo.uid
         post_data['user_name'] = self.userinfo.user_name
 
-        self.mreply.insert_data(id_post, post_data)
+        pl = self.mreply.insert_data(id_post, post_data)
+        if pl:
 
-
-        self.redirect('/post/{0}.html'.format(id_post))
-
-
-    def get_zan(self,f_zan):
-        zan=self.mreply.get_by_zan(f_zan)
-        if zan:
-            output={
-                'zan':zan.zan,
+            output = {
+                'pinglun': pl,
             }
         else:
-            output={
+            output = {
+                'pinglun': 0,
+            }
+
+        return json.dump(output, self)
+
+        #self.redirect('/post/{0}.html'.format(id_post))
+
+
+    def get_zan(self, f_zan):
+        zan = self.mreply.get_by_zan(f_zan)
+        if zan:
+            output = {
+                'zan': zan.zan,
+            }
+        else:
+            output = {
                 ''
             }
 
