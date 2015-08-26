@@ -35,6 +35,9 @@ class UserHandler(BaseHandler):
             self.show_info()
         elif url_str == 'logout':
             self.logout()
+        elif url_str == 'changepass':
+            self.changepass()
+
     def post(self, url_str):
         url_arr = url_str.split('/')
         if url_str == 'regist':
@@ -43,6 +46,8 @@ class UserHandler(BaseHandler):
             self.login()
         elif url_str == 'changepass':
             self.changepassword()
+
+
 
 
 
@@ -60,19 +65,20 @@ class UserHandler(BaseHandler):
         else:
             return False
 
-
-
     @tornado.web.authenticated
     def logout(self):
         self.clear_all_cookies()
         self.redirect('/')
 
     @tornado.web.authenticated
+    def changepass(self):
+        self.render('tplite/user/changepass.html',
+                    user_info = self.muser.get_by_id(self.user_name))
+
+    @tornado.web.authenticated
     def show_info(self):
         self.render('tplite/user/info.html',
                     user_info = self.muser.get_by_id(self.user_name))
-
-
 
 
     def to_login(self):

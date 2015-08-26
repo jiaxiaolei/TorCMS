@@ -9,6 +9,7 @@ import hashlib
 import peewee
 from torlite.core.base_model import BaseModel
 from torlite.model.core_tab import CabMember
+
 from torlite.core import tools
 
 
@@ -57,3 +58,6 @@ class MUser(BaseModel):
                                  user_email=post_data['user_email'][0],
                                  privilege='10000')
         return True
+
+
+

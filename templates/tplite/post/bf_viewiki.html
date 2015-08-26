@@ -37,7 +37,10 @@
 
 
         var AjaxUrl = "/reply/delete_reply/" + reply_id;
-
+        //$.get(AjaxUrl, function (data) {
+        //   $(".result").html(data);
+        //alert("");
+        //});
 
         $.getJSON(AjaxUrl, function (Json) {
 
@@ -45,27 +48,6 @@
 
 
         });
-
-    }
-
-
-    function pl(view_id) {
-        $.ajax({
-            type: "POST",
-            url: "/post/comment_add/" + view_id,
-            data: "cnt_md=" + $("#cnt_md").val()
-
-
-        })
-        $('#tj').click(function () {
-            if ($("pl_form").valid()) {
-
-            }
-            else {
-
-            }
-        })
-
 
     }
 </script>
@@ -118,8 +100,7 @@
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
 
-    <form method="post" class="pure-form pure-form-aligned" id="pl_form">
-        <!-- <form method="post" action="/post/comment_add/{{ view.uid }}" class="pure-form pure-form-aligned">-->
+    <form method="post" action="/post/comment_add/{{ view.uid }}" class="pure-form pure-form-aligned">
 
 
         <div class="pure-control-group">
@@ -131,7 +112,7 @@
         </div>
         <div class="pure-control-group">
 
-            <a id="tj" onclick="pl('{{ view.uid }}');" class="pure-button pure-button-primary">提交</a>
+            <button type="submit" class="pure-button pure-button-primary">提交</button>
         </div>
 
     </form>
@@ -165,8 +146,9 @@
 
                 <a class="pure-button button-secondary" style="padding:3px 8px;"
                    onclick="del('{{ reply.uid }}', {{ ii }} );">
-                    删除
-                </a>
+
+                    <!--<a href="/reply/delete_reply/{{ reply.uid }}">删除</a>-->
+                    删除</a>
                 {% end %}
 
             </li>

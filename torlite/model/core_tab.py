@@ -125,6 +125,23 @@ class CabPost2Catalog(BaseModel):
     post = peewee.ForeignKeyField(CabPost, related_name='post_id')
     order = peewee.IntegerField()
 
+class CabReply(BaseModel):
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    post_id = peewee.ForeignKeyField(CabPost, related_name='reply_post_id')
+    user_id = peewee.ForeignKeyField(CabMember, related_name='reply_member_id')
+    user_name = peewee.TextField()
+    timestamp = peewee.IntegerField()
+    date = peewee.DateTimeField()
+    cnt_md = peewee.TextField()
+    cnt_html = peewee.TextField()
+    vote = peewee.IntegerField()
+
+class CabUser2Reply(BaseModel):
+    uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    reply_id = peewee.ForeignKeyField(CabReply, related_name='reply_user_id')
+    user_id = peewee.ForeignKeyField(CabMember, related_name='user_reply_id')
+    timestamp = peewee.IntegerField()
+
 # class CabPost2Spec(BaseModel):
 #     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
 #     spec_id = peewee.ForeignKeyField(CabSpec, related_name='spec_post_id')

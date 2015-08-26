@@ -16,6 +16,9 @@ from torlite.model.mspec import SpesubModel
 from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
+from torlite.model.mreply import MReply
+
+
 
 class PostHandler(BaseHandler):
     def initialize(self):
@@ -27,15 +30,21 @@ class PostHandler(BaseHandler):
         self.specs = self.mspec.get_all()
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
+        self.mreply = MReply()
+
+
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
         else:
             self.userinfo = None
 
     def get(self, url_str=''):
+
+
         if url_str == '':
             return
-        url_arr = url_str.split(r'/')
+        url_arr = url_str.split('/')
+        print(url_arr)
         if len(url_arr) == 1 and url_str.endswith('.html'):
             self.wiki(url_str.split('.')[0])
         elif url_str == 'find':
@@ -48,6 +57,7 @@ class PostHandler(BaseHandler):
             self.refresh()
         elif (url_arr[0] == 'modify'):
             self.to_modify(url_arr[1])
+
         else:
             kwd = {
                 'info': '页面未找到',
@@ -57,15 +67,21 @@ class PostHandler(BaseHandler):
     def post(self, url_str=''):
         if url_str == '':
             return
-        url_arr = url_str.split(r'/')
+        url_arr = url_str.split('/')
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'find':
             self.post_find()
         elif url_arr[0] == 'add':
             self.add_post(url_arr[1])
+        elif url_arr[0] == 'comment_add':
+            self.add_comment(url_arr[1])
+
         else:
             self.redirect('html/404.html')
+
+
+
 
     def to_find(self, ):
         kwd = {
@@ -111,6 +127,8 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     view=self.mpost.get_by_keyword(keyword),
                     )
+
+
 
     def get_random(self):
         return self.mpost.query_random()
@@ -256,6 +274,12 @@ class PostHandler(BaseHandler):
 
     def viewit(self, post_id):
         cats = self.mpost2catalog.query_catalog(post_id)
+
+        replys = self.mreply.get_by_id(post_id)
+
+        for reply in replys:
+            print(reply.vote)
+
         if cats.count() == 0:
             cat_id = ''
         else:
@@ -270,7 +294,10 @@ class PostHandler(BaseHandler):
                     view=post_id,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
-                    userinfo=self.userinfo, )
+                    userinfo=self.userinfo,
+                    replys = replys,
+
+                    )
 
     @tornado.web.authenticated
     def add_post(self, id_post):
@@ -288,3 +315,41 @@ class PostHandler(BaseHandler):
             uid = self.mpost.insert_data(id_post, post_data)
             self.update_catalog(uid)
         self.redirect('/post/{0}.html'.format(id_post))
+
+
+    @tornado.web.authenticated
+    def add_comment(self, id_post):
+        if self.userinfo.privilege[0] == '1':
+            pass
+        else:
+            return False
+
+        post_data = {}
+
+
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+
+        post_data['user_id'] = self.userinfo.uid
+        post_data['user_name'] = self.userinfo.user_name
+
+        self.mreply.insert_data(id_post, post_data)
+
+
+        self.redirect('/post/{0}.html'.format(id_post))
+
+
+    def get_zan(self,f_zan):
+        zan=self.mreply.get_by_zan(f_zan)
+        if zan:
+            output={
+                'zan':zan.zan,
+            }
+        else:
+            output={
+                ''
+            }
+
+
+
+

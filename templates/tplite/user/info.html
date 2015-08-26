@@ -20,7 +20,23 @@
 </div>
 <div class="panel-body">
 
+    <div id="wiki_cnt">
+
+
+        <ul>
+            <li>用户名：{{ user_info.user_name }}</li>
+            <li>电子邮箱：{{ user_info.user_email }}</li>
+            <li>权限：{{ user_info.privilege}}</li>
+
+        </ul>
+
+
+    </div>
+    <br>
+
+    <a href="/user/changepass" class="pure-button pure-button-primary">修改密码</a>
     <a href="/user/logout" class="pure-button pure-button-primary">注销</a>
+
 
 </div>
 
