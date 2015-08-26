@@ -24,7 +24,7 @@ Run the web application,
 
     python server.py
 
-Open web brower and navigate to http://127.0.0.1:8008 .
+Open web brower and navigate to http://127.0.0.1:8088 .
 
 Enjoy it!
 
