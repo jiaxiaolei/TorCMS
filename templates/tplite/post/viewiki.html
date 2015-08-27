@@ -50,28 +50,39 @@
 
 
     function pl(view_id) {
+
+        var current = $("#pinglun").html();
+
+
         $.ajax({
             type: "POST",
             url: "/post/comment_add/" + view_id,
             data: "cnt_md=" + $("#cnt_md").val(),
 
             // dataType: "json",
-            success:  function (msg)
-            {
+            success: function (msg) {
                 // alert(msg);
                 var msg_json = $.parseJSON(msg);
-                // alert(msg_json.pinglun);
+                // var rep = $.get('/reply/get/' + msg_json.pinglun);
 
 
-                $("#pinglun").load('/reply/get/' + msg_json.pinglun);
+                $.get('/reply/get/' + msg_json.pinglun, function (data, status) {
+                    $("#pinglun").html(data + current);
+                });
+
+
+                //  rep = $("#pinglun" ).load('/reply/get/' + msg_json.pinglun);
 
             }
 
 
         })
+        $('#cnt_md').val('');
 
 
     }
+
+
 </script>
 
 {% end %}
@@ -121,8 +132,9 @@
 
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
+    {% set ii = 0 %}
 
-    <form method="post" class="pure-form pure-form-aligned" id="pl_form">
+    <form method="post" class="pure-form pure-form-aligned">
         <!-- <form method="post" action="/post/comment_add/{{ view.uid }}" class="pure-form pure-form-aligned">-->
 
 
@@ -135,7 +147,7 @@
         </div>
         <div class="pure-control-group">
 
-            <a id="tj" onclick="pl('{{ view.uid }}');" class="pure-button pure-button-primary">提交</a>
+            <a onclick="pl('{{ view.uid }}');" class="pure-button pure-button-primary">提交</a>
         </div>
 
     </form>
@@ -144,47 +156,46 @@
     往期评论
 
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
-
-    <div >
-
-        <div id="pinglun"></div>
-
-        {% set ii = 0 %}
-        {% for reply in replys %}
-
-        <div id="del_zan_{{ ii }}">
-
-            <ul id="wiki_cnt">
-                <li>{{ reply.user_name }}</li>
-
-                <li style="font-size: 16px; font-weight: bold">{% raw unescape(reply.cnt_html) %}</li>
-                <li>编辑于{{ str(reply.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
-                    <span id="text_zan_{{ ii }}">{{ reply.vote }}</span>
-                    个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                    <a class="pure-button button-secondary" style="padding:3px 8px; margin-right: 5px"
-                       onclick="zan('{{ reply.uid }}', {{ ii }} );">
-                        赞
-                    </a>
+    {% for reply in replys %}
 
 
-                    {% if userinfo is not None and userinfo.privilege[4] == '1' %}
+    <div id="pinglun"></div>
 
 
-                    <a class="pure-button button-secondary" style="padding:3px 8px;"
-                       onclick="del('{{ reply.uid }}', {{ ii }} );">
-                        删除
-                    </a>
-                    {% end %}
+    <div id="del_zan_{{ ii }}" style="font-size: 14px;">
 
-                </li>
-            </ul>
-            <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
-        </div>
-        {% set ii = ii + 1 %}
-        {% end %}
+        <p>{{ reply.user_name }}</p>
+
+        <p style="font-size: 16px; font-weight: bold">{% raw unescape(reply.cnt_html) %}</p>
+
+        <p>编辑于{{ str(reply.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
+            <span id="text_zan_{{ ii }}">{{ reply.vote }}</span>
+            个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <a class="pure-button button-secondary" style="padding:3px 8px; margin-right: 5px"
+               onclick="zan('{{ reply.uid }}', {{ ii }} );">
+                赞
+            </a>
+
+
+            {% if userinfo is not None and userinfo.privilege[4] == '1' %}
+
+
+            <a class="pure-button button-secondary" style="padding:3px 8px;"
+               onclick="del('{{ reply.uid }}', {{ ii }} );">
+                删除
+            </a>
+            {% end %}
+
+        </p>
+
+        <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
+
     </div>
+    {% set ii = ii + 1 %}
+    {% end %}
+
 
 </div>
 {% end %}

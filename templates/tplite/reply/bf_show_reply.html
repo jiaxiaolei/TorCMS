@@ -1,5 +1,5 @@
-
 {% set ii = 0 %}
+{% for reply in replys %}
 
 <div id="del_zan_{{ ii }}" style="font-size: 14px;">
 
@@ -13,14 +13,15 @@
         个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <a class="pure-button button-secondary" style="padding:3px 8px; margin-right: 5px"
-           onclick="zan('{{ uid }}', {{ ii }});">
+           onclick="zan('{{ uid }}',{{ ii }});">
             赞
         </a>
 
 
         {% if userinfo is not None and userinfo.privilege[4] == '1' %}
+
         <a class="pure-button button-secondary" style="padding:3px 8px;"
-           onclick="del('{{ uid }}', {{ ii }});">
+           onclick="del('{{ uid }}',{{ ii }});">
             删除
         </a>
         {% end %}
@@ -29,5 +30,7 @@
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
 </div>
-
 {% set ii = ii + 1 %}
+{% end %}
+
+
