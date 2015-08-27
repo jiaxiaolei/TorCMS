@@ -23,6 +23,7 @@
 
         $.getJSON(AjaxUrl, function (Json) {
             if (Json.text_zan == 0) {
+               // window.location.href = '/user/login';
             }
             else {
                 $("#text_zan_" + id_num).html(Json.text_zan);
@@ -156,33 +157,37 @@
     往期评论
 
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
-    {% for reply in replys %}
-
 
     <div id="pinglun"></div>
 
+
+    {% for reply in replys %}
 
     <div id="del_zan_{{ ii }}" style="font-size: 14px;">
 
 
         <p>{{ reply.user_name }}</p>
 
-        <p style="font-size: 16px; font-weight: bold">{% raw unescape(reply.cnt_html) %}</p>
+        <p>{% raw unescape(reply.cnt_html) %}</p>
 
         <p>编辑于{{ str(reply.date).split('.')[0] }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共
             <span id="text_zan_{{ ii }}">{{ reply.vote }}</span>
             个人赞同 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-            <a class="pure-button button-secondary" style="padding:3px 8px; margin-right: 5px"
+
+            {% if (userinfo is None) or ( (userinfo is not None ) and ( userinfo.uid != reply.user_id.uid )) %}
+            <a class="pure-button pure-button-primary"
+               style="padding:3px 8px; margin-right: 5px"
                onclick="zan('{{ reply.uid }}', {{ ii }} );">
                 赞
             </a>
+            {% end %}
 
 
-            {% if userinfo is not None and userinfo.privilege[4] == '1' %}
+            {% if userinfo is not None and ( userinfo.uid == reply.user_id.uid or userinfo.privilege[4] == '1') %}
 
 
-            <a class="pure-button button-secondary" style="padding:3px 8px;"
+            <a class="pure-button pure-button-primary" style="padding:3px 8px;"
                onclick="del('{{ reply.uid }}', {{ ii }} );">
                 删除
             </a>

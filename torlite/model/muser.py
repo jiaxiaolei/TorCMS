@@ -48,6 +48,13 @@ class MUser(BaseModel):
         entry.execute()
         return entry
 
+    def update_info(self, u_name, newemail):
+        entry = CabMember.update(
+            user_email=newemail,
+        ).where(CabMember.user_name == u_name)
+        entry.execute()
+        return entry
+
     def insert_data(self, post_data):
         print(post_data)
         print(type(post_data['user_name'][0]))

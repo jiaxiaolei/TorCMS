@@ -37,6 +37,8 @@ class UserHandler(BaseHandler):
             self.logout()
         elif url_str == 'changepass':
             self.changepass()
+        elif url_str == 'changeinfo':
+            self.change_info()
 
     def post(self, url_str):
         url_arr = url_str.split('/')
@@ -46,6 +48,8 @@ class UserHandler(BaseHandler):
             self.login()
         elif url_str == 'changepass':
             self.changepassword()
+        elif url_str == 'changeinfo':
+            self.changeinfo()
 
 
 
@@ -66,6 +70,20 @@ class UserHandler(BaseHandler):
             return False
 
     @tornado.web.authenticated
+    def changeinfo(self):
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+
+        uu = self.muser.check_user(self.user_name, post_data['rawpass'][0])
+        print(uu)
+        if uu == 1:
+            self.muser.update_info(self.user_name, post_data['user_email'][0])
+            self.redirect(('/user/info'))
+        else:
+            return False
+
+    @tornado.web.authenticated
     def logout(self):
         self.clear_all_cookies()
         self.redirect('/')
@@ -73,6 +91,11 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def changepass(self):
         self.render('tplite/user/changepass.html',
+                    user_info = self.muser.get_by_id(self.user_name))
+
+    @tornado.web.authenticated
+    def change_info(self):
+        self.render('tplite/user/changeinfo.html',
                     user_info = self.muser.get_by_id(self.user_name))
 
     @tornado.web.authenticated

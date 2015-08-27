@@ -326,11 +326,12 @@ class PostHandler(BaseHandler):
         post_data['user_id'] = self.userinfo.uid
         post_data['user_name'] = self.userinfo.user_name
 
-        pl = self.mreply.insert_data(id_post, post_data)
-        if pl:
+        comment = self.mreply.insert_data(id_post, post_data)
+
+        if comment:
 
             output = {
-                'pinglun': pl,
+                'pinglun': comment,
 
             }
         else:
