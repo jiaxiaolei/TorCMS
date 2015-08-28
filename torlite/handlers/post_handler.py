@@ -43,7 +43,7 @@ class PostHandler(BaseHandler):
         if url_str == '':
             return
         url_arr = url_str.split('/')
-        print(url_arr)
+
         if len(url_arr) == 1 and url_str.endswith('.html'):
             self.wiki(url_str.split('.')[0])
         elif url_str == 'find':
@@ -273,9 +273,6 @@ class PostHandler(BaseHandler):
 
         replys = self.mreply.get_by_id(post_id)
 
-        for reply in replys:
-            print(reply.vote)
-
         if cats.count() == 0:
             cat_id = ''
         else:
@@ -325,15 +322,17 @@ class PostHandler(BaseHandler):
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
 
-        print(post_data)
+
         post_data['user_id'] = self.userinfo.uid
         post_data['user_name'] = self.userinfo.user_name
 
-        pl = self.mreply.insert_data(id_post, post_data)
-        if pl:
+        comment = self.mreply.insert_data(id_post, post_data)
+
+        if comment:
 
             output = {
-                'pinglun': pl,
+                'pinglun': comment,
+
             }
         else:
             output = {

@@ -48,8 +48,17 @@ class ReplyHandler(BaseHandler):
             self.zan(url_arr[1])
     def get_by_id(self, reply_id):
         reply = self.mreply.get_reply_by_uid(reply_id)
-        # print(reply)
-        self.render( 'tplite/reply/show_reply.html',  cnt = reply.cnt_md)
+
+        self.render( 'tplite/reply/show_reply.html',
+                     cnt = reply.cnt_md,
+                     username=reply.user_name,
+                     date=reply.date,
+                     vote=reply.vote,
+                     uid=reply.uid,
+                     userinfo=self.userinfo,
+
+
+                     )
 
 
     # @tornado.web.authenticated
