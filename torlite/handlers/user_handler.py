@@ -39,8 +39,8 @@ class UserHandler(BaseHandler):
             self.changepass()
         elif url_str == 'changeinfo':
             self.change_info()
-        elif url_str == 'changeprivilege':
-            self.change_privilege()
+        elif url_arr[0] == 'changeprivilege':
+            self.change_privilege(url_arr[1])
         elif url_str == 'find':
             self.to_find()
         elif url_arr[0] == 'find':
@@ -58,12 +58,8 @@ class UserHandler(BaseHandler):
             self.changeinfo()
         elif url_str == 'find':
             self.post_find()
-        elif url_str == 'changeprivilege':
-            self.changeprivilege()
-
-
-
-
+        elif url_arr[0] == 'changeprivilege':
+            self.changeprivilege(url_arr[1])
 
     @tornado.web.authenticated
     def changepassword(self):
@@ -88,19 +84,18 @@ class UserHandler(BaseHandler):
         uu = self.muser.check_user(self.user_name, post_data['rawpass'][0])
         print(uu)
         if uu == 1:
-            self.muser.update_info(self.user_name, post_data['user_email'][0], post_data['privilege'][0])
+            self.muser.update_info(self.user_name, post_data['user_email'][0])
             self.redirect(('/user/info'))
         else:
             return False
 
     @tornado.web.authenticated
-    def changeprivilege(self):
+    def changeprivilege(self, xg_username):
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
 
-
-            self.muser.update_privilege(self.user_name, post_data['privilege'][0])
+            self.muser.update_privilege(xg_username, post_data['privilege'][0])
             self.redirect(('/user/info'))
 
     @tornado.web.authenticated
@@ -111,23 +106,23 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def changepass(self):
         self.render('tplite/user/changepass.html',
-                    user_info = self.muser.get_by_id(self.user_name))
+                    user_info=self.muser.get_by_id(self.user_name))
 
     @tornado.web.authenticated
     def change_info(self):
         self.render('tplite/user/changeinfo.html',
-                    user_info = self.muser.get_by_id(self.user_name))
-
+                    user_info=self.muser.get_by_id(self.user_name))
 
     @tornado.web.authenticated
-    def change_privilege(self):
+    def change_privilege(self, xg_username):
         self.render('tplite/user/changeprivilege.html',
-                    user_info = self.muser.get_by_id(self.user_name))
+
+                    user_info=self.muser.get_by_id(xg_username))
+
     @tornado.web.authenticated
     def show_info(self):
         self.render('tplite/user/info.html',
-                    user_info = self.muser.get_by_id(self.user_name))
-
+                    user_info=self.muser.get_by_id(self.user_name))
 
     def to_login(self):
         if self.get_current_user():
@@ -157,7 +152,6 @@ class UserHandler(BaseHandler):
         }
         self.render('tplite/user/regist.html', kwd=kwd)
 
-
     def login(self):
 
         post_data = {}
@@ -182,7 +176,7 @@ class UserHandler(BaseHandler):
             kwd = {
                 'info': '没有这个用户'
             }
-            self.render('html/404.html', kwd = kwd)
+            self.render('html/404.html', kwd=kwd)
         else:
             self.redirect("{0}".format(next_url))
 
@@ -191,8 +185,6 @@ class UserHandler(BaseHandler):
             'pager': '',
         }
         self.render('tplite/user/find.html', topmenu='', kwd=kwd)
-
-
 
     def find(self, keyword):
         kwd = {
@@ -203,7 +195,7 @@ class UserHandler(BaseHandler):
         self.render('tplite/user/find_list.html'.format(input),
                     kwd=kwd,
                     view=self.muser.get_by_keyword(keyword),
-        )
+                    )
 
     def post_find(self):
         keyword = self.get_argument('keyword')

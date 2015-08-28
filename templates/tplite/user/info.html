@@ -36,7 +36,11 @@
 
     <a href="/user/changepass" class="pure-button pure-button-primary">修改密码</a>
     <a href="/user/changeinfo" class="pure-button pure-button-primary">修改个人信息</a>
+
+   {% if user_info is not None and user_info.privilege[4] == '1' %}
     <a href="/user/find" class="pure-button pure-button-primary">查看所有用户</a>
+    {% end %}
+
     <a href="/user/logout" class="pure-button pure-button-primary">注销</a>
 
 

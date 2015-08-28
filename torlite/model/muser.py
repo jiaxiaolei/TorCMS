@@ -48,20 +48,17 @@ class MUser(BaseModel):
         entry.execute()
         return entry
 
-    def update_info(self, u_name, newemail,newprivilege):
-        if newprivilege == '':
-            np=CabMember.privilege.select().where(CabMember.user_name == u_name)
-            newprivilege=np
+    def update_info(self, u_name, newemail):
 
         entry = CabMember.update(
             user_email=newemail,
-            privilege=newprivilege
+
         ).where(CabMember.user_name == u_name)
         entry.execute()
         return entry
 
     def update_privilege(self, u_name, newprivilege):
-
+        print(u_name)
 
         entry = CabMember.update(
 

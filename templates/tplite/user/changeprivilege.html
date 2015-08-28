@@ -8,33 +8,6 @@
       content="由科学家与工程师维护的，专注在线计算、云计算应用的网站，提供科学计算与工程计算应用,包括环境影响评价计算,地理学计算,数学计算,物理计算,化学计算">
 <meta name="keywords"
       content="计算,在线计算器,云计算,在线计算,常用数据,常规数据,科学计算,工程计算,环评计算,地理计算,数学计算,物理计算,化学计算,数学公式,物理公式,建筑计算">
-
-<script type="text/javascript">
-    $().ready(function () {
-        $("#form_changeinfo").validate(
-                {
-                    rules: {
-
-
-                        user_email: {
-                            required: true,
-                            email: true
-                        }
-
-                    },
-                    messages: {
-
-
-                        user_email: {
-                            required: "<span class='red'>请输入电子邮箱</span>",
-                            email: "<span class='red'>请输入正确的电子邮箱</span>"
-                        }
-
-                    }
-                }
-        );
-    });
-</script>
 {% end %}
 
 
@@ -44,7 +17,8 @@
     <h1>修改用户权限</h1>
 </div>
 <div class="panel-body">
-    <form class="pure-form pure-form-aligned" action="/user/changeprivilege" method="post" id="form_changeinfo">
+    <form class="pure-form pure-form-aligned" action="/user/changeprivilege/{{ user_info.user_name}}" method="post"
+          id="form_changeinfo">
 
 
         <div class="pure-control-group">

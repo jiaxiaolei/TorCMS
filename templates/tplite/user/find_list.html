@@ -36,8 +36,11 @@
 
     {% for x in view %}
 
-    <p>用户名：{{x.user_name}}&nbsp;&nbsp;&nbsp;&nbsp;当前权限：{{ x.privilege }} <a class="pure-button pure-button-primary" href="/user/changeprivilege"
-                              style="margin-left: 100px">修改权限</a></p>
+    <p>用户名：{{x.user_name}}&nbsp;&nbsp;&nbsp;&nbsp;当前权限：{{ x.privilege }}
+
+
+        <a class="pure-button pure-button-primary" href="/user/changeprivilege/{{x.user_name}}"
+           style="margin-left: 100px">修改权限</a></p>
 
     <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
     {% end %}

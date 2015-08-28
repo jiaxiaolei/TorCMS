@@ -57,13 +57,7 @@
         </div>
 
 
-        {% if user_info is not None and user_info.privilege[4] == '1' %}
-        <div class="pure-control-group">
-            <label for="privilege">用户权限</label>
-            <input type="text" name="privilege" id="privilege" class="form-control" placeholder="请输入管理权限，例10000"/>
-        </div>
 
-        {% end %}
         <div class="pure-control-group">
             <label></label>
             <button type="submit" class="pure-button pure-button-primary">修改</button>
