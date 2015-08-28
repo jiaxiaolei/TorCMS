@@ -48,9 +48,24 @@ class MUser(BaseModel):
         entry.execute()
         return entry
 
-    def update_info(self, u_name, newemail):
+    def update_info(self, u_name, newemail,newprivilege):
+        if newprivilege == '':
+            np=CabMember.privilege.select().where(CabMember.user_name == u_name)
+            newprivilege=np
+
         entry = CabMember.update(
             user_email=newemail,
+            privilege=newprivilege
+        ).where(CabMember.user_name == u_name)
+        entry.execute()
+        return entry
+
+    def update_privilege(self, u_name, newprivilege):
+
+
+        entry = CabMember.update(
+
+            privilege=newprivilege
         ).where(CabMember.user_name == u_name)
         entry.execute()
         return entry
@@ -66,5 +81,7 @@ class MUser(BaseModel):
                                  privilege='10000')
         return True
 
+    def get_by_keyword(self, par2):
+        return CabMember.select().where(CabMember.user_name.contains(par2))
 
 

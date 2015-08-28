@@ -39,6 +39,12 @@ class UserHandler(BaseHandler):
             self.changepass()
         elif url_str == 'changeinfo':
             self.change_info()
+        elif url_str == 'changeprivilege':
+            self.change_privilege()
+        elif url_str == 'find':
+            self.to_find()
+        elif url_arr[0] == 'find':
+            self.find(url_arr[1])
 
     def post(self, url_str):
         url_arr = url_str.split('/')
@@ -50,6 +56,10 @@ class UserHandler(BaseHandler):
             self.changepassword()
         elif url_str == 'changeinfo':
             self.changeinfo()
+        elif url_str == 'find':
+            self.post_find()
+        elif url_str == 'changeprivilege':
+            self.changeprivilege()
 
 
 
@@ -78,10 +88,20 @@ class UserHandler(BaseHandler):
         uu = self.muser.check_user(self.user_name, post_data['rawpass'][0])
         print(uu)
         if uu == 1:
-            self.muser.update_info(self.user_name, post_data['user_email'][0])
+            self.muser.update_info(self.user_name, post_data['user_email'][0], post_data['privilege'][0])
             self.redirect(('/user/info'))
         else:
             return False
+
+    @tornado.web.authenticated
+    def changeprivilege(self):
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+
+
+            self.muser.update_privilege(self.user_name, post_data['privilege'][0])
+            self.redirect(('/user/info'))
 
     @tornado.web.authenticated
     def logout(self):
@@ -98,6 +118,11 @@ class UserHandler(BaseHandler):
         self.render('tplite/user/changeinfo.html',
                     user_info = self.muser.get_by_id(self.user_name))
 
+
+    @tornado.web.authenticated
+    def change_privilege(self):
+        self.render('tplite/user/changeprivilege.html',
+                    user_info = self.muser.get_by_id(self.user_name))
     @tornado.web.authenticated
     def show_info(self):
         self.render('tplite/user/info.html',
@@ -160,3 +185,26 @@ class UserHandler(BaseHandler):
             self.render('html/404.html', kwd = kwd)
         else:
             self.redirect("{0}".format(next_url))
+
+    def to_find(self, ):
+        kwd = {
+            'pager': '',
+        }
+        self.render('tplite/user/find.html', topmenu='', kwd=kwd)
+
+
+
+    def find(self, keyword):
+        kwd = {
+            'pager': '',
+            'unescape': tornado.escape.xhtml_unescape,
+            'title': '查找结果',
+        }
+        self.render('tplite/user/find_list.html'.format(input),
+                    kwd=kwd,
+                    view=self.muser.get_by_keyword(keyword),
+        )
+
+    def post_find(self):
+        keyword = self.get_argument('keyword')
+        self.find(keyword)

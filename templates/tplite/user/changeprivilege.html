@@ -41,29 +41,18 @@
 {% block zhuti %}
 
 <div class="panel-heading">
-    <h1>修改个人信息</h1>
+    <h1>修改用户权限</h1>
 </div>
 <div class="panel-body">
-    <form class="pure-form pure-form-aligned" action="/user/changeinfo" method="post" id="form_changeinfo">
-
-        <div class="pure-control-group">
-            <label for="rawpass">密码</label>
-            <input type="text" name="rawpass" id="rawpass" class="form-control" placeholder="请输入密码"/>
-        </div>
-
-        <div class="pure-control-group">
-            <label for="user_email">电子邮箱</label>
-            <input type="text" name="user_email" id="user_email" class="form-control" placeholder="请输入新的电子邮箱"/>
-        </div>
+    <form class="pure-form pure-form-aligned" action="/user/changeprivilege" method="post" id="form_changeinfo">
 
 
-        {% if user_info is not None and user_info.privilege[4] == '1' %}
         <div class="pure-control-group">
             <label for="privilege">用户权限</label>
             <input type="text" name="privilege" id="privilege" class="form-control" placeholder="请输入管理权限，例10000"/>
         </div>
 
-        {% end %}
+
         <div class="pure-control-group">
             <label></label>
             <button type="submit" class="pure-button pure-button-primary">修改</button>
