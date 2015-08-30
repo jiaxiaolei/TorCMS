@@ -153,15 +153,13 @@ class UserHandler(BaseHandler):
         self.render('tplite/user/regist.html', kwd=kwd)
 
     def login(self):
-
         post_data = {}
         for key in self.request.arguments:
             post_data[key] = self.get_arguments(key)
-
         if 'next' in post_data:
             next_url = post_data['next'][0]
         else:
-            next_url = ''
+            next_url = '/'
         u_name = post_data['user_name'][0]
         u_pass = post_data['user_pass'][0]
 
