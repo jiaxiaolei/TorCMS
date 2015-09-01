@@ -15,7 +15,8 @@ from torlite.model.core_tab import CabPost2Catalog
 from torlite.core import tools
 
 from torlite.model.core_tab import CabReply
-from torlite.model.core_tab import CabUser2Reply
+from torlite.model.core_tab import CabVoter2Reply
+from torlite.model.core_tab import CabPost2Reply
 
 
 class MReply():
@@ -86,9 +87,9 @@ class MReply():
         try:
             entry = CabReply.create(
                 uid=uid,
-                post_id=id_post,
+                #post_id=id_post,
                 user_name=post_data['user_name'],
-                user_id=post_data['user_id'],
+                create_user_id=post_data['user_id'],
                 timestamp=time.time(),
                 date=datetime.datetime.now(),
                 cnt_md=post_data['cnt_md'][0],
@@ -120,7 +121,7 @@ class MReply():
                 peewee.fn.Rand()).limit(num)
 
     def get_by_id(self, in_uid):
-        recs = CabReply.select().where(CabReply.post_id == in_uid).order_by(CabReply.timestamp.desc())
+        recs = CabReply.select().where(CabPost2Reply.post_id == in_uid).order_by(CabPost2Reply.timestamp.desc())
         return recs
 
     def get_reply_by_uid(self, reply_id):
@@ -204,7 +205,7 @@ class MReply():
         return CabReply.select().where(CabReply.title.contains(par2)).order_by(CabReply.time_update.desc()).limit(20)
 
     def get_by_zan(self, reply_id):
-        return CabUser2Reply.select().where(CabUser2Reply.reply_id == reply_id).count()
+        return CabVoter2Reply.select().where(CabVoter2Reply.reply_id == reply_id).count()
 
 
 

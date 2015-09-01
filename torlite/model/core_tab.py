@@ -128,7 +128,7 @@ class CabPost2Catalog(BaseModel):
 class CabReply(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
     post_id = peewee.ForeignKeyField(CabPost, related_name='reply_post_id')
-    user_id = peewee.ForeignKeyField(CabMember, related_name='reply_member_id')
+    create_user_id = peewee.ForeignKeyField(CabMember, related_name='reply_member_id')
     user_name = peewee.TextField()
     timestamp = peewee.IntegerField()
     date = peewee.DateTimeField()
@@ -136,10 +136,16 @@ class CabReply(BaseModel):
     cnt_html = peewee.TextField()
     vote = peewee.IntegerField()
 
-class CabUser2Reply(BaseModel):
+class CabPost2Reply(BaseModel):
+    uid =peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
+    post_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    reply_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    timestamp = peewee.IntegerField()
+
+class CabVoter2Reply(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
-    reply_id = peewee.ForeignKeyField(CabReply, related_name='reply_user_id')
-    user_id = peewee.ForeignKeyField(CabMember, related_name='user_reply_id')
+    reply_id = peewee.ForeignKeyField(CabReply, related_name='reply_voter_id')
+    voter_id = peewee.ForeignKeyField(CabMember, related_name='voter_reply_id')
     timestamp = peewee.IntegerField()
 
 # class CabPost2Spec(BaseModel):

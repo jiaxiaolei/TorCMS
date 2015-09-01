@@ -4,7 +4,7 @@
 
 
 <title>云算笔记 云计算 在线计算 科学计算 工程计算</title>
-<meta name="baidu-site-verification" content="a69zyHriZP" />
+<meta name="baidu-site-verification" content="a69zyHriZP"/>
 <meta name="description"
       content="由科学家与工程师维护的，专注在线计算、云计算应用的网站，提供科学计算与工程计算应用,包括环境影响评价计算,地理学计算,数学计算,物理计算,化学计算">
 <meta name="keywords"
@@ -13,12 +13,7 @@
 {% end %}
 
 
-
 {% block zhuti %}
-
-
-
-
 
 
 <div class="content find_equation">
@@ -27,13 +22,14 @@
 
     <ul>
         {% for x in srecs %}
-        <li style="margin:10px;"><b>{% raw x['type'] %}</b><a href="{% raw x['link'] %}" title="{{x['title']}}">{{x['title']}}</a><br />
+        <li style="margin:10px;"><b>{% raw x['type'] %}</b><a href="{% raw x['link'] %}" title="{{x['title']}}">{{x['title']}}</a><br/>
             <span style="color: #888;">{% raw (x.highlights('content')) %}</span>
         </li>
         {% end %}
     </ul>
 </div>
+<Br>
 
-
+<Br>
 
 {% end %}

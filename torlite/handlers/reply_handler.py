@@ -19,7 +19,7 @@ from torlite.model.muser import MUser
 from torlite.model.mreply import MReply
 from torlite.model.mreply2user import MReply2User
 from torlite.model.core_tab import CabReply
-from torlite.model.core_tab import CabUser2Reply
+from torlite.model.core_tab import CabVoter2Reply
 
 
 class ReplyHandler(BaseHandler):
