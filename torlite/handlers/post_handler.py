@@ -96,7 +96,9 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     view=self.mpost.query_recent(),
                     # rand_recs=self.get_random(),
-                    format_date=tools.format_date, )
+                    format_date=tools.format_date,
+                    userinfo = self.userinfo,
+                    )
 
     def refresh(self):
         kwd = {
@@ -325,6 +327,8 @@ class PostHandler(BaseHandler):
 
         post_data['user_id'] = self.userinfo.uid
         post_data['user_name'] = self.userinfo.user_name
+
+
 
         comment = self.mreply.insert_data(id_post, post_data)
 

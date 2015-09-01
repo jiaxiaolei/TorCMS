@@ -67,6 +67,7 @@ class MPost():
 
 
     def insert_data(self, id_post, post_data):
+
         uu = self.get_by_id(id_post)
         if uu is None:
             pass

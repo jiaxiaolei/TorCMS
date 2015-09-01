@@ -15,17 +15,22 @@ from torlite.model.mpost import MPost
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mspec import SpesubModel
 from torlite.model.mpost2catalog import MPost2Catalog
+from torlite.model.muser import MUser
 
 
 class CatHandler(BaseHandler):
     def initialize(self):
-
+        self.muser = MUser()
         self.mpost = MPost()
         self.mcat = MCatalog()
         self.cats = self.mcat.query_all()
         self.mspec = SpesubModel()
         self.specs = self.mspec.get_all()
         self.mpost2catalog = MPost2Catalog()
+        if self.get_current_user():
+            self.userinfo = self.muser.get_by_id(self.get_current_user())
+        else:
+            self.userinfo = None
 
     def get(self, input=''):
         if len(input) > 0:
@@ -59,6 +64,7 @@ class CatHandler(BaseHandler):
         self.render('tplite/catalog/list.html',
                     infos=self.mpost2catalog.query_pager_by_slug(cat_slug,current_page_num),
                     pager = tools.gen_pager(cat_slug, page_num, current_page_num),
+                    userinfo = self.userinfo,
                     kwd=kwd)
 
     # def view_cat_old(self, cat_slug, cur_p=''):

@@ -8,6 +8,7 @@ CopyRight: http://www.yunsuan.org
 import tornado.web
 import tornado.escape
 from torlite.core import tools
+from torlite.model.muser import MUser
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpage import MPage
 from torlite.model.mcatalog import MCatalog
@@ -16,11 +17,16 @@ from torlite.model.mspec import SpesubModel
 
 class PageHandler(BaseHandler):
     def initialize(self):
+        self.muser = MUser()
         self.mdb = MPage()
         self.mcat = MCatalog()
         self.cats = self.mcat.query_all()
         self.mspec = SpesubModel()
         self.specs = self.mspec.get_all()
+        if self.get_current_user():
+            self.userinfo = self.muser.get_by_id(self.get_current_user())
+        else:
+            self.userinfo = None
 
     def get(self, input=''):
         if input == '':
@@ -89,7 +95,9 @@ class PageHandler(BaseHandler):
                     view=dbdata,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
-                    format_date=tools.format_date)
+                    format_date=tools.format_date,
+                    userinfo = self.userinfo,
+                    )
 
     @tornado.web.authenticated
     def wikinsert(self):

@@ -43,11 +43,7 @@ class MCatalog():
             post_count = num,
         ).where(CabCatalog.uid == cat_id )
         entry.execute()
-    def update_post_catalog_num(self, cat_id, num):
-        entry = CabCatalog.update(
-            post_count = num,
-        ).where(CabCatalog.uid == cat_id )
-        entry.execute()
+
     def initial_db(self, post_data):
         '''
         '''
@@ -57,3 +53,4 @@ class MCatalog():
             slug=post_data['slug'],
             order=post_data['order'],
         )
+
