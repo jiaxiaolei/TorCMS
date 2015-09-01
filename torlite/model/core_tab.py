@@ -127,7 +127,7 @@ class CabPost2Catalog(BaseModel):
 
 class CabReply(BaseModel):
     uid = peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
-    post_id = peewee.ForeignKeyField(CabPost, related_name='reply_post_id')
+    #post_id = peewee.ForeignKeyField(CabPost, related_name='reply_post_id')
     create_user_id = peewee.ForeignKeyField(CabMember, related_name='reply_member_id')
     user_name = peewee.TextField()
     timestamp = peewee.IntegerField()
@@ -138,8 +138,8 @@ class CabReply(BaseModel):
 
 class CabPost2Reply(BaseModel):
     uid =peewee.CharField(null=False, index=True, unique=True, primary_key=True, max_length=36, help_text='', )
-    post_id = peewee.CharField(null=False, max_length=36, help_text='', )
-    reply_id = peewee.CharField(null=False, max_length=36, help_text='', )
+    post_id = peewee.ForeignKeyField( CabPost , related_name='post_reply_id')
+    reply_id = peewee.ForeignKeyField(CabReply, related_name='reply_post_id')
     timestamp = peewee.IntegerField()
 
 class CabVoter2Reply(BaseModel):

@@ -123,7 +123,7 @@ class MReply2User():
 
 
     def get_by_id(self, in_uid):
-        recs = CabVoter2Reply.select().where(CabVoter2Reply.post_id == in_uid).order_by(
+        recs = CabVoter2Reply.select().where(CabVoter2Reply.reply_id == in_uid).order_by(
             CabVoter2Reply.timestamp.desc())
         return recs
 

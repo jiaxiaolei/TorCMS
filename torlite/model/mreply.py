@@ -19,6 +19,27 @@ from torlite.model.core_tab import CabVoter2Reply
 from torlite.model.core_tab import CabPost2Reply
 
 
+class MPost2Reply():
+    def __init__(self):
+        try:
+            CabPost2Reply.create_table()
+        except:
+            pass
+    def insert_data2(self, id_post, id_reply):
+
+        uid = tools.get_uuid()
+        try:
+            entry = CabPost2Reply.create(
+                uid=uid,
+                post_id=id_post,
+                reply_id= id_reply,
+                timestamp=time.time(),
+            )
+            return (uid)
+        except:
+            return False
+
+
 class MReply():
     def __init__(self):
         try:
@@ -81,7 +102,7 @@ class MReply():
         entry.execute()
 
 
-    def insert_data(self, id_post, post_data):
+    def insert_data(self, post_data):
 
         uid = tools.get_uuid()
         try:
@@ -96,9 +117,11 @@ class MReply():
                 cnt_html=tools.markdown2html(post_data['cnt_md'][0]),
                 vote=0,
             )
+
             return (uid)
         except:
             return False
+
 
 
     def query_old(self):
@@ -121,7 +144,8 @@ class MReply():
                 peewee.fn.Rand()).limit(num)
 
     def get_by_id(self, in_uid):
-        recs = CabReply.select().where(CabPost2Reply.post_id == in_uid).order_by(CabPost2Reply.timestamp.desc())
+        recs = CabPost2Reply.select().join(CabReply).where(CabPost2Reply.post_id == in_uid).order_by(CabPost2Reply.timestamp.desc())
+
         return recs
 
     def get_reply_by_uid(self, reply_id):
