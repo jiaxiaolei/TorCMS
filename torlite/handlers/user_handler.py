@@ -45,6 +45,8 @@ class UserHandler(BaseHandler):
             self.to_find()
         elif url_arr[0] == 'find':
             self.find(url_arr[1])
+        elif url_arr[0] == 'delete_user':
+            self.delete(url_arr[1])
 
     def post(self, url_str):
         url_arr = url_str.split('/')
@@ -194,6 +196,13 @@ class UserHandler(BaseHandler):
                     kwd=kwd,
                     view=self.muser.get_by_keyword(keyword),
                     )
+
+    def delete(self, del_id):
+        is_deleted = self.muser.delete(del_id)
+
+        self.redirect('/user/find')
+
+
 
     def post_find(self):
         keyword = self.get_argument('keyword')

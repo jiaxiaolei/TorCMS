@@ -82,3 +82,12 @@ class MUser(BaseModel):
         return CabMember.select().where(CabMember.user_name.contains(par2))
 
 
+    def delete(self, del_id):
+
+        try:
+            del_count = CabMember.delete().where(CabMember.uid == del_id)
+            del_count.execute()
+
+            return True
+        except:
+            return False
