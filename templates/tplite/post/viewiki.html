@@ -7,15 +7,16 @@
 
 <script>
 
+
     // /reply/add_one/
 
-    function zan(reply_id, id_num) {
+    function reply_zan(sig, reply_id, id_num) {
 
         id_num = id_num.toString();
 
         zans = $('#text_zan').val();
 
-        var AjaxUrl = "/reply/zan/" + reply_id;
+        var AjaxUrl = "/" + sig + "/toreply/zan/" + reply_id;
         //$.get(AjaxUrl, function (data) {
         //   $(".result").html(data);
         //alert("");
@@ -23,7 +24,7 @@
 
         $.getJSON(AjaxUrl, function (Json) {
             if (Json.text_zan == 0) {
-               // window.location.href = '/user/login';
+                // window.location.href = '/user/login';
             }
             else {
                 $("#text_zan_" + id_num).html(Json.text_zan);
@@ -32,12 +33,12 @@
         });
     }
 
-    function del(reply_id, id_num) {
+    function reply_del(sig, reply_id, id_num) {
 
         id_num = id_num.toString();
 
 
-        var AjaxUrl = "/reply/delete_reply/" + reply_id;
+        var AjaxUrl = "/" + sig + "/toreply/delete_reply/" + reply_id;
 
 
         $.getJSON(AjaxUrl, function (Json) {
@@ -50,36 +51,57 @@
     }
 
 
-    function pl(view_id) {
+    function reply_it(sig, view_id) {
+        var txt = $("#cnt_md").val();
+        if (txt.length < 30) {
+            return;
+        }
 
-        var current = $("#pinglun").html();
-
-
-        $.ajax({
-            type: "POST",
-            url: "/post/comment_add/" + view_id,
-            data: "cnt_md=" + $("#cnt_md").val(),
-
-            // dataType: "json",
-            success: function (msg) {
-                // alert(msg);
-                var msg_json = $.parseJSON(msg);
-                // var rep = $.get('/reply/get/' + msg_json.pinglun);
+        $.post("/" + sig + "/toreply/add/" + view_id, {cnt_md: txt}, function (result) {
+            var msg_json = $.parseJSON(result);
+            // var rep = $.get('/reply/get/' + msg_json.pinglun);
 
 
-                $.get('/reply/get/' + msg_json.pinglun, function (data, status) {
-                    $("#pinglun").html(data + current);
-                });
+//                $.get('/reply/get/' + msg_json.pinglun, function (data, status) {
+//                    $("#pinglun").html(data );
+//                });
 
 
-                //  rep = $("#pinglun" ).load('/reply/get/' + msg_json.pinglun);
+            $("#pinglun").load('/reply/get/' + msg_json.pinglun);
+        });
 
-            }
-
-
-        })
+//        $.ajax({
+//            type: "POST",
+//            url: "/" + sig + "/toreply/add/" + view_id,
+//            data: "cnt_md=" + $("#cnt_md").val(),
+//
+//            // dataType: "json",
+//            success: function (msg) {
+//                // alert(msg);
+//                var msg_json = $.parseJSON(msg);
+//                // var rep = $.get('/reply/get/' + msg_json.pinglun);
+//
+//
+////                $.get('/reply/get/' + msg_json.pinglun, function (data, status) {
+////                    $("#pinglun").html(data );
+////                });
+//
+//
+//                 $("#pinglun" ).load('/reply/get/' + msg_json.pinglun);
+//
+//            },
+//
+//            error: function(msg)
+//            {
+//                alert("ç™»é™†");
+//            }
+//
+//
+//        });
         $('#cnt_md').val('');
-
+        $('#cnt_md').attr("disabled", true);
+        $('#btn_submit_reply').attr('disabled', true);
+        // $('#reply_form').hide();
 
     }
 
@@ -135,30 +157,21 @@
 
     {% set ii = 0 %}
 
-    <form method="post" class="pure-form pure-form-aligned">
-        <!-- <form method="post" action="/post/comment_add/{{ view.uid }}" class="pure-form pure-form-aligned">-->
-
-
+    <form id="reply_form" method="post" class="pure-form pure-form-aligned">
         <div class="pure-control-group">
-            我来评论
+            我来评论（至少50个字符|支持MarkDown语法）
         </div>
         <div class="pure-control-group">
-
             <textarea cols="80" rows="5" name="cnt_md" id="cnt_md"></textarea>
         </div>
         <div class="pure-control-group">
-
-            <a onclick="pl('{{ view.uid }}');" class="pure-button pure-button-primary">提交</a>
+            <a id="btn_submit_reply" onclick="reply_it('post', '{{view.uid}}');"
+               class="pure-button pure-button-primary">提交</a>
         </div>
-
     </form>
-
-    <Br> <Br>
-    往期评论
-
-    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
-
     <div id="pinglun"></div>
+    往期评论
+    <p style="border-bottom: 1px dashed #dddddd; margin-bottom: 20px">&nbsp;</p>
 
 
     {% for reply in replys %}
@@ -178,9 +191,11 @@
             {% if (userinfo is None) or ( (userinfo is not None ) and ( userinfo.uid != reply.reply_id.uid )) %}
             <a class="pure-button pure-button-primary"
                style="padding:3px 8px; margin-right: 5px"
-               onclick="zan('{{ reply.reply_id.uid }}', {{ ii }} );">
+               onclick="reply_zan('post','{{ reply.reply_id.uid }}', {{ ii }} );">
                 赞
             </a>
+
+
             {% end %}
 
 
@@ -188,7 +203,7 @@
 
 
             <a class="pure-button pure-button-primary" style="padding:3px 8px;"
-               onclick="del('{{ reply.reply_id.uid }}', {{ ii }} );">
+               onclick="reply_del('post','{{ reply.reply_id.uid }}', {{ ii }} );">
                 删除
             </a>
             {% end %}

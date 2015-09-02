@@ -19,11 +19,11 @@ from torlite.handlers.reply_handler import ReplyHandler
 from torlite.handlers.post2reply_handler import Post2ReplyHandler
 
 urls = [
+    ("/post/toreply/(.*)", Post2ReplyHandler, dict()),
     ("/pic/(.*)", PicHandler, dict()),
     ("/category/(.*)", CatHandler, dict()),
     ("/spec/(.*)", SpecHandler, dict()),
     ("/user/(.*)", UserHandler, dict()),
-    ("/post/toreply/(.*)", Post2ReplyHandler, dict()),
     ("/post/(.*)", PostHandler, dict()),
     ("/page/(.*)", PageHandler, dict()),
     ("/wiki/(.*)", WikiHandler, dict()),

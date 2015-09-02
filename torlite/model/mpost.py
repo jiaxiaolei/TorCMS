@@ -126,6 +126,11 @@ class MPost():
         else:
             return recs.get()
 
+    # def get_by_uid(self, in_uid):
+    #     recs = CabPost.select().where(CabPost.uid == in_uid)
+    #
+    #     return recs
+
     def get_num_by_cat(self, cat_str):
         return CabPost.select().where(CabPost.id_cats.contains(',{0},'.format(cat_str))).count()
 

@@ -71,16 +71,20 @@ class PostHandler(BaseHandler):
         if url_str == '':
             return
         url_arr = url_str.split('/')
+        if len(url_arr) == 1 and url_str.endswith('.html'):
+            sig = url_str.split('.')[0]
+            self.add_post(sig)
+            # self.wiki(url_str.split('.')[0])
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'find':
             self.post_find()
+        elif url_str == 'add_document':
+            self.user_add_post()
         elif url_arr[0] == 'add':
             self.add_post(url_arr[1])
-
-
         else:
-            self.redirect('html/404.html')
+            self.redirect('/html/404.html')
 
 
     def to_find(self, ):
@@ -153,8 +157,10 @@ class PostHandler(BaseHandler):
     def to_add_document(self, ):
         kwd = {
             'pager': '',
+            'cats': self.cats,
+            'specs': self.specs,
         }
-        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd)
+        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd,tag_infos=self.mcat.query_all() )
 
 
     @tornado.web.authenticated
@@ -324,12 +330,22 @@ class PostHandler(BaseHandler):
             self.update_catalog(uid)
         self.redirect('/post/{0}.html'.format(id_post))
 
+    @tornado.web.authenticated
+    def user_add_post(self):
+        if self.userinfo.privilege[1] == '1':
+            pass
+        else:
+            return False
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
 
+        post_data['user_name'] = self.get_current_user()
 
+        cur_uid = tools.get_uu4d()
+        while self.mpost.get_by_id(cur_uid) :
+            cur_uid = tools.get_uu4d()
 
-        #self.redirect('/post/{0}.html'.format(id_post))
-
-
-
-
-
+        uid = self.mpost.insert_data(cur_uid, post_data)
+        self.update_catalog(uid)
+        self.redirect('/post/{0}.html'.format(cur_uid))
