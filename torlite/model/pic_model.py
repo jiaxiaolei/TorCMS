@@ -26,7 +26,6 @@ class MPic():
     def get_by_id(self, input):
         field_dic = ['id_post', 'title', 'cnt_html', 'id_cats']
         uuid = input
-        # self.write(input)
         tmp_arr = []
         for fkey in field_dic:
             tmp_arr.append(fkey)
@@ -37,7 +36,6 @@ class MPic():
     def get_by_cat(self, cat_str):
         field_dic = ['id_post', 'title', 'cnt_html', 'id_cats']
         uuid = cat_str
-        # self.write(input)
         tmp_arr = []
         for fkey in field_dic:
             tmp_arr.append(fkey)
@@ -65,7 +63,6 @@ class MPic():
             tmp_arr.append(fkey)
         tmp_str = ','.join(tmp_arr)
 
-        # db = tornpg.Connection('localhost', 'geodb', user='wen1', password='123456')
         sql_cmd = "select %s from bblog where title='%s'" % (tmp_str, citiao)
 
         a = self.db.get(sql_cmd)

@@ -76,8 +76,7 @@ class SpecHandler(BaseHandler):
 
     @tornado.web.authenticated
     def to_add(self):
-        # spec_rec = self.mspec.get_by_id(uid)
-        # uuu = self.mcat.query_all()
+
         print('to_add')
         self.render('tplite/spec/add.html')
 
@@ -86,12 +85,6 @@ class SpecHandler(BaseHandler):
         列出专题信息，按某一分类
         '''
         page_rec = self.mspec.get_by_slug(spec_slug)
-        # content = self.mpage.get_by_wiki(page_rec.name)
-
-        # if content is None:
-        # re_url = '/page/{0}'.format(tornado.escape.url_escape(page_rec.name))
-        #     self.redirect(re_url)
-
         kwd = {
             'editable': self.editable()
         }
@@ -105,8 +98,6 @@ class SpecHandler(BaseHandler):
 
     def index(self):
         kwd = {
-            # 'spec': content,
-            # 'view': recs,
             'editable': self.editable()
         }
         spec_recs = self.mspec.get_all()

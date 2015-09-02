@@ -37,8 +37,6 @@ class WikiHandler(BaseHandler):
 
         if url_str == 'find':
             self.to_find()
-        # elif url_arr[0] == 'find':
-        # self.find(url_arr[1])
         elif url_str == 'recent':
             self.recent()
         elif url_str == 'refresh':

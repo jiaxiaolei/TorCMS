@@ -40,8 +40,6 @@ class MWiki():
             user_name=post_data['user_name'],
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
-            # id_spec=id_spec,
-            # logo=post_data['logo'][0],
             src_type=post_data['src_type'][0]
         ).where(CabWiki.uid == uid)
         entry.execute()

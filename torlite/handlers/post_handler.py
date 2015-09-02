@@ -31,7 +31,7 @@ class PostHandler(BaseHandler):
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
         self.mpost2reply = MPost2Reply()
-        # self.mreply = MReply()
+
 
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
@@ -51,7 +51,6 @@ class PostHandler(BaseHandler):
             self.to_find()
         elif url_str == 'add_document':
             self.to_add_document()
-
         elif url_arr[0] == 'find':
             self.find(url_arr[1])
         elif url_str == 'recent':
@@ -74,7 +73,6 @@ class PostHandler(BaseHandler):
         if len(url_arr) == 1 and url_str.endswith('.html'):
             sig = url_str.split('.')[0]
             self.add_post(sig)
-            # self.wiki(url_str.split('.')[0])
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'find':
@@ -103,7 +101,6 @@ class PostHandler(BaseHandler):
         self.render('tplite/post/all.html'.format(input),
                     kwd=kwd,
                     view=self.mpost.query_recent(),
-                    # rand_recs=self.get_random(),
                     format_date=tools.format_date,
                     userinfo = self.userinfo,
                     )
@@ -185,7 +182,6 @@ class PostHandler(BaseHandler):
             post_data[key] = self.get_arguments(key)
         post_data['user_name'] = self.get_current_user()
 
-        # if update the time
         is_update_time = True if post_data['is_update_time'][0] == '1' else False
 
         self.mpost.update(uid, post_data, update_time=is_update_time)
@@ -217,7 +213,6 @@ class PostHandler(BaseHandler):
             if cur_info.catalog.uid not in new_tag_arr:
                 self.mpost2catalog.delete_by_id(cur_info.uid)
 
-                # self.redirect('/post/{0}.html'.format(uid))
 
     @tornado.web.authenticated
     def to_modify(self, id_rec):
@@ -289,10 +284,8 @@ class PostHandler(BaseHandler):
 
     def viewit(self, post_id):
         cats = self.mpost2catalog.query_catalog(post_id)
-
-        # replys = self.m
         replys = self.mpost2reply.get_by_id(post_id)
-        # replys = self.mreply.get_by_id(post_id)
+
 
         if cats.count() == 0:
             cat_id = ''

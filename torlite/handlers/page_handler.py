@@ -44,7 +44,7 @@ class PageHandler(BaseHandler):
             ip_arr = input.split(r'/')
         if input == '':
             pass
-            # uuid = self.insert()
+
         elif ip_arr[0] == 'modify':
             self.update(ip_arr[1])
         else:

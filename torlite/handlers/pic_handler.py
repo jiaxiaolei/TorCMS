@@ -77,6 +77,6 @@ class PicHandler(tornado.web.RequestHandler):
     def view(self, outfilename):
         kwd = {
             'pager': '',
-            # 'imgpath':
+
         }
         self.render('tplite/pic/showpic.html', filename=outfilename, kwd=kwd)

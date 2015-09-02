@@ -61,6 +61,8 @@ class SearchHandler(BaseHandler):
             }
             self.render('html/404.html', kwd=kwd)
 
+
+
     def post(self, url_str=''):
         keyword = self.get_argument('keyword')
         self.search(keyword)
@@ -69,11 +71,10 @@ class SearchHandler(BaseHandler):
         kwd = {
             'pager': '',
         }
-        self.render\
-            ('tplite/post/find.html', topmenu='', kwd=kwd)
+        self.render('tplite/post/find.html', topmenu='', kwd=kwd)
+
     def search(self, keyword):
         results = whoosh_search(keyword, 20)
-        # reswhoosh_search.keyworde limit=3limit=30)
         kwd = {'title':'查找结果',
                'pager': '',
                }
@@ -81,3 +82,4 @@ class SearchHandler(BaseHandler):
                     kwd=kwd,
                     srecs = results,
                     )
+

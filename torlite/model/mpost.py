@@ -53,11 +53,9 @@ class MPost():
         else:
             entry = CabPost.update(
                 title=post_data['title'][0],
-                # date=datetime.datetime.now(),
                 cnt_html=cnt_html,
                 user_name=post_data['user_name'],
                 cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-                # time_update=time.time(),
                 id_spec=id_spec,
                 logo=post_data['logo'][0],
                 keywords=post_data['keywords'][0],

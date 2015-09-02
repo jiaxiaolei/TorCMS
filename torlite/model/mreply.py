@@ -69,11 +69,9 @@ class MReply():
         else:
             entry = CabReply.update(
                 title=post_data['title'][0],
-                # date=datetime.datetime.now(),
                 cnt_html=cnt_html,
                 user_name=post_data['user_name'],
                 cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-                # time_update=time.time(),
                 id_spec=id_spec,
                 logo=post_data['logo'][0],
                 keywords=post_data['keywords'][0],
@@ -88,7 +86,6 @@ class MReply():
 
         entry = CabReply.create(
                 uid=uid,
-                #post_id=id_post,
                 user_name=post_data['user_name'],
                 create_user_id=post_data['user_id'],
                 timestamp=time.time(),
@@ -121,8 +118,6 @@ class MReply():
         elif config.dbtype == 2:
             return CabReply.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(
                 peewee.fn.Rand()).limit(num)
-
-
 
     def get_reply_by_uid(self, reply_id):
         rec = CabReply.get(CabReply.uid == reply_id)
