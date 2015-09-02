@@ -50,6 +50,9 @@ class PostHandler(BaseHandler):
             self.wiki(url_str.split('.')[0])
         elif url_str == 'find':
             self.to_find()
+        elif url_str == 'add_document':
+            self.to_add_document()
+
         elif url_arr[0] == 'find':
             self.find(url_arr[1])
         elif url_str == 'recent':
@@ -87,6 +90,7 @@ class PostHandler(BaseHandler):
             'pager': '',
         }
         self.render('tplite/post/find.html', topmenu='', kwd=kwd)
+
 
     def recent(self):
         kwd = {
@@ -147,6 +151,13 @@ class PostHandler(BaseHandler):
             self.viewit(dbdate)
         else:
             self.to_add(uid)
+
+    def to_add_document(self, ):
+        kwd = {
+            'pager': '',
+        }
+        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd)
+
 
     @tornado.web.authenticated
     def to_add(self, uid):
