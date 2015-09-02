@@ -18,8 +18,7 @@ from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
 from torlite.model.mreply import MReply
-from torlite.model.mreply import MPost2Reply
-
+from torlite.model.mpost2reply import MPost2Reply
 
 class PostHandler(BaseHandler):
     def initialize(self):
@@ -31,8 +30,8 @@ class PostHandler(BaseHandler):
         self.specs = self.mspec.get_all()
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
-        self.mreply = MReply()
         self.mpost2reply = MPost2Reply()
+        # self.mreply = MReply()
 
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
@@ -75,8 +74,7 @@ class PostHandler(BaseHandler):
             self.post_find()
         elif url_arr[0] == 'add':
             self.add_post(url_arr[1])
-        elif url_arr[0] == 'comment_add':
-            self.add_comment(url_arr[1])
+
 
         else:
             self.redirect('html/404.html')
@@ -275,7 +273,9 @@ class PostHandler(BaseHandler):
     def viewit(self, post_id):
         cats = self.mpost2catalog.query_catalog(post_id)
 
-        replys = self.mreply.get_by_id(post_id)
+        # replys = self.m
+        replys = self.mpost2reply.get_by_id(post_id)
+        # replys = self.mreply.get_by_id(post_id)
 
         if cats.count() == 0:
             cat_id = ''
@@ -314,41 +314,10 @@ class PostHandler(BaseHandler):
         self.redirect('/post/{0}.html'.format(id_post))
 
 
-    @tornado.web.authenticated
-    def add_comment(self, id_post):
-        post_data = {}
-        for key in self.request.arguments:
-            post_data[key] = self.get_arguments(key)
-        post_data['user_id'] = self.userinfo.uid
-        post_data['user_name'] = self.userinfo.user_name
 
-        comment_uid = self.mreply.insert_data(post_data)
-        print(comment_uid)
-        if comment_uid:
-            comment2 = self.mpost2reply.insert_data2(id_post, comment_uid)
-            output = {
-                'pinglun': comment_uid,
-            }
-        else:
-            output = {
-                'pinglun': 0,
-            }
-
-        return json.dump(output, self)
 
         #self.redirect('/post/{0}.html'.format(id_post))
 
-
-    def get_zan(self, f_zan):
-        zan = self.mreply.get_by_zan(f_zan)
-        if zan:
-            output = {
-                'zan': zan.zan,
-            }
-        else:
-            output = {
-                ''
-            }
 
 
 

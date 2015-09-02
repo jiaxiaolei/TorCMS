@@ -7,12 +7,27 @@ Bu Kun's Homepage: http://bukun.net
 '''
 
 import bs4
+import tornado.escape
 import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mpost import MPost
 from torlite.model.mpost2catalog import MPost2Catalog
 import config
 
+class reply_panel(tornado.web.UIModule):
+    def render(self, sig, uid, userinfo, replys):
+
+        kwd = {
+            'sig': sig
+        }
+        return self.render_string('tplite/modules/reply_panel.html',
+                      sig = sig  ,
+                                  uid = uid,
+                                replys = replys,
+                                  userinfo = userinfo,
+                                  unescape = tornado.escape.url_unescape,
+                                  linkify  = tornado.escape.linkify,
+                                  )
 
 class get_footer(tornado.web.UIModule):
     def render(self):
