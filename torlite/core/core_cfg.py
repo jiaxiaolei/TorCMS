@@ -44,4 +44,5 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'post_catalogs': post_catalogs,
                 'site_url': site_url,
                 'generate_description': generate_description,
+                'reply_panel': reply_panel,
                 }

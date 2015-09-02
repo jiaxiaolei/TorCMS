@@ -16,12 +16,14 @@ from torlite.handlers.wiki_handler import WikiHandler
 from torlite.handlers.static_handler import StaticHandler
 from torlite.handlers.search_handler import SearchHandler
 from torlite.handlers.reply_handler import ReplyHandler
+from torlite.handlers.post2reply_handler import Post2ReplyHandler
 
 urls = [
     ("/pic/(.*)", PicHandler, dict()),
     ("/category/(.*)", CatHandler, dict()),
     ("/spec/(.*)", SpecHandler, dict()),
     ("/user/(.*)", UserHandler, dict()),
+    ("/post/toreply/(.*)", Post2ReplyHandler, dict()),
     ("/post/(.*)", PostHandler, dict()),
     ("/page/(.*)", PageHandler, dict()),
     ("/wiki/(.*)", WikiHandler, dict()),
