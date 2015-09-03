@@ -2,7 +2,7 @@
 '''
 Author: Bu Kun
 E-mail: bukun@osgeo.cn
-CopyRight: http://yunsuan.org
+CopyRight: http://www.yunsuan.org
 '''
 
 import peewee
@@ -19,7 +19,7 @@ menu_arr = [['首页', '/'],
 
 page_num = 10
 
-site_url = ''
+site_url = 'http://www.yunsuan.org'
 
 # 使用DataBase的不同形式，以应对Peewe针对数据库的不同语法
 # 1 for SQLite
@@ -28,4 +28,9 @@ site_url = ''
 dbtype = 1
 dbconnect = peewee.SqliteDatabase('./database/torcms.db')
 
-
+smtp_cfg = {
+    'host': "smtp.ym.163.com",
+    'user': "user_name@yunsuan.org",
+    'pass': "password_hear",
+    'postfix': 'yunsuan.org',
+    }

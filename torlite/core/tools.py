@@ -13,8 +13,17 @@ import tornado
 import markdown2
 from docutils.core import publish_string
 from bs4 import BeautifulSoup
+import time
+import hashlib
+
 # from torlite.core.tool.whoosh_tool import search as whoosh_search
 
+def md5(instr):
+    return hashlib.md5(instr.encode('utf-8')).hexdigest()
+
+
+def timestamp():
+    return int(time.time())
 
 def format_yr(indate):
     # uu = datetime.datetime.strptime(indate,'%a, %d %b %Y %H:%M:%S')
@@ -129,5 +138,7 @@ def rst2html(rst_text):
 
 
 
-
+if __name__ == '__main__':
+    str = 'sadf'
+    print(md5(str))
 

@@ -9,6 +9,9 @@ from wtforms_tornado import Form
 from torlite.core.base_handler import BaseHandler
 
 from torlite.model.muser import MUser
+from torlite.core.tool.send_email import send_mail
+from torlite.core import tools
+import config
 
 
 class SumForm(Form):
@@ -23,6 +26,7 @@ class UserHandler(BaseHandler):
         self.user_name = self.get_current_user()
 
     def get(self, url_str):
+        print(url_str)
         url_arr = url_str.split('/')
         if url_str == 'regist':
             if self.get_current_user():
@@ -35,10 +39,17 @@ class UserHandler(BaseHandler):
             self.show_info()
         elif url_str == 'logout':
             self.logout()
+        elif url_str == 'reset-password':
+            self.to_reset_password()
         elif url_str == 'changepass':
             self.changepass()
         elif url_str == 'changeinfo':
             self.change_info()
+        elif url_str == 'reset-passwd':
+            if self.gen_passwd():
+                pass
+            else:
+                self.redirect(config.site_url)
         elif url_arr[0] == 'changeprivilege':
             self.change_privilege(url_arr[1])
         elif url_str == 'find':
@@ -47,6 +58,8 @@ class UserHandler(BaseHandler):
             self.find(url_arr[1])
         elif url_arr[0] == 'delete_user':
             self.delete(url_arr[1])
+
+
 
     def post(self, url_str):
         url_arr = url_str.split('/')
@@ -60,6 +73,8 @@ class UserHandler(BaseHandler):
             self.changeinfo()
         elif url_str == 'find':
             self.post_find()
+        elif url_str == 'reset-password':
+            self.reset_password()
         elif url_arr[0] == 'changeprivilege':
             self.changeprivilege(url_arr[1])
 
@@ -125,6 +140,9 @@ class UserHandler(BaseHandler):
     def show_info(self):
         self.render('tplite/user/info.html',
                     user_info=self.muser.get_by_id(self.user_name))
+
+    def to_reset_password(self):
+        self.render('tplite/user/reset_password.html')
 
     def to_login(self):
         if self.get_current_user():
@@ -207,3 +225,87 @@ class UserHandler(BaseHandler):
     def post_find(self):
         keyword = self.get_argument('keyword')
         self.find(keyword)
+    def reset_password(self):
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+
+        if 'email' in post_data:
+            userinfo = self.muser.get_by_email(post_data['email'][0])
+
+            if tools.timestamp() - userinfo.reset_passwd_timestamp < 70:
+                self.set_status(400)
+                kwd = {
+                    'info': '两次重置密码时间应该大于1分钟',
+                }
+                self.render('html/404.html',  kwd=kwd)
+                return  False
+
+            if userinfo:
+                timestamp = tools.timestamp()
+                passwd = userinfo.user_pass
+                username = userinfo.user_name
+                hash_str = tools.md5(username + str(timestamp) + passwd)
+                url_reset = '{0}/user/reset-passwd?u={1}&t={2}&p={3}'.format(config.site_url, username, timestamp, hash_str)
+                email_cnt = '''
+                <div>请查看下面的信息，并<span style="color:red">谨慎操作</span>：</div>
+                <div>您在云算笔记网站（http://www.yunsuan.org）申请了密码重置，如果确定要进行密码重置，请打开下面链接：</div>
+                <div><a href={0}>{0}</a></div>
+                <div>如果无法确定本信息的有效性，请忽略本邮件。</div>
+                '''.format(url_reset)
+
+                if send_mail([userinfo.user_email],"云算笔记|密码重置", email_cnt):
+                    self.muser.update_reset_passwd_timestamp(username, timestamp)
+                    self.set_status(200)
+                    return True
+                else:
+                    self.set_status(400)
+                    return False
+            else:
+                self.set_status(400)
+                return False
+        else:
+            self.set_status(400)
+            return False
+
+        self.set_status(400)
+        return False
+    def gen_passwd(self):
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+        print(post_data)
+        userinfo = self.muser.get_by_id(post_data['u'][0])
+        print(userinfo.user_name, userinfo.user_pass,userinfo.user_email)
+
+        # Check time
+        sub_timestamp = int(post_data['t'][0])
+        cur_timestamp = tools.timestamp()
+        if cur_timestamp - sub_timestamp < 600 and cur_timestamp > sub_timestamp:
+            pass
+        else:
+            kwd =             {
+                'info':'密码重置已超时！',
+            }
+            self.set_status(400)
+            self.render('html/404.html',  kwd=kwd)
+
+
+        # Check md5
+        hash_str = tools.md5(userinfo.user_name + post_data['t'][0] +userinfo.user_pass)
+        if hash_str == post_data['p'][0]:
+            print('Md5:right' )
+        else:
+            kwd =             {
+                'info':'密码重置验证出错！',
+            }
+            self.set_status(400)
+            self.render('html/404.html',  kwd=kwd)
+
+        new_passwd = tools.get_uu8d()
+        self.muser.update_pass( userinfo.user_name, new_passwd )
+        kwd = {
+            'user_name': userinfo.user_name,
+            'new_pass': new_passwd,
+        }
+        self.render('tplite/user/show_pass.html',  kwd=kwd)

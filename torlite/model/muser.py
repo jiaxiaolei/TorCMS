@@ -6,11 +6,13 @@ CopyRight: http://www.yunsuan.org
 '''
 
 import hashlib
-import peewee
+# import peewee
 from torlite.core.base_model import BaseModel
 from torlite.model.core_tab import CabMember
 
 from torlite.core import tools
+
+
 
 
 class MUser(BaseModel):
@@ -31,19 +33,25 @@ class MUser(BaseModel):
             return CabMember.get(user_name=uname)
         except:
             return False
+    def get_by_email(self, emai):
+        print(emai)
+        try:
+            return CabMember.get(user_email = emai)
+        except:
+            return False
 
     def check_user(self, u_name, u_pass):
         tt = CabMember.select().where(CabMember.user_name == u_name).count()
         if tt == 0:
             return -1
         a = CabMember.get(user_name=u_name)
-        if a.user_pass == hashlib.md5(u_pass.encode('utf-8')).hexdigest():
+        if a.user_pass == tools.md5( u_pass) :
             return 1
         return 0
 
     def update_pass(self, u_name, newpass):
         entry = CabMember.update(
-            user_pass=hashlib.md5(newpass.encode('utf-8')).hexdigest(),
+            user_pass= tools.md5(newpass),
         ).where(CabMember.user_name == u_name)
         entry.execute()
         return entry
@@ -54,6 +62,14 @@ class MUser(BaseModel):
             user_email=newemail,
 
         ).where(CabMember.user_name == u_name)
+        entry.execute()
+        return entry
+
+    def update_reset_passwd_timestamp(self, uname, timeit):
+
+        entry = CabMember.update(
+            reset_passwd_timestamp = timeit,
+        ).where(CabMember.user_name == uname)
         entry.execute()
         return entry
 
