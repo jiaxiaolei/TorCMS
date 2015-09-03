@@ -99,7 +99,7 @@ class UserHandler(BaseHandler):
             post_data[key] = self.get_arguments(key)
 
         uu = self.muser.check_user(self.user_name, post_data['rawpass'][0])
-        print(uu)
+
         if uu == 1:
             self.muser.update_info(self.user_name, post_data['user_email'][0])
             self.redirect(('/user/info'))
@@ -190,6 +190,11 @@ class UserHandler(BaseHandler):
         if result == 1:
             self.set_secure_cookie("user", u_name)
             self.redirect("{0}".format(next_url))
+        elif result == 0:
+            kwd = {
+                'info': '密码验证出错，请<a href="/user/login">重新登陆</a>。'
+            }
+            self.render('html/404.html', kwd=kwd)
         elif result == -1:
             kwd = {
                 'info': '没有这个用户'
