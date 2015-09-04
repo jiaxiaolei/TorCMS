@@ -19,7 +19,7 @@ menu_arr = [['首页', '/'],
 
 page_num = 10
 
-site_url = 'http://www.yunsuan.org'
+site_url = 'http://127.0.0.1:8088'
 
 # 使用DataBase的不同形式，以应对Peewe针对数据库的不同语法
 # 1 for SQLite

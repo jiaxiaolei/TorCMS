@@ -188,19 +188,23 @@ class UserHandler(BaseHandler):
         }
         result = self.muser.check_user(u_name, u_pass)
         if result == 1:
+            # self.set_status(200)
             self.set_secure_cookie("user", u_name)
             self.redirect("{0}".format(next_url))
         elif result == 0:
+            self.set_status(401)
             kwd = {
                 'info': '密码验证出错，请<a href="/user/login">重新登陆</a>。'
             }
             self.render('html/404.html', kwd=kwd)
         elif result == -1:
+            self.set_status(401)
             kwd = {
                 'info': '没有这个用户'
             }
             self.render('html/404.html', kwd=kwd)
         else:
+            self.set_status(305)
             self.redirect("{0}".format(next_url))
 
     def to_find(self, ):

@@ -4,8 +4,6 @@ CREATE TABLE "cabcatalog" ("uid" INTEGER NOT NULL PRIMARY KEY, "slug" VARCHAR(35
 INSERT INTO "cabcatalog" VALUES(1,'geo','地理',1,0,0);
 INSERT INTO "cabcatalog" VALUES(2,'math','数学',2,0,0);
 INSERT INTO "cabcatalog" VALUES(3,'phy','物理',3,0,0);
-CREATE TABLE "cabmember" ("uid" VARCHAR(36) NOT NULL PRIMARY KEY, "user_name" VARCHAR(16) NOT NULL, "privilege" VARCHAR(255) NOT NULL, "user_pass" VARCHAR(255) NOT NULL, "user_email" VARCHAR(255) NOT NULL);
-INSERT INTO "cabmember" VALUES('asdflksadfjsladkfjsadfsadlkjf','yunsuan','11111','a750174f13a4340951ae684a7778df1c','bukun@osgeo.cn');
 CREATE TABLE "cabposthist" ("uid" VARCHAR(36) NOT NULL PRIMARY KEY, "title" VARCHAR(255) NOT NULL, "date" DATETIME NOT NULL, "post_id" VARCHAR(5) NOT NULL, "time_create" INTEGER NOT NULL, "user_name" VARCHAR(255) NOT NULL, "cnt_md" TEXT NOT NULL, "time_update" INTEGER NOT NULL, "id_spec" VARCHAR(255) NOT NULL, "logo" VARCHAR(255) NOT NULL);
 INSERT INTO "cabposthist" VALUES('f5d4bca6-f884-11e4-84dd-080027f5bfb5','开放地理空间实验室发布的教程与文档','2015-03-28 21:43:17.438732','1222',1426074337,'yunsuan','# 教程
 
@@ -1809,6 +1807,7 @@ INSERT INTO "cabposthist" VALUES('ed1eac70-f893-11e4-bbee-080027f5bfb5','生活�
 &lt;/li&gt;
 
 &lt;/ul&gt;',1427549837,'0','');
+INSERT INTO "cabposthist" VALUES('9563d130-52a8-11e5-94c1-a0999b050a53','关于TorCMS','2015-09-04 09:53:35.610585','cb9423',1441331615,'yunsuan','关于TorCMS的介绍。',1441331615,'0','');
 CREATE TABLE "cabpost2catalog" ("uid" VARCHAR(35) NOT NULL PRIMARY KEY, "catalog_id" INTEGER NOT NULL, "post_id" VARCHAR(5) NOT NULL, "order" INTEGER NOT NULL, FOREIGN KEY ("catalog_id") REFERENCES "cabcatalog" ("uid"), FOREIGN KEY ("post_id") REFERENCES "cabpost" ("uid"));
 INSERT INTO "cabpost2catalog" VALUES('37aa383a-b1eb-11e4-ace4-080027cb7f72',1,'1001',1);
 INSERT INTO "cabpost2catalog" VALUES('3d84cc84-b1eb-11e4-ace4-080027cb7f72',2,'1000',1);
@@ -1822,13 +1821,14 @@ INSERT INTO "cabpost2catalog" VALUES('5d998780-f886-11e4-b536-080027f5bfb5',1,'2
 INSERT INTO "cabpost2catalog" VALUES('5d9b7482-f886-11e4-b536-080027f5bfb5',2,'2382',2);
 INSERT INTO "cabpost2catalog" VALUES('5d9d2fa2-f886-11e4-b536-080027f5bfb5',3,'2382',3);
 INSERT INTO "cabpost2catalog" VALUES('97fb380c-f88a-11e4-be08-080027f5bfb5',1,'3653',1);
+INSERT INTO "cabpost2catalog" VALUES('c10721c8-52a7-11e5-b11d-a0999b050a53',2,'cb9423',1);
 CREATE TABLE "cabpage" ("slug" VARCHAR(35) NOT NULL PRIMARY KEY, "title" VARCHAR(255) NOT NULL, "date" DATETIME NOT NULL, "cnt_html" TEXT NOT NULL, "time_create" INTEGER NOT NULL, "id_user" VARCHAR(255) NOT NULL, "cnt_md" VARCHAR(255) NOT NULL, "time_update" INTEGER NOT NULL, "view_count" INTEGER NOT NULL);
 INSERT INTO "cabpage" VALUES('about','关于','2015-02-11 18:16:59.764666','&lt;p&gt;本 CMS 是使用Python 3.4，Tornado Web框架， Peewee， Purecss 开发的。此CMS系统原本用于云算笔记、开放地理空间实验室等网站，后面慢慢将 CMS 从中抽取出来。&lt;/p&gt;
 
 &lt;p&gt;由于开发者并非计算机专业，对于开发的事情很多只是一知半解，如果有问题，欢迎与我进行联系。  Email:  bukun#osgeo.cn&lt;/p&gt;
 ',1423648931,'','本 CMS 是使用Python 3.4，Tornado Web框架， Peewee， Purecss 开发的。此CMS系统原本用于云算笔记、开放地理空间实验室等网站，后面慢慢将 CMS 从中抽取出来。
 
-由于开发者并非计算机专业，对于开发的事情很多只是一知半解，如果有问题，欢迎与我进行联系。  Email:  bukun#osgeo.cn',1423649819,47);
+由于开发者并非计算机专业，对于开发的事情很多只是一知半解，如果有问题，欢迎与我进行联系。  Email:  bukun#osgeo.cn',1423649819,53);
 INSERT INTO "cabpage" VALUES('contact','联系方式','2015-02-11 18:17:12.576067','&lt;p&gt;如果需要联系我们，请按如下方式：&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1860,11 +1860,11 @@ bukun#osgeo.cn
 
 * 使用微信添加关注：
 
-&lt;img src=&quot;http://yunsuan.org/static/fixed/weixin.jpg&quot; style=&quot;margin: 20px 5px 10px 10px ;&quot;&gt;',1423649832,23);
+&lt;img src=&quot;http://yunsuan.org/static/fixed/weixin.jpg&quot; style=&quot;margin: 20px 5px 10px 10px ;&quot;&gt;',1423649832,29);
 INSERT INTO "cabpage" VALUES('terms','应用条款','2015-03-28 21:40:16.298430','&lt;ol&gt;
 &lt;li&gt;TorCMS基于MIT协议发布。&lt;/li&gt;
 &lt;/ol&gt;
-',1427550016,'','1. TorCMS基于MIT协议发布。',1427550016,19);
+',1427550016,'','1. TorCMS基于MIT协议发布。',1427550016,25);
 CREATE TABLE "cabwiki" ("uid" VARCHAR(36) NOT NULL PRIMARY KEY, "title" VARCHAR(255) NOT NULL, "date" DATETIME NOT NULL, "time_create" INTEGER NOT NULL, "user_name" VARCHAR(35) NOT NULL, "time_update" INTEGER NOT NULL, "view_count" INTEGER NOT NULL, "cnt_md" TEXT NOT NULL, "cnt_html" TEXT NOT NULL, "src_type" INTEGER NOT NULL);
 INSERT INTO "cabwiki" VALUES('e20968e6-c7f8-11e4-b426-080027cb7f72','Hello','2015-03-11 22:41:30.725669',1426083248,'yunsuan',1426084890,35,'Hello
 ===========================
@@ -1946,7 +1946,7 @@ span rows.&lt;/td&gt;
 &lt;li&gt;ByBy&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;',1);
-INSERT INTO "cabwiki" VALUES('4e43d9b0-c803-11e4-8ab7-080027cb7f72','莱布尼兹','2015-03-11 23:48:24.610219',1426087725,'yunsuan',1426088904,34,'弗里德·威廉·莱布尼茨（Gottfried Wilhelm Leibniz，1646年—1716年），德国哲学家、数学家。与牛顿一起被认为是微积分的奠基者。莱布尼茨在数学史和哲学史上都占有重要地位。在数学上，他和牛顿先后独立发明了微积分。有人认为，莱布尼茨最大的贡献不是发明微积分，而是发明了微积分中使用的数学符号，因为牛顿使用的符号被普遍认为比莱布尼茨的差。莱布尼茨还对二进制的发展做出了贡献。
+INSERT INTO "cabwiki" VALUES('4e43d9b0-c803-11e4-8ab7-080027cb7f72','莱布尼兹','2015-03-11 23:48:24.610219',1426087725,'yunsuan',1426088904,38,'弗里德·威廉·莱布尼茨（Gottfried Wilhelm Leibniz，1646年—1716年），德国哲学家、数学家。与牛顿一起被认为是微积分的奠基者。莱布尼茨在数学史和哲学史上都占有重要地位。在数学上，他和牛顿先后独立发明了微积分。有人认为，莱布尼茨最大的贡献不是发明微积分，而是发明了微积分中使用的数学符号，因为牛顿使用的符号被普遍认为比莱布尼茨的差。莱布尼茨还对二进制的发展做出了贡献。
 
 在哲学上，莱布尼茨的最好主义(optimism作为最好optimal的另一形 也有人使用乐观主义作为optimistism的另一形)最为著名，他认为，“我们的宇宙，是理性中所有世界中最好的。”。莱布尼茨在哲学方面的工作在预见了现代逻辑学和分析哲学诞生的同时，也显然深受经院哲学传统的影响，更多地应用第一性原理或先验定义，而不是实验证据来推导以得到结论。
 
@@ -1977,7 +1977,7 @@ CREATE TABLE "cabpost" (
 "keywords"  varchar(255),
 PRIMARY KEY ("uid" ASC)
 );
-INSERT INTO "cabpost" VALUES('1000','数学计算','2015-05-12 17:58:27.462969',1423649435,'yunsuan',1431424707,25,'0','','[莱布尼兹](/wiki/莱布尼兹)
+INSERT INTO "cabpost" VALUES('1000','数学计算','2015-05-12 17:58:27.462969',1423649435,'yunsuan',1431424707,27,'0','','[莱布尼兹](/wiki/莱布尼兹)
 
 
 &lt;ul&gt;
@@ -2636,7 +2636,7 @@ INSERT INTO "cabpost" VALUES('1000','数学计算','2015-05-12 17:58:27.462969',
 
 &lt;/ul&gt;
 ',0,'计算,数学,数学计算,数学公式');
-INSERT INTO "cabpost" VALUES('1001','环评计算','2015-03-28 21:35:24.630331',1423649562,'yunsuan',1431427353,39,'0','','&lt;ul&gt;
+INSERT INTO "cabpost" VALUES('1001','环评计算','2015-03-28 21:35:24.630331',1423649562,'yunsuan',1431427353,43,'0','','&lt;ul&gt;
 
 &lt;li&gt;&lt;a href=&quot;http://yunsuan.org/app/f003&quot;&gt;秦皇岛码头煤堆起尘量计算&lt;/a&gt;
 &lt;span class=&quot;equation_catalog&quot;&gt; &lt;a href=&quot;http://yunsuan.org/tag/eia&quot; class=&quot;tag1&quot;&gt;环评&lt;/a&gt;&lt;a href=&quot;http://yunsuan.org/tag/envi&quot; class=&quot;tag2&quot;&gt;环境&lt;/a&gt;&lt;/span&gt;
@@ -2804,7 +2804,7 @@ INSERT INTO "cabpost" VALUES('1001','环评计算','2015-03-28 21:35:24.630331',
 
 &lt;/ul&gt;
 ',0,'计算');
-INSERT INTO "cabpost" VALUES('1002','生活相关计算','2015-05-12 18:44:54.968248',1423649623,'yunsuan',1431427494,54,'0','','&lt;ul&gt;
+INSERT INTO "cabpost" VALUES('1002','生活相关计算','2015-05-12 18:44:54.968248',1423649623,'yunsuan',1431427494,56,'0','','&lt;ul&gt;
 
 &lt;li&gt;&lt;a href=&quot;http://yunsuan.org/app/2671&quot;&gt;牛顿-千克力-公斤力换算-公斤-一牛顿等于多少磅-单位转换计算器-千克吨-吨力&lt;/a&gt;
 &lt;span class=&quot;equation_catalog&quot;&gt; &lt;a href=&quot;http://yunsuan.org/tag/physic&quot; class=&quot;tag1&quot;&gt;物理&lt;/a&gt;&lt;a href=&quot;http://yunsuan.org/tag/math&quot; class=&quot;tag2&quot;&gt;数学&lt;/a&gt;&lt;a href=&quot;http://yunsuan.org/tag/life&quot; class=&quot;tag3&quot;&gt;生活&lt;/a&gt;&lt;/span&gt;
@@ -3090,7 +3090,7 @@ INSERT INTO "cabpost" VALUES('1002','生活相关计算','2015-05-12 18:44:54.96
 
 &lt;/ul&gt;
 ',0,'计算');
-INSERT INTO "cabpost" VALUES('1111','reStructuredText示例','2015-03-28 21:46:59.802259',1426073110,'yunsuan',1427550419,15,'0','','添加reStructuredText支持，主要是实现由MarkDown不好实现的一些功能，如表格。
+INSERT INTO "cabpost" VALUES('1111','reStructuredText示例','2015-03-28 21:46:59.802259',1426073110,'yunsuan',1427550419,16,'0','','添加reStructuredText支持，主要是实现由MarkDown不好实现的一些功能，如表格。
 
 Grid表格
 ==================
@@ -3264,7 +3264,7 @@ crunchy, now would it?&lt;/td&gt;
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;',1,'标题');
-INSERT INTO "cabpost" VALUES('1222','开放地理空间实验室发布的教程与文档','2015-05-12 17:37:05.964371',1426074337,'yunsuan',1431423425,60,'136fca44-f880-11e4-8683-080027f5bfb5','','# 教程
+INSERT INTO "cabpost" VALUES('1222','开放地理空间实验室发布的教程与文档','2015-05-12 17:37:05.964371',1426074337,'yunsuan',1431423425,61,'136fca44-f880-11e4-8683-080027f5bfb5','','# 教程
 
 开放地理空间实验室发布的地理信息系统GIS在线教程——包括开源GIS、GRASS、MapServer、地理信息系统原理。
 
@@ -3306,7 +3306,7 @@ INSERT INTO "cabpost" VALUES('1222','开放地理空间实验室发布的教程�
 &lt;li&gt;&lt;a href=&quot;http://lab.osgeo.cn/doc_opengis_cn/&quot;&gt;OpenGIS中文文档——开放地理数据互操作规范&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 ',0,'标题');
-INSERT INTO "cabpost" VALUES('3653','地形图图幅号在线处理工具集说明','2015-05-12 17:38:06.679274',1426082960,'yunsuan',1431423486,21,'136fca44-f880-11e4-8683-080027f5bfb5','','中国国家基本比例尺地形图有七种： 1:100万、1:50万、1:25万、1:10万、1:5万、1:2.5万和1:1万 ； 普通地图按比例尺通常分为大中小三种：小于100万(小比例尺)，10万到100万(中比例尺)，大于10万(大比例尺)。
+INSERT INTO "cabpost" VALUES('3653','地形图图幅号在线处理工具集说明','2015-05-12 17:38:06.679274',1426082960,'yunsuan',1431423486,23,'136fca44-f880-11e4-8683-080027f5bfb5','','中国国家基本比例尺地形图有七种： 1:100万、1:50万、1:25万、1:10万、1:5万、1:2.5万和1:1万 ； 普通地图按比例尺通常分为大中小三种：小于100万(小比例尺)，10万到100万(中比例尺)，大于10万(大比例尺)。
 
 地图分幅是指按一定方式将广大地区的地图划分成尺寸适宜的若干单幅地图，以便于地图制作和使用。常见分幅形式有矩形分幅和经纬分幅。
 
@@ -3382,10 +3382,19 @@ INSERT INTO "cabpost" VALUES('3653','地形图图幅号在线处理工具集说�
 &lt;li&gt;&lt;a href=&quot;http://yunsuan.org/app/3216&quot;&gt;地形图分幅编号在线查询、浏览&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 ',0,'OSGeo中国中心,开放地理空间实验室');
-INSERT INTO "cabpost" VALUES('2342','m','2015-05-12 17:07:11.701820',1431421603,'yunsuan',1431421631,5,'0','jkh','ljkl','&lt;p&gt;ljkl&lt;/p&gt;
+INSERT INTO "cabpost" VALUES('2342','m','2015-05-12 17:07:11.701820',1431421603,'yunsuan',1431421631,6,'0','jkh','ljkl','&lt;p&gt;ljkl&lt;/p&gt;
 ',0,NULL);
-INSERT INTO "cabpost" VALUES('2382','kjl','2015-05-12 17:07:50.748271',1431421670,'yunsuan',1431421670,5,'0','lkj','lkjlkj','&lt;p&gt;lkjlkj&lt;/p&gt;
+INSERT INTO "cabpost" VALUES('2382','kjl','2015-05-12 17:07:50.748271',1431421670,'yunsuan',1431421670,6,'0','lkj','lkjlkj','&lt;p&gt;lkjlkj&lt;/p&gt;
 ',0,NULL);
+INSERT INTO "cabpost" VALUES('cb9423','关于TorCMS','2015-09-04 09:53:35.610585',1441331615,'yunsuan',1441331615,6,'0','','关于TorCMS的介绍。
+
+### 下面是基本的维基词条用法。
+[莱布尼兹](/wiki/莱布尼兹)','&lt;p&gt;关于TorCMS的介绍。&lt;/p&gt;
+
+&lt;h3&gt;下面是基本的维基词条用法。&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;/wiki/莱布尼兹&quot;&gt;莱布尼兹&lt;/a&gt;&lt;/p&gt;
+',0,'TorCMS');
 CREATE TABLE "_cabspec_old_20150512" (
 "slug"  VARCHAR(35) NOT NULL,
 "uid"  VARCHAR(255) NOT NULL,
@@ -3413,12 +3422,19 @@ PRIMARY KEY ("slug" ASC)
 );
 INSERT INTO "cabspec" VALUES('webgis','136fca44-f880-11e4-8683-080027f5bfb5','WebGIS',1,'/static/upload/05/05c304ba-f880-11e4-8683-080027f5bfb5.png','WebGIS2','WebGIS2。WebGIS2','2015-05-12 16:26:07.778193');
 CREATE TABLE "tabapp" ("uid" VARCHAR(4) NOT NULL PRIMARY KEY, "title" VARCHAR(255) NOT NULL, "keywords" VARCHAR(255), "desc" VARCHAR(255), "industry" VARCHAR(255) NOT NULL, "date" DATETIME NOT NULL, "run_count" INTEGER NOT NULL, "view_count" INTEGER NOT NULL, "run_time" INTEGER NOT NULL, "update_time" INTEGER NOT NULL, "create_time" INTEGER NOT NULL, "type" INTEGER NOT NULL, "html_path" VARCHAR(255) NOT NULL, "cnt_md" TEXT, "cnt_html" TEXT, "memo" TEXT);
+CREATE TABLE "cabpost2reply" ("uid" VARCHAR(36) NOT NULL PRIMARY KEY, "post_id_id" VARCHAR(8) NOT NULL, "reply_id_id" VARCHAR(36) NOT NULL, "timestamp" INTEGER NOT NULL, FOREIGN KEY ("post_id_id") REFERENCES "cabpost" ("uid"), FOREIGN KEY ("reply_id_id") REFERENCES "cabreply" ("uid"));
+CREATE TABLE "cabmember" ("uid" VARCHAR(36) NOT NULL PRIMARY KEY, "user_name" VARCHAR(16) NOT NULL, "privilege" VARCHAR(255) NOT NULL, "user_pass" VARCHAR(255) NOT NULL, "user_email" VARCHAR(255) NOT NULL, "reset_passwd_timestamp" INTEGER NOT NULL);
+INSERT INTO "cabmember" VALUES('1e97faae-52a6-11e5-ab76-a0999b050a53','yunsuan','11111','a750174f13a4340951ae684a7778df1c','bukun@osgeo.cn',0);
+CREATE TABLE "cabreply" ("uid" VARCHAR(36) NOT NULL PRIMARY KEY, "create_user_id_id" VARCHAR(36) NOT NULL, "user_name" TEXT NOT NULL, "timestamp" INTEGER NOT NULL, "date" DATETIME NOT NULL, "cnt_md" TEXT NOT NULL, "cnt_html" TEXT NOT NULL, "vote" INTEGER NOT NULL, FOREIGN KEY ("create_user_id_id") REFERENCES "cabmember" ("uid"));
 CREATE UNIQUE INDEX "cabcatalog_slug" ON "cabcatalog" ("slug");
-CREATE UNIQUE INDEX "cabmember_user_name" ON "cabmember" ("user_name");
 CREATE INDEX "cabpost2catalog_post_id" ON "cabpost2catalog" ("post_id");
 CREATE INDEX "cabpost2catalog_catalog_id" ON "cabpost2catalog" ("catalog_id");
 CREATE UNIQUE INDEX "cabwiki_title" ON "cabwiki" ("title");
 CREATE UNIQUE INDEX "cabpost_title"
 ON "cabpost" ("title" ASC);
 CREATE UNIQUE INDEX "cabpic_imgpath" ON "cabpic" ("imgpath");
+CREATE INDEX "cabpost2reply_reply_id_id" ON "cabpost2reply" ("reply_id_id");
+CREATE INDEX "cabpost2reply_post_id_id" ON "cabpost2reply" ("post_id_id");
+CREATE UNIQUE INDEX "cabmember_user_name" ON "cabmember" ("user_name");
+CREATE INDEX "cabreply_create_user_id_id" ON "cabreply" ("create_user_id_id");
 COMMIT;

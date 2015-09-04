@@ -335,9 +335,9 @@ class PostHandler(BaseHandler):
 
         post_data['user_name'] = self.get_current_user()
 
-        cur_uid = tools.get_uu4d()
+        cur_uid = tools.get_uu6d()
         while self.mpost.get_by_id(cur_uid) :
-            cur_uid = tools.get_uu4d()
+            cur_uid = tools.get_uu6d()
 
         uid = self.mpost.insert_data(cur_uid, post_data)
         self.update_catalog(uid)

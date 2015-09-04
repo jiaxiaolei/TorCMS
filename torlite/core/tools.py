@@ -40,6 +40,10 @@ def get_uu4d():
     sel_arr = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
     slice = random.sample(sel_arr, 4)
     return( ''.join(slice))
+def get_uu6d():
+    sel_arr = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
+    slice = random.sample(sel_arr, 6)
+    return( ''.join(slice))
 def gen_pager(cat_slug, page_num, current):
     # cat_slug 分类
     # page_num 页面总数
