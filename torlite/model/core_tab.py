@@ -33,7 +33,7 @@ class CabPage(BaseModel):
 
 class CabPost(BaseModel):
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
-                           max_length=8, help_text='', )
+                           max_length=5, help_text='', )
     title = peewee.CharField(null=False,  help_text='Title')
     keywords = peewee.CharField(null=False,  help_text='Keywords')
     date = peewee.DateTimeField()

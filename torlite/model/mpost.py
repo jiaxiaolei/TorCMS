@@ -142,7 +142,7 @@ class MPost():
         return CabPost.select().order_by(CabPost.time_update.desc()).limit(num)
 
     def query_dated(self, num=8):
-        return CabPost.select().order_by(CabPost.time_update).limit(num)
+        return CabPost.select().order_by(CabPost.time_update.asc()).limit(num)
 
     def query_cat_recent(self, cat_id, num=8):
         return CabPost.select().join(CabPost2Catalog).where(CabPost2Catalog.catalog == cat_id).order_by(

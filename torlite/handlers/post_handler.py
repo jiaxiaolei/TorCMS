@@ -72,7 +72,7 @@ class PostHandler(BaseHandler):
         url_arr = url_str.split('/')
         if len(url_arr) == 1 and url_str.endswith('.html'):
             sig = url_str.split('.')[0]
-            self.add_post(sig)
+            self.add_post()
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'find':
@@ -80,7 +80,7 @@ class PostHandler(BaseHandler):
         elif url_str == 'add_document':
             self.user_add_post()
         elif url_arr[0] == 'add':
-            self.add_post(url_arr[1])
+            self.add_post()
         else:
             self.redirect('/html/404.html')
 
@@ -106,14 +106,15 @@ class PostHandler(BaseHandler):
                     )
 
     def refresh(self):
+
         kwd = {
             'pager': '',
-
             'title': '最近文档',
         }
-        self.render('tplite/post/all.html'.format(input),
+        self.render('tplite/post/refresh.html',
                     kwd=kwd,
-                    view=self.mpost.query_dated(60),
+                    userinfo = self.userinfo,
+                    view=self.mpost.query_dated(10),
                     format_date=tools.format_date,
                     unescape=tornado.escape.xhtml_unescape, )
 
@@ -146,9 +147,11 @@ class PostHandler(BaseHandler):
     def wiki(self, uid):
         dbdate = self.mpost.get_by_id(uid)
         if dbdate:
+            print('1111111')
             self.mpost.update_view_count_by_uid(dbdate.uid)
             self.viewit(dbdate)
         else:
+            print('2' * 20)
             self.to_add(uid)
 
     def to_add_document(self, ):
@@ -156,6 +159,7 @@ class PostHandler(BaseHandler):
             'pager': '',
             'cats': self.cats,
             'specs': self.specs,
+            'uid': '',
         }
         self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd,tag_infos=self.mcat.query_all() )
 
@@ -191,6 +195,7 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def update_catalog(self, uid):
+        print(uid)
         raw_data = self.mpost.get_by_id(uid)
         if self.userinfo.privilege[2] == '1' or raw_data.user_name == self.get_current_user():
             pass
@@ -307,7 +312,7 @@ class PostHandler(BaseHandler):
         )
 
     @tornado.web.authenticated
-    def add_post(self, id_post):
+    def add_post(self):
         if self.userinfo.privilege[1] == '1':
             pass
         else:
@@ -317,6 +322,7 @@ class PostHandler(BaseHandler):
             post_data[key] = self.get_arguments(key)
 
         post_data['user_name'] = self.get_current_user()
+        id_post = post_data['uid'][0]
         cur_post_rec = self.mpost.get_by_id(id_post)
         if cur_post_rec is None:
             uid = self.mpost.insert_data(id_post, post_data)
@@ -335,9 +341,9 @@ class PostHandler(BaseHandler):
 
         post_data['user_name'] = self.get_current_user()
 
-        cur_uid = tools.get_uu6d()
+        cur_uid = tools.get_uu5d()
         while self.mpost.get_by_id(cur_uid) :
-            cur_uid = tools.get_uu6d()
+            cur_uid = tools.get_uu5d()
 
         uid = self.mpost.insert_data(cur_uid, post_data)
         self.update_catalog(uid)

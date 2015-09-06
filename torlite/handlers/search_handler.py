@@ -24,7 +24,10 @@ from torlite.model.mpost_hist import MPostHist
 from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
 
-from torlite.core.tool.whoosh_tool import search as whoosh_search
+from torlite.core.tool.whoosh_tool import yunsearch
+
+
+
 
 
 class SearchHandler(BaseHandler):
@@ -44,17 +47,21 @@ class SearchHandler(BaseHandler):
         self.specs = self.mspec.get_all()
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
+        self.ysearch = yunsearch()
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
         else:
             self.userinfo = None
 
     def get(self, url_str=''):
-
+        if len(url_str) > 0:
+            url_arr = url_str.split('/')
         if url_str == '':
             return
-        elif len(url_str) > 0:
+        elif len(url_arr) ==  1:
             self.search(url_str)
+        elif len(url_arr)  == 2:
+            self.search(url_arr[0], int(url_arr[1]))
         else:
             kwd = {
                 'info': '页面未找到',
@@ -73,13 +80,19 @@ class SearchHandler(BaseHandler):
         }
         self.render('tplite/post/find.html', topmenu='', kwd=kwd)
 
-    def search(self, keyword):
-        results = whoosh_search(keyword, 20)
+    def search(self, keyword, p_index = 1):
+        print('-' * 40)
+        res_all = self.ysearch.get_all_num(keyword)
+        # res_all = get_all_num(keyword)
+        # results = self.ysearch.search(keyword, 20)
+        results = self.ysearch.search_pager(keyword, page_index=p_index, doc_per_page=20)
+        page_num = int(res_all / 20)
         kwd = {'title':'查找结果',
                'pager': '',
                }
         self.render('tplite/search/search.html',
                     kwd=kwd,
                     srecs = results,
+                    pager = tools.gen_pager_bootstrap_url('/search/{0}'.format(keyword) , page_num, p_index),
                     )
 
