@@ -58,6 +58,12 @@
                         <label for="keywords">关键词</label>
                         <input id="keywords" name="keywords" type="text" value="{{ dbrec.keywords }}">
                     </div>
+                    <div class="pure-control-group">
+                        <label for="tags">标签</label>
+                        <input id="tags" name="tags" type="text" value="{% for x in app2label_info %}
+                {{ x.tag.name}},
+                {% end  %}">
+                    </div>
 
                     <div class="pure-control-group">
                         <label for="src_type">文档类型</label>
@@ -99,7 +105,7 @@
                 <div class="pure-u-2-5">
                     {% for ii in range(1,6) %}
                     <div class="pure-control-group">
-                        <label for="tag{{ii}}">标签{{ii}}</label>
+                        <label for="tag{{ii}}">分类{{ii}}</label>
                         <select name="tag{{ii}}" id="tag1">
                             <option value="">请选择</option>
                             {% for taginfo in tag_infos %}

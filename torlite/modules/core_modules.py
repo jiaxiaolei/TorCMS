@@ -12,22 +12,24 @@ import tornado.web
 from torlite.model.mcatalog import MCatalog
 from torlite.model.mpost import MPost
 from torlite.model.mpost2catalog import MPost2Catalog
+from torlite.model.mlabel_model import MPost2Label
 import config
+
 
 class reply_panel(tornado.web.UIModule):
     def render(self, sig, uid, userinfo, replys):
-
         kwd = {
             'sig': sig
         }
         return self.render_string('tplite/modules/reply_panel.html',
-                      sig = sig  ,
-                                  uid = uid,
-                                replys = replys,
-                                  userinfo = userinfo,
-                                  unescape = tornado.escape.url_unescape,
-                                  linkify  = tornado.escape.linkify,
-                                  )
+                                  sig=sig,
+                                  uid=uid,
+                                  replys=replys,
+                                  userinfo=userinfo,
+                                  unescape=tornado.escape.url_unescape,
+                                  linkify=tornado.escape.linkify,
+        )
+
 
 class get_footer(tornado.web.UIModule):
     def render(self):
@@ -215,3 +217,20 @@ class post_catalogs(tornado.web.UIModule):
             ii += 1
 
         return out_str
+
+
+class post_tags(tornado.web.UIModule):
+    def render(self, signature):
+        self.mapp2tag = MPost2Catalog()
+        tag_infos = self.mapp2tag.query_by_app_uid(signature)
+        # tag_infos = self.mapp2tag.query_all()
+        out_str = ''
+        ii = 1
+        for tag_info in tag_infos:
+            # print(tag_info.owner.name)
+            tmp_str = '<a href="/category/{0}" class="tag{1}">{2}</a>'.format(tag_info.catalog.slug, ii,
+                                                                              tag_info.catalog.name)
+            out_str += tmp_str
+            ii += 1
+        return out_str
+

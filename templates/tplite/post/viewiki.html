@@ -139,6 +139,7 @@
 
 </div>
 
+
 <div class="panel-body">
 
 
@@ -146,7 +147,21 @@
         {% raw unescape(view.cnt_html) %}
     </div>
 
-    <Br>
+   <div class="panel-footer">
+    <div class="row">
+        <div class="col-md-6">
+            <span>{{ _('tag') }}:</span>
+                <span class="post_cat">
+                    {% set iii = 1 %}
+                    {% for x in tag_info %}
+                    <a href="/label/{{ x.tag.uid }}" class="app_label tag{{ iii }}">{{ x.tag.name }}</a>
+                    {% set iii = iii + 1 %}
+                    {% end %}
+                </span>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+</div>
 
     <div class="sxan" style="float: left">{% module previous_post_link(view.uid) %}</div>
     <div class="sxan" style="float: right">{% module next_post_link(view.uid) %}</div>

@@ -31,6 +31,10 @@ class CabPage(BaseModel):
     view_count = peewee.IntegerField()
 
 
+
+
+
+
 class CabPost(BaseModel):
     uid = peewee.CharField(null=False, index=False, unique=True, primary_key=True, default='00000',
                            max_length=5, help_text='', )
@@ -46,6 +50,8 @@ class CabPost(BaseModel):
     cnt_md = peewee.TextField()
     cnt_html = peewee.TextField()
     src_type = peewee.IntegerField( default= 0) # 0 for markdown, 1 for rst
+
+
 
 class CabWiki(BaseModel):
     uid = peewee.CharField(null=False, index=False,
@@ -166,3 +172,8 @@ class CabPost2Label(BaseModel):
     tag = peewee.ForeignKeyField(CabLabel, related_name='tag_post_rel')
     app = peewee.ForeignKeyField(CabPost,  related_name='post_tag_rel')
     order = peewee.IntegerField()
+
+
+
+
+

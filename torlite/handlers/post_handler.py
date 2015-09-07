@@ -9,6 +9,7 @@ Bu Kun's Homepage: http://bukun.net
 import tornado.web
 import tornado.escape
 import json
+import config
 from torlite.core import tools
 from torlite.core.base_handler import BaseHandler
 from torlite.model.mpost import MPost
@@ -19,6 +20,9 @@ from torlite.model.muser import MUser
 from torlite.model.mpost2catalog import MPost2Catalog
 from torlite.model.mreply import MReply
 from torlite.model.mpost2reply import MPost2Reply
+from torlite.model.mlabel_model import MPost2Label
+from torlite.model.mlabel_model import MLabel
+
 
 class PostHandler(BaseHandler):
     def initialize(self):
@@ -31,7 +35,7 @@ class PostHandler(BaseHandler):
         self.mpost_hist = MPostHist()
         self.mpost2catalog = MPost2Catalog()
         self.mpost2reply = MPost2Reply()
-
+        self.mapp2tag = MPost2Label()
 
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
@@ -102,8 +106,8 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     view=self.mpost.query_recent(),
                     format_date=tools.format_date,
-                    userinfo = self.userinfo,
-                    )
+                    userinfo=self.userinfo,
+        )
 
     def refresh(self):
 
@@ -113,7 +117,7 @@ class PostHandler(BaseHandler):
         }
         self.render('tplite/post/refresh.html',
                     kwd=kwd,
-                    userinfo = self.userinfo,
+                    userinfo=self.userinfo,
                     view=self.mpost.query_dated(10),
                     format_date=tools.format_date,
                     unescape=tornado.escape.xhtml_unescape, )
@@ -147,11 +151,11 @@ class PostHandler(BaseHandler):
     def wiki(self, uid):
         dbdate = self.mpost.get_by_id(uid)
         if dbdate:
-            print('1111111')
+
             self.mpost.update_view_count_by_uid(dbdate.uid)
             self.viewit(dbdate)
         else:
-            print('2' * 20)
+
             self.to_add(uid)
 
     def to_add_document(self, ):
@@ -161,7 +165,7 @@ class PostHandler(BaseHandler):
             'specs': self.specs,
             'uid': '',
         }
-        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd,tag_infos=self.mcat.query_all() )
+        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd, tag_infos=self.mcat.query_all())
 
 
     @tornado.web.authenticated
@@ -187,15 +191,41 @@ class PostHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         is_update_time = True if post_data['is_update_time'][0] == '1' else False
-
+        self.update_tag(uid)
         self.mpost.update(uid, post_data, update_time=is_update_time)
         self.update_catalog(uid)
         self.mpost_hist.insert_data(raw_data)
+
         self.redirect('/post/{0}.html'.format(uid))
+
+    def update_tag(self, signature):
+        if self.userinfo.privilege[4] == '1':
+            pass
+        else:
+            return False
+        post_data = {}
+        for key in self.request.arguments:
+            post_data[key] = self.get_arguments(key)
+        current_tag_infos = self.mapp2tag.get_by_id(signature)
+
+        tags_arr = [x.strip() for x in post_data['tags'][0].split(',')]
+
+        # tags_arr = [x for x in tags_arr ]
+        for tag_name in tags_arr:
+            if tag_name == '':
+                pass
+            else:
+                self.mapp2tag.add_record(signature, tag_name, 1)
+
+        for cur_info in current_tag_infos:
+            if cur_info.tag.name in tags_arr:
+                pass
+            else:
+                self.mapp2tag.delete_by_id(cur_info.uid)
 
     @tornado.web.authenticated
     def update_catalog(self, uid):
-        print(uid)
+
         raw_data = self.mpost.get_by_id(uid)
         if self.userinfo.privilege[2] == '1' or raw_data.user_name == self.get_current_user():
             pass
@@ -241,6 +271,7 @@ class PostHandler(BaseHandler):
                     kwd=kwd,
                     unescape=tornado.escape.xhtml_unescape,
                     tag_infos=self.mcat.query_all(),
+                    app2label_info=self.mapp2tag.get_by_id(id_rec),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
                     dbrec=a,
         )
@@ -248,10 +279,10 @@ class PostHandler(BaseHandler):
     # @tornado.web.authenticated
     # def to_modify_catalog(self, id_rec):
     # # 用户具有管理权限，
-    #     # 或
-    #     # 文章是用户自己发布的。
-    #     print(self.userinfo.privilege)
-    #     if self.userinfo.privilege[4] == '1':
+    # # 或
+    # # 文章是用户自己发布的。
+    # print(self.userinfo.privilege)
+    # if self.userinfo.privilege[4] == '1':
     #         pass
     #     else:
     #         print('Error')
@@ -290,6 +321,8 @@ class PostHandler(BaseHandler):
     def viewit(self, post_id):
         cats = self.mpost2catalog.query_catalog(post_id)
         replys = self.mpost2reply.get_by_id(post_id)
+        tag_info = self.mapp2tag.get_by_id(post_id)
+        # print(tag_info.)
 
 
         if cats.count() == 0:
@@ -307,6 +340,7 @@ class PostHandler(BaseHandler):
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
+                    tag_info=tag_info,
                     replys=replys,
 
         )
@@ -326,6 +360,7 @@ class PostHandler(BaseHandler):
         cur_post_rec = self.mpost.get_by_id(id_post)
         if cur_post_rec is None:
             uid = self.mpost.insert_data(id_post, post_data)
+            self.update_tag(uid)
             self.update_catalog(uid)
         self.redirect('/post/{0}.html'.format(id_post))
 
@@ -342,9 +377,109 @@ class PostHandler(BaseHandler):
         post_data['user_name'] = self.get_current_user()
 
         cur_uid = tools.get_uu5d()
-        while self.mpost.get_by_id(cur_uid) :
+        while self.mpost.get_by_id(cur_uid):
             cur_uid = tools.get_uu5d()
 
         uid = self.mpost.insert_data(cur_uid, post_data)
+        self.update_tag(uid)
         self.update_catalog(uid)
         self.redirect('/post/{0}.html'.format(cur_uid))
+
+
+class LabelHandler(BaseHandler):
+    def initialize(self):
+        self.muser = MUser()
+        self.mequa = MPost()
+        self.mtag = MLabel()
+        self.mapp2tag = MPost2Label()
+        if self.get_current_user():
+            self.userinfo = self.muser.get_by_id(self.get_current_user())
+        else:
+            self.userinfo = None
+
+    def get(self, input=''):
+        if len(input) > 0:
+            ip_arr = input.split(r'/')
+
+        if len(ip_arr) == 1:
+            self.list(input)
+        elif len(ip_arr) == 2:
+            self.list(ip_arr[0], ip_arr[1])
+
+    def post(self, url_str=''):
+        if len(url_str) > 0:
+            url_arr = url_str.split('/')
+        if url_arr[0] == 'edit':
+            self.edit(url_arr[1])
+
+    def list(self, tag_slug, cur_p=''):
+        '''
+        根据 cat_handler.py 中的 def view_cat_new(self, cat_slug, cur_p = '')
+        :param tag_slug:
+        :return:
+        '''
+        if cur_p == '':
+            current_page_number = 1
+        else:
+            current_page_number = int(cur_p)
+        # taginfo = self.mtag.get_by_slug(tag_slug)
+        # num_of_tag = self.mapp2tag.catalog_record_number(taginfo.uid)
+        # page_num = int(num_of_tag / config.page_num ) + 1
+        # tag_name = taginfo.name
+
+        tag_name = 'fd'
+        kwd = {
+            'tag_name': tag_name,
+            'tag_slug': tag_slug,
+            'title': tag_name,
+        }
+
+        page_num = 5
+
+        # infos = self.mapp2tag.query_by_slug(tag_slug)
+        self.render('tplite/label/list.html',
+                    infos=self.mapp2tag.query_pager_by_slug(tag_slug),
+                    unescape=tornado.escape.xhtml_unescape,
+                    kwd=kwd,
+                    pager='',
+                    userinfo=self.userinfo,
+                    # self.gen_pager(tag_slug, page_num, current_page_number),
+        )
+
+    def gen_pager(self, cat_slug, page_num, current):
+        # cat_slug 分类
+        # page_num 页面总数
+        # current 当前页面
+        if page_num == 1:
+            return ''
+
+        pager_shouye = '''
+        <li class="pure-menu-item first {0}">
+        <a class="pure-menu-link" href="/tag/{1}">&lt;&lt; 首页</a>
+                    </li>'''.format('hidden' if current <= 1 else '', cat_slug)
+
+        pager_pre = '''
+                    <li class="pure-menu-item previous {0}">
+                    <a class="pure-menu-link" href="/tag/{1}/{2}">&lt; 前页</a>
+                    </li>
+                    '''.format('hidden' if current <= 1 else '', cat_slug, current - 1)
+        pager_mid = ''
+        for ind in range(0, page_num):
+            tmp_mid = '''
+                    <li class="pure-menu-item page {0}">
+                    <a class="pure-menu-link" href="/tag/{1}/{2}">{2}</a></li>
+                    '''.format('selected' if ind + 1 == current else '', cat_slug, ind + 1)
+            pager_mid += tmp_mid
+        pager_next = '''
+                    <li class="pure-menu-item next {0}">
+                    <a class="pure-menu-link" href="/tag/{1}/{2}">后页 &gt;</a>
+                    </li>
+                    '''.format('hidden' if current >= page_num else '', cat_slug, current + 1)
+        pager_last = '''
+                    <li class="pure-menu-item last {0}">
+                    <a class="pure-menu-link" href="/tag/{1}/{2}">末页
+                        &gt;&gt;</a>
+                    </li>
+                    '''.format('hidden' if current >= page_num else '', cat_slug, page_num)
+        pager = pager_shouye + pager_pre + pager_mid + pager_next + pager_last
+        return (pager)

@@ -17,8 +17,10 @@ from torlite.handlers.static_handler import StaticHandler
 from torlite.handlers.search_handler import SearchHandler
 from torlite.handlers.reply_handler import ReplyHandler
 from torlite.handlers.post2reply_handler import Post2ReplyHandler
+from torlite.handlers.post_handler import LabelHandler
 
 urls = [
+    ("/label/(.*)", LabelHandler, dict()),
     ("/post/toreply/(.*)", Post2ReplyHandler, dict()),
     ("/pic/(.*)", PicHandler, dict()),
     ("/category/(.*)", CatHandler, dict()),
@@ -30,6 +32,7 @@ urls = [
     ("/html/(.*)", StaticHandler, dict()),
     ("/search/(.*)", SearchHandler, dict()),
     ("/reply/(.*)", ReplyHandler, dict()),
+
 
     ("/", IndexHandler, dict()),
 ]

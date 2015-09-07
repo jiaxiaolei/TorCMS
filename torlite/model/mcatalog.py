@@ -5,8 +5,8 @@ E-mail: bukun@osgeo.cn
 CopyRight: http://www.yunsuan.org
 '''
 
-
 from torlite.model.core_tab import CabCatalog
+
 
 class MCatalog():
     def __init__(self):
@@ -15,7 +15,7 @@ class MCatalog():
         except:
             pass
 
-    def query_all(self, with_count = False, by_order = False):
+    def query_all(self, with_count=False, by_order=False):
         if with_count == True:
             recs = CabCatalog.select().order_by(CabCatalog.post_count.desc())
         elif by_order == True:
@@ -33,15 +33,17 @@ class MCatalog():
 
     def get_by_id(self, idd):
         return CabCatalog.get(id_cat=idd)
+
     def update_app_catalog_num(self, cat_id, num):
         entry = CabCatalog.update(
-            app_count = num,
-        ).where(CabCatalog.uid == cat_id )
+            app_count=num,
+        ).where(CabCatalog.uid == cat_id)
         entry.execute()
+
     def update_post_catalog_num(self, cat_id, num):
         entry = CabCatalog.update(
-            post_count = num,
-        ).where(CabCatalog.uid == cat_id )
+            post_count=num,
+        ).where(CabCatalog.uid == cat_id)
         entry.execute()
 
     def initial_db(self, post_data):

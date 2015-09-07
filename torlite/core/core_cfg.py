@@ -45,4 +45,5 @@ core_modules = {'ModuleCatMenu': ModuleCatMenu,
                 'site_url': site_url,
                 'generate_description': generate_description,
                 'reply_panel': reply_panel,
-                }
+                'post_tags': post_tags,
+}

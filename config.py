@@ -34,3 +34,5 @@ smtp_cfg = {
     'pass': "password_hear",
     'postfix': 'yunsuan.org',
     }
+
+

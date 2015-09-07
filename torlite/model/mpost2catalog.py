@@ -81,3 +81,6 @@ class MPost2Catalog():
     def query_pager_by_slug(self, slug, current_page_num=1):
         return CabPost.select().join(CabPost2Catalog).join(CabCatalog).where(CabCatalog.slug == slug).order_by(
             CabPost.time_update.desc()).paginate(current_page_num, config.page_num)
+    
+    def query_by_app_uid(self, idd):
+        return CabPost2Catalog.select().join(CabCatalog).where(CabPost2Catalog.post ==  idd).order_by(CabPost2Catalog.order)
