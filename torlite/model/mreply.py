@@ -28,8 +28,6 @@ class MReply():
             pass
 
     def add_one(self):
-
-
         pass
 
     def update_vote(self, reply_id, count):

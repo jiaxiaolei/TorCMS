@@ -22,7 +22,7 @@ from torlite.model.mreply import MReply
 from torlite.model.mpost2reply import MPost2Reply
 from torlite.model.mlabel_model import MPost2Label
 from torlite.model.mlabel_model import MLabel
-from torlite.model.m_rel_model import MRel
+from torlite.model.mrelation import MRelation
 
 
 class PostHandler(BaseHandler):
@@ -37,7 +37,7 @@ class PostHandler(BaseHandler):
         self.mpost2catalog = MPost2Catalog()
         self.mpost2reply = MPost2Reply()
         self.mapp2tag = MPost2Label()
-        self.mrel = MRel()
+        self.mrel = MRelation()
 
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
