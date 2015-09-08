@@ -147,10 +147,10 @@
         {% raw unescape(view.cnt_html) %}
     </div>
 
-   <div class="panel-footer">
-    <div class="row">
-        <div class="col-md-6">
-            <span>{{ _('tag') }}:</span>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-6">
+                <span>{{ _('tag') }}:</span>
                 <span class="post_cat">
                     {% set iii = 1 %}
                     {% for x in tag_info %}
@@ -158,8 +158,26 @@
                     {% set iii = iii + 1 %}
                     {% end %}
                 </span>
+            </div>
+            <div class="col-md-6"></div>
         </div>
-        <div class="col-md-6"></div>
+    </div>
+
+    <div style="font-size: 13px; margin: 10px 10px 20px 10px; border: 1px dashed #ddd; padding: 10px">
+<div class="content find_equation">
+            <h3>相关文档</h3>
+
+
+        <ul >
+            {% for s in relations %}
+            <li class="list-group-item">
+                <a href="/post/{{ s.app_t.uid }}.html">
+                    {{ s.app_t.title }}
+                </a>
+            </li>
+            {% end %}
+        </ul>
+
     </div>
 </div>
 

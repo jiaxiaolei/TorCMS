@@ -173,7 +173,15 @@ class CabPost2Label(BaseModel):
     app = peewee.ForeignKeyField(CabPost,  related_name='post_tag_rel')
     order = peewee.IntegerField()
 
-
+class CabRelation(BaseModel):
+    '''
+    相关应用
+    我们认为，相关性，并非是对称操作
+    '''
+    uid = peewee.CharField(max_length=36, null=False, unique=True, help_text='', primary_key=True)
+    app_f = peewee.ForeignKeyField(CabPost, related_name='post_from')
+    app_t = peewee.ForeignKeyField(CabPost, related_name='post_to')
+    count = peewee.IntegerField()
 
 
 
