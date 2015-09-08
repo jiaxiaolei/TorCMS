@@ -164,8 +164,13 @@ class PostHandler(BaseHandler):
             'cats': self.cats,
             'specs': self.specs,
             'uid': '',
+
         }
-        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd, tag_infos=self.mcat.query_all())
+        self.render('tplite/post/addwiki.html', topmenu='',
+                    kwd=kwd,
+                    tag_infos=self.mcat.query_all(),
+                    userinfo = self.userinfo,
+        )
 
 
     @tornado.web.authenticated
@@ -274,6 +279,7 @@ class PostHandler(BaseHandler):
                     app2label_info=self.mapp2tag.get_by_id(id_rec),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
                     dbrec=a,
+                    userinfo = self.userinfo,
         )
 
     # @tornado.web.authenticated
