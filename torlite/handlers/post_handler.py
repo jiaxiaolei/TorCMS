@@ -96,17 +96,6 @@ class PostHandler(BaseHandler):
             self.redirect('/html/404.html')
 
 
-    def add_relation(self, f_uid, t_uid):
-        if False == self.mpost.get_by_uid(t_uid):
-            return False
-        if f_uid == t_uid:
-            '''
-            关联其本身
-            '''
-            return False
-        self.mrel.add_relation(f_uid, t_uid)
-        return True
-
     def to_find(self, ):
         kwd = {
             'pager': '',
@@ -227,7 +216,7 @@ class PostHandler(BaseHandler):
 
         tags_arr = [x.strip() for x in post_data['tags'][0].split(',')]
 
-      
+
         for tag_name in tags_arr:
             if tag_name == '':
                 pass
@@ -376,6 +365,18 @@ class PostHandler(BaseHandler):
                     replys=replys,
 
         )
+
+
+    def add_relation(self, f_uid, t_uid):
+        if False == self.mpost.get_by_uid(t_uid):
+            return False
+        if f_uid == t_uid:
+            '''
+            关联其本身
+            '''
+            return False
+        self.mrel.add_relation(f_uid, t_uid)
+        return True
 
     @tornado.web.authenticated
     def add_post(self):
