@@ -33,7 +33,7 @@ class MPage():
         entry.execute()
 
     def insert_data(self, post_data):
-        slug =  post_data['slug'][0]
+        slug = post_data['slug'][0]
         uu = self.get_by_slug(slug)
         if uu is None:
             pass
@@ -46,16 +46,16 @@ class MPage():
 
         try:
             entry = CabPage.create(
-            title=post_data['title'][0],
-            date=datetime.datetime.now(),
-            slug= slug,
-            cnt_html=self.md2html(post_data['cnt_md'][0]),
-            # id_post=id_post,
-            time_create=time.time(),
-            id_user='',
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-            time_update=time.time(),
-            view_count=1,
+                title=post_data['title'][0],
+                date=datetime.datetime.now(),
+                slug=slug,
+                cnt_html=self.md2html(post_data['cnt_md'][0]),
+                # id_post=id_post,
+                time_create=time.time(),
+                id_user='',
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
+                time_update=time.time(),
+                view_count=1,
             )
         except:
             return ''
@@ -74,7 +74,8 @@ class MPage():
         return CabPage.select().order_by('time_update')
 
     def get_by_id(self, in_uid):
-        return CabPage.get(id_post=in_uid)
+       return CabPage.get(id_post=in_uid)
+
 
 
     def query_by_cat(self, cat_str):

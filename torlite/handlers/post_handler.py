@@ -56,7 +56,7 @@ class PostHandler(BaseHandler):
             self.wiki(url_str.split('.')[0])
         # 弃用, /search 代替
         # elif url_arr[0] == 'find':
-        #     self.find(url_arr[1])
+        # self.find(url_arr[1])
         # elif url_str == 'find':
         #     self.to_find()
         elif url_str == 'add_document':
@@ -83,11 +83,7 @@ class PostHandler(BaseHandler):
         if len(url_arr) == 1 and url_str.endswith('.html'):
             sig = url_str.split('.')[0]
             self.add_post()
-        if url_arr[0] == 'rel':
-            if self.get_current_user():
-                self.add_relation(url_arr[1])
-            else:
-                self.redirect('/user/login')
+
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'find':
@@ -174,7 +170,7 @@ class PostHandler(BaseHandler):
         dbdate = self.mpost.get_by_id(uid)
         if dbdate:
             self.mpost.update_view_count_by_uid(dbdate.uid)
-            self.viewit( uid )
+            self.viewit(uid)
         else:
 
             self.to_add(uid)
@@ -231,7 +227,7 @@ class PostHandler(BaseHandler):
 
         tags_arr = [x.strip() for x in post_data['tags'][0].split(',')]
 
-        # tags_arr = [x for x in tags_arr ]
+      
         for tag_name in tags_arr:
             if tag_name == '':
                 pass
@@ -304,7 +300,7 @@ class PostHandler(BaseHandler):
     # # 文章是用户自己发布的。
     # print(self.userinfo.privilege)
     # if self.userinfo.privilege[4] == '1':
-    #         pass
+    # pass
     #     else:
     #         print('Error')
     #         return False
@@ -340,7 +336,7 @@ class PostHandler(BaseHandler):
                 return (x['name'])
 
     def viewit(self, post_id):
-        print(post_id)
+
         last_post_id = self.get_cookie('last_post_uid')
         self.set_cookie('last_post_uid', post_id)
 
@@ -350,7 +346,6 @@ class PostHandler(BaseHandler):
         cats = self.mpost2catalog.query_catalog(post_id)
         replys = self.mpost2reply.get_by_id(post_id)
         tag_info = self.mapp2tag.get_by_id(post_id)
-        # print(tag_info.)
 
         rec = self.mpost.get_by_uid(post_id)
 
@@ -372,7 +367,7 @@ class PostHandler(BaseHandler):
         }
 
         self.render('tplite/post/viewiki.html',
-                    view= rec ,
+                    view=rec,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
