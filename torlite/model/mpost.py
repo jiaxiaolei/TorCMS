@@ -205,3 +205,10 @@ class MPost():
 
     def get_by_keyword(self, par2):
         return CabPost.select().where(CabPost.title.contains(par2)).order_by(CabPost.time_update.desc()).limit(20)
+
+    def get_by_uid(self, sig):
+        #return CabPost.get(uid=sig)
+        try:
+            return CabPost.get(uid=sig)
+        except:
+            return False

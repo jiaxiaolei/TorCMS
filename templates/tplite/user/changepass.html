@@ -29,10 +29,7 @@
 
                     },
                     messages: {
-                        user_name: {
-                            required: "<span class='red'>请输入用户名</span>"
 
-                        },
 
                         user_pass: {
                             required: "<span class='red'>请输入密码</span>",
@@ -60,22 +57,22 @@
     <form class="pure-form pure-form-aligned" action="/user/changepass" method="post" id="form_changepass">
         <div class="pure-control-group">
             <label for="user_name">用户名</label>
-            <input type="text" name="user_name" id="user_name" class="form-control" placeholder="请输入用户名"/>
+            <input type="text" name="user_name" id="user_name" class="form-control" value="{{user_info.user_name}}" readonly/>
         </div>
 
 
         <div class="pure-control-group">
             <label for="rawpass">原密码</label>
-            <input type="text" name="rawpass" id="rawpass" class="form-control" placeholder="请输入原密码"/>
+            <input type="password" name="rawpass" id="rawpass" class="form-control" placeholder="请输入原密码"/>
         </div>
 
         <div class="pure-control-group">
             <label for="user_pass">新密码</label>
-            <input type="text" name="user_pass" id="user_pass" class="form-control" placeholder="请输入新密码"/>
+            <input type="password" name="user_pass" id="user_pass" class="form-control" placeholder="请输入新密码"/>
         </div>
         <div class="pure-control-group">
             <label for="user_pass2">确认密码</label>
-            <input type="text" name="user_pass2" id="user_pass2" class="form-control" placeholder="请输入确认密码"/>
+            <input type="password" name="user_pass2" id="user_pass2" class="form-control" placeholder="请输入确认密码"/>
         </div>
 
 
