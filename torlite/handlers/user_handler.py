@@ -139,7 +139,8 @@ class UserHandler(BaseHandler):
     @tornado.web.authenticated
     def show_info(self):
         self.render('tplite/user/info.html',
-                    user_info=self.muser.get_by_id(self.user_name))
+                    user_info=self.muser.get_by_id(self.user_name),
+                    userinfo = self.muser.get_by_id(self.user_name),)
 
     def to_reset_password(self):
         self.render('tplite/user/reset_password.html')

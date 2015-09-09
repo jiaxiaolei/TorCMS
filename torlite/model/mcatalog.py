@@ -10,6 +10,8 @@ from torlite.model.core_tab import CabCatalog
 
 class MCatalog():
     def __init__(self):
+        
+        self.tab = CabCatalog
         try:
             CabCatalog.create_table()
         except:
@@ -17,39 +19,39 @@ class MCatalog():
 
     def query_all(self, with_count=False, by_order=False):
         if with_count == True:
-            recs = CabCatalog.select().order_by(CabCatalog.post_count.desc())
+            recs = self.tab.select().order_by(self.tab.post_count.desc())
         elif by_order == True:
-            recs = CabCatalog.select().order_by(CabCatalog.order)
+            recs = self.tab.select().order_by(self.tab.order)
         else:
-            recs = CabCatalog.select().order_by(CabCatalog.name)
+            recs = self.tab.select().order_by(self.tab.name)
         return (recs)
 
     def query_field_count(self, limit_num):
-        recs = CabCatalog.select().order_by(CabCatalog.app_count.desc()).limit(limit_num)
+        recs = self.tab.select().order_by(self.tab.app_count.desc()).limit(limit_num)
         return (recs)
 
     def get_by_slug(self, slug):
-        return CabCatalog.get(slug=slug)
+        return self.tab.get(slug=slug)
 
     def get_by_id(self, idd):
-        return CabCatalog.get(id_cat=idd)
+        return self.tab.get(id_cat=idd)
 
     def update_app_catalog_num(self, cat_id, num):
-        entry = CabCatalog.update(
+        entry = self.tab.update(
             app_count=num,
-        ).where(CabCatalog.uid == cat_id)
+        ).where(self.tab.uid == cat_id)
         entry.execute()
 
     def update_post_catalog_num(self, cat_id, num):
-        entry = CabCatalog.update(
+        entry = self.tab.update(
             post_count=num,
-        ).where(CabCatalog.uid == cat_id)
+        ).where(self.tab.uid == cat_id)
         entry.execute()
 
     def initial_db(self, post_data):
         '''
         '''
-        entry = CabCatalog.create(
+        entry = self.tab.create(
             name=post_data['name'],
             id_cat=post_data['id_cat'],
             slug=post_data['slug'],
