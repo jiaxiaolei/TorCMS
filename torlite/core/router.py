@@ -29,11 +29,8 @@ urls = [
     ("/post/(.*)", PostHandler, dict()),
     ("/page/(.*)", PageHandler, dict()),
     ("/wiki/(.*)", WikiHandler, dict()),
-
     ("/search/(.*)", SearchHandler, dict()),
     ("/reply/(.*)", ReplyHandler, dict()),
-
-
     ("/", IndexHandler, dict()),
-
+    ("/(.*)", StaticHandler, dict()),
 ]
