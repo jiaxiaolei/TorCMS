@@ -374,6 +374,9 @@ class PostHandler(BaseHandler):
 
 
     def add_relation(self, f_uid, t_uid):
+        print('-'* 40)
+        print(f_uid)
+        print(t_uid)
         if False == self.mpost.get_by_uid(t_uid):
             return False
         if f_uid == t_uid:

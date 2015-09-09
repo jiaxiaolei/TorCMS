@@ -10,7 +10,6 @@ from torlite.model.core_tab import CabCatalog
 
 class MCatalog():
     def __init__(self):
-        
         self.tab = CabCatalog
         try:
             CabCatalog.create_table()
@@ -49,8 +48,6 @@ class MCatalog():
         entry.execute()
 
     def initial_db(self, post_data):
-        '''
-        '''
         entry = self.tab.create(
             name=post_data['name'],
             id_cat=post_data['id_cat'],

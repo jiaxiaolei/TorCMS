@@ -23,12 +23,13 @@ from torlite.model.core_tab import CabPost
 
 class MLabel():
     def __init__(self):
+        self.tab = CabLabel
         try:
             CabLabel.create_table()
         except:
             pass
     def get_id_by_name(self, tag_name):
-        uu = CabLabel.select().where(CabLabel.name == tag_name)
+        uu = self.tab.select().where(self.tab.name == tag_name)
         if uu.count() > 0:
             return uu.get().uid
         else:
@@ -36,9 +37,10 @@ class MLabel():
 
     def create_tag(self, tag_name):
         uid = tools.get_uu8d()
-        while CabLabel.select().where(CabLabel.uid == uid).count() > 0:
+        while self.tab.select().where(self.tab.uid == uid).count() > 0:
             uid = tools.get_uu8d()
-        entry = CabLabel.create(
+
+        entry = self.tab.create(
                 uid= uid,
                 name = tag_name,
                 count = 0
@@ -47,12 +49,15 @@ class MLabel():
 
 class MPost2Label():
     def __init__(self):
+        self.tab = CabPost2Label
+        self.tab_label = CabLabel
+        self.tab_post = CabPost
+        self.mtag = MLabel()
         try:
             CabPost2Label.create_table()
         except:
             pass
-        # self.mCabCatalog = MTag()
-        self.mtag = MLabel()
+
     def generate_catalog_list(self, signature):
         # self.mapp2tag = model.app2tag_model.MApp2Tag()
         tag_infos = self.get_by_id(signature)
@@ -64,41 +69,46 @@ class MPost2Label():
         return out_str
 
     def query_all(self):
-        recs = CabPost2Label.select().order_by(CabPost2Label.order)
+        recs = self.tab.select().order_by(self.tab.order)
         return (recs)
 
-    def query_count(self):
-        recs = CabPost2Label.select(CabPost2Label.catalog, peewee.fn.COUNT(CabPost2Label.catalog).alias('num')).group_by(CabPost2Label.catalog)
-        return (recs)
+    # def query_count(self):
+    #     recs = self.tab.select(self.tab.catalog, peewee.fn.COUNT(self.tab.catalog).alias('num')).group_by(self.tab.catalog)
+    #     return (recs)
 
 
-    def query_by_slug(self, slug):
-        return CabPost2Label.select().join(CabCatalog).where(CabCatalog.slug == slug).order_by(peewee.fn.Rand())
+    # def query_by_slug(self, slug):
+    #     return self.tab.select().join(CabCatalog).where(CabCatalog.slug == slug).order_by(peewee.fn.Rand())
 
     def get_by_id(self, idd):
-        return CabPost2Label.select().join(CabLabel).where(CabPost2Label.app ==  idd)
+        return self.tab.select().join(self.tab_label).where(self.tab.app ==  idd)
 
     def get_by_info(self, post_id, catalog_id):
-        tmp_recs = CabPost2Label.select().where((CabPost2Label.app == post_id) & (CabPost2Label.tag == catalog_id))
+        tmp_recs = self.tab.select().where((self.tab.app == post_id) & (self.tab.tag == catalog_id))
+        print(tmp_recs.count())
         if tmp_recs.count() > 1:
             ''' 如果多于1个，则全部删除
             '''
             for tmp_rec in tmp_recs:
                 self.delete_by_id(tmp_rec.uid)
             return False
-        if tmp_recs.count() == 1:
+
+        elif tmp_recs.count() == 1:
             return tmp_recs.get()
         else:
             return False
 
     def add_record(self, post_id, tag_name, order=1):
-
+        print('=' * 100)
+        print(post_id)
+        print(tag_name)
 
         tag_id = self.mtag.get_id_by_name(tag_name)
+        print(tag_id)
         tt = self.get_by_info(post_id, tag_id)
+        print(tt)
         if tt == False:
-
-            entry = CabPost2Label.create(
+            entry = self.tab.create(
                     uid=str(uuid.uuid1()),
                     app=post_id,
                     tag=tag_id,
@@ -106,16 +116,16 @@ class MPost2Label():
             )
 
         else:
-            entry = CabPost2Label.update(
+            entry = self.tab.update(
                 order=order,
-            ).where(CabPost2Label.uid == tt.uid)
+            ).where(self.tab.uid == tt.uid)
             entry.execute()
 
     def delete_by_id(self, uid):
-        entry = CabPost2Label.delete().where(CabPost2Label.uid == uid)
+        entry = self.tab.delete().where(self.tab.uid == uid)
         entry.execute()
     def catalog_record_number(self, tag_id):
-        return CabPost2Label.select().where(CabPost2Label.catalog == tag_id).count()
+        return self.tab.select().where(self.tab.catalog == tag_id).count()
 
     def query_pager_by_slug(self, slug, current_page_num=1):
-        return CabPost.select().join(CabPost2Label).where(CabPost2Label.tag == slug). paginate(current_page_num, config.page_num)
+        return self.tab_post.select().join(self.tab).where(self.tab.tag == slug). paginate(current_page_num, config.page_num)

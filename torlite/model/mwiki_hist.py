@@ -4,10 +4,10 @@ Author: Bu Kun
 E-mail: bukun@osgeo.cn
 CopyRight: http://www.yunsuan.org
 '''
-
-
-from torlite.model.core_tab import  CabWikiHist
+from torlite.model.core_tab import CabWikiHist
 from torlite.core import tools
+
+
 class MWikiHist():
     def __init__(self):
         try:
@@ -32,7 +32,5 @@ class MWikiHist():
         tt = CabWikiHist.get(CabWikiHist.uid == in_uid)
         return tt
 
-
     def query_all(self):
         return CabWikiHist.select().order_by('time_update')
-

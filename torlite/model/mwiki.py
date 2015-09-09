@@ -11,7 +11,6 @@ import config
 import peewee
 import datetime
 
-# from torlite.model.core_tab import CabWiki2Catalog
 from torlite.core import tools
 
 from torlite.model.core_tab import CabWiki
@@ -84,9 +83,6 @@ class MWiki():
             return CabWiki.select().order_by(peewee.fn.Random()).limit(num)
         elif config.dbtype == 2:
             return CabWiki.select().order_by(peewee.fn.Rand()).limit(num)
-
-
-
     def get_by_id(self, in_uid):
         tt = CabWiki.select().where(CabWiki.uid == in_uid).count()
         if tt == 0:
@@ -139,23 +135,23 @@ class MWiki():
             return CabWiki.get(CabWiki.title == citiao)
 
 
-    def get_next_record(self, in_uid):
-        current_rec = self.get_by_id(in_uid)
-        query = CabWiki.select().where(CabWiki.time_update < current_rec.time_update).order_by(
-            CabWiki.time_update.desc())
-        if query.count() == 0:
-            return None
-        else:
-            return query.get()
+    # def get_next_record(self, in_uid):
+    #     current_rec = self.get_by_id(in_uid)
+    #     query = CabWiki.select().where(CabWiki.time_update < current_rec.time_update).order_by(
+    #         CabWiki.time_update.desc())
+    #     if query.count() == 0:
+    #         return None
+    #     else:
+    #         return query.get()
 
 
-    def get_previous_record(self, in_uid):
-        current_rec = self.get_by_id(in_uid)
-        query = CabWiki.select().where(CabWiki.time_update > current_rec.time_update).order_by(CabWiki.time_update)
-        if query.count() == 0:
-            return None
-        else:
-            return query.get()
+    # def get_previous_record(self, in_uid):
+    #     current_rec = self.get_by_id(in_uid)
+    #     query = CabWiki.select().where(CabWiki.time_update > current_rec.time_update).order_by(CabWiki.time_update)
+    #     if query.count() == 0:
+    #         return None
+    #     else:
+    #         return query.get()
 
 
     def query_by_spec(self, spec_id):
