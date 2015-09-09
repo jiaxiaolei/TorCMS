@@ -81,11 +81,13 @@ class SearchHandler(BaseHandler):
         self.render('tplite/post/find.html', topmenu='', kwd=kwd)
 
     def search(self, keyword, p_index = 1):
-        print('-' * 40)
+
         res_all = self.ysearch.get_all_num(keyword)
+
         # res_all = get_all_num(keyword)
         # results = self.ysearch.search(keyword, 20)
         results = self.ysearch.search_pager(keyword, page_index=p_index, doc_per_page=20)
+        print('-' * 40)
         page_num = int(res_all / 20)
         kwd = {'title':'查找结果',
                'pager': '',
@@ -93,6 +95,6 @@ class SearchHandler(BaseHandler):
         self.render('tplite/search/search.html',
                     kwd=kwd,
                     srecs = results,
-                    pager = tools.gen_pager_bootstrap_url('/search/{0}'.format(keyword) , page_num, p_index),
+                    pager = tools.gen_pager_bootstrap_url('/search/{0}'.format(keyword), page_num, p_index),
                     )
 
