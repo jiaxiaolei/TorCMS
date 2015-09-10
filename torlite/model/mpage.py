@@ -6,17 +6,14 @@ CopyRight: http://www.yunsuan.org
 '''
 
 import time
-import uuid
 import datetime
 import tornado
-import markdown2
+from torlite.core import tools
 from torlite.model.core_tab import CabPage
-
 
 class MPage():
     def __init__(self):
         try:
-
             CabPage.create_table()
         except:
             pass
@@ -25,7 +22,7 @@ class MPage():
         entry = CabPage.update(
             title=post_data['title'][0],
             date=datetime.datetime.now(),
-            cnt_html=self.md2html(post_data['cnt_md'][0]),
+            cnt_html= tools.markdown2html(post_data['cnt_md'][0]),
             id_user='',
             cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
             time_update=time.time(),
@@ -33,7 +30,7 @@ class MPage():
         entry.execute()
 
     def insert_data(self, post_data):
-        slug =  post_data['slug'][0]
+        slug = post_data['slug'][0]
         uu = self.get_by_slug(slug)
         if uu is None:
             pass
@@ -46,35 +43,34 @@ class MPage():
 
         try:
             entry = CabPage.create(
-            title=post_data['title'][0],
-            date=datetime.datetime.now(),
-            slug= slug,
-            cnt_html=self.md2html(post_data['cnt_md'][0]),
-            # id_post=id_post,
-            time_create=time.time(),
-            id_user='',
-            cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
-            time_update=time.time(),
-            view_count=1,
+                title=post_data['title'][0],
+                date=datetime.datetime.now(),
+                slug=slug,
+                cnt_html= tools.markdown2html(post_data['cnt_md'][0]),
+                time_create=time.time(),
+                id_user='',
+                cnt_md=tornado.escape.xhtml_escape(post_data['cnt_md'][0]),
+                time_update=time.time(),
+                view_count=1,
             )
         except:
             return ''
         return slug
-        # return (id_post)
 
-    def md2html(self, text):
-        html = markdown2.markdown(text, extras=["wiki-tables"])
-        return tornado.escape.xhtml_escape(html)
-
-    def get_by_id(self, input):
-        return CabPage.get(uid=input)
+    # def md2html(self, text):
+    #     html = markdown2.markdown(text, extras=["wiki-tables"])
+    #     return tornado.escape.xhtml_escape(html)
+    #
+    # def get_by_id(self, input):
+    #     return CabPage.get(uid=input)
 
 
     def query_all(self):
         return CabPage.select().order_by('time_update')
 
-    def get_by_id(self, in_uid):
-        return CabPage.get(id_post=in_uid)
+    # def get_by_id(self, in_uid):
+    #    return CabPage.get(id_post=in_uid)
+
 
 
     def query_by_cat(self, cat_str):
@@ -101,8 +97,8 @@ class MPage():
             return CabPage.get(CabPage.slug == slug)
 
 
-    def get_by_id(self, in_uid):
-        tt = CabPage.get(CabPage.id_post == in_uid)
-        return tt
-
-
+    # def get_by_id(self, in_uid):
+    #     tt = CabPage.get(CabPage.id_post == in_uid)
+    #     return tt
+    #
+    #

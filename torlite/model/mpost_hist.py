@@ -5,11 +5,9 @@ E-mail: bukun@osgeo.cn
 CopyRight: http://www.yunsuan.org
 '''
 
+from torlite.core import tools
+from torlite.model.core_tab import CabPostHist
 
-import uuid
-
-
-from torlite.model.core_tab import  CabPostHist
 
 class MPostHist():
     def __init__(self):
@@ -20,7 +18,7 @@ class MPostHist():
 
     def insert_data(self, raw_data):
 
-        uid = str(uuid.uuid1())
+        uid = tools.get_uuid()
         entry = CabPostHist.create(
             uid=uid,
             title=raw_data.title,
@@ -39,7 +37,5 @@ class MPostHist():
         tt = CabPostHist.get(CabPostHist.uid == in_uid)
         return tt
 
-
     def query_all(self):
         return CabPostHist.select().order_by('time_update')
-

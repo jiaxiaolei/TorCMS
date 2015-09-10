@@ -6,13 +6,10 @@ CopyRight: http://www.yunsuan.org
 '''
 
 import hashlib
-# import peewee
+
 from torlite.core.base_model import BaseModel
 from torlite.model.core_tab import CabMember
-
 from torlite.core import tools
-
-
 
 
 class MUser(BaseModel):

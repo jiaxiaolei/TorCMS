@@ -22,6 +22,7 @@ from torlite.model.mreply import MReply
 from torlite.model.mpost2reply import MPost2Reply
 from torlite.model.mlabel_model import MPost2Label
 from torlite.model.mlabel_model import MLabel
+from torlite.model.mrelation import MRelation
 
 
 class PostHandler(BaseHandler):
@@ -36,6 +37,7 @@ class PostHandler(BaseHandler):
         self.mpost2catalog = MPost2Catalog()
         self.mpost2reply = MPost2Reply()
         self.mapp2tag = MPost2Label()
+        self.mrel = MRelation()
 
         if self.get_current_user():
             self.userinfo = self.muser.get_by_id(self.get_current_user())
@@ -50,13 +52,15 @@ class PostHandler(BaseHandler):
         url_arr = url_str.split('/')
 
         if len(url_arr) == 1 and url_str.endswith('.html'):
+
             self.wiki(url_str.split('.')[0])
-        elif url_str == 'find':
-            self.to_find()
+        # 弃用, /search 代替
+        # elif url_arr[0] == 'find':
+        # self.find(url_arr[1])
+        # elif url_str == 'find':
+        #     self.to_find()
         elif url_str == 'add_document':
             self.to_add_document()
-        elif url_arr[0] == 'find':
-            self.find(url_arr[1])
         elif url_str == 'recent':
             self.recent()
         elif url_str == 'refresh':
@@ -73,10 +77,13 @@ class PostHandler(BaseHandler):
     def post(self, url_str=''):
         if url_str == '':
             return
+
         url_arr = url_str.split('/')
+
         if len(url_arr) == 1 and url_str.endswith('.html'):
             sig = url_str.split('.')[0]
             self.add_post()
+
         if url_arr[0] == 'modify':
             self.update(url_arr[1])
         elif url_str == 'find':
@@ -151,9 +158,8 @@ class PostHandler(BaseHandler):
     def wiki(self, uid):
         dbdate = self.mpost.get_by_id(uid)
         if dbdate:
-
             self.mpost.update_view_count_by_uid(dbdate.uid)
-            self.viewit(dbdate)
+            self.viewit(uid)
         else:
 
             self.to_add(uid)
@@ -164,8 +170,13 @@ class PostHandler(BaseHandler):
             'cats': self.cats,
             'specs': self.specs,
             'uid': '',
+
         }
-        self.render('tplite/post/addwiki.html', topmenu='', kwd=kwd, tag_infos=self.mcat.query_all())
+        self.render('tplite/post/addwiki.html', topmenu='',
+                    kwd=kwd,
+                    tag_infos=self.mcat.query_all(),
+                    userinfo = self.userinfo,
+        )
 
 
     @tornado.web.authenticated
@@ -210,7 +221,7 @@ class PostHandler(BaseHandler):
 
         tags_arr = [x.strip() for x in post_data['tags'][0].split(',')]
 
-        # tags_arr = [x for x in tags_arr ]
+
         for tag_name in tags_arr:
             if tag_name == '':
                 pass
@@ -274,6 +285,7 @@ class PostHandler(BaseHandler):
                     app2label_info=self.mapp2tag.get_by_id(id_rec),
                     app2tag_info=self.mpost2catalog.query_by_id(id_rec),
                     dbrec=a,
+                    userinfo = self.userinfo,
         )
 
     # @tornado.web.authenticated
@@ -283,7 +295,7 @@ class PostHandler(BaseHandler):
     # # 文章是用户自己发布的。
     # print(self.userinfo.privilege)
     # if self.userinfo.privilege[4] == '1':
-    #         pass
+    # pass
     #     else:
     #         print('Error')
     #         return False
@@ -319,11 +331,25 @@ class PostHandler(BaseHandler):
                 return (x['name'])
 
     def viewit(self, post_id):
+
+        last_post_id = self.get_cookie('last_post_uid')
+        self.set_cookie('last_post_uid', post_id)
+
+        if last_post_id:
+            self.add_relation(last_post_id, post_id)
+
         cats = self.mpost2catalog.query_catalog(post_id)
         replys = self.mpost2reply.get_by_id(post_id)
         tag_info = self.mapp2tag.get_by_id(post_id)
-        # print(tag_info.)
 
+        rec = self.mpost.get_by_uid(post_id)
+
+        if rec == False:
+            kwd = {
+                'info': '您要找的云算应用不存在。',
+            }
+            self.render('html/404.html', kwd=kwd)
+            return False
 
         if cats.count() == 0:
             cat_id = ''
@@ -336,14 +362,30 @@ class PostHandler(BaseHandler):
         }
 
         self.render('tplite/post/viewiki.html',
-                    view=post_id,
+                    view=rec,
                     unescape=tornado.escape.xhtml_unescape,
                     kwd=kwd,
                     userinfo=self.userinfo,
                     tag_info=tag_info,
+                    relations=self.mrel.get_app_relations(rec.uid),
                     replys=replys,
 
         )
+
+
+    def add_relation(self, f_uid, t_uid):
+        print('-'* 40)
+        print(f_uid)
+        print(t_uid)
+        if False == self.mpost.get_by_uid(t_uid):
+            return False
+        if f_uid == t_uid:
+            '''
+            关联其本身
+            '''
+            return False
+        self.mrel.add_relation(f_uid, t_uid)
+        return True
 
     @tornado.web.authenticated
     def add_post(self):
@@ -399,12 +441,12 @@ class LabelHandler(BaseHandler):
 
     def get(self, input=''):
         if len(input) > 0:
-            ip_arr = input.split(r'/')
+            url_arr = input.split(r'/')
 
-        if len(ip_arr) == 1:
+        if len(url_arr) == 1:
             self.list(input)
-        elif len(ip_arr) == 2:
-            self.list(ip_arr[0], ip_arr[1])
+        elif len(url_arr) == 2:
+            self.list(url_arr[0], url_arr[1])
 
     def post(self, url_str=''):
         if len(url_str) > 0:

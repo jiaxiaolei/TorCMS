@@ -21,15 +21,15 @@ from torlite.model.core_tab import CabPost2Reply
 
 class MPost2Reply():
     def __init__(self):
+        self.tab = CabPost2Reply
         try:
             CabPost2Reply.create_table()
         except:
             pass
     def insert_data2(self, id_post, id_reply):
-
         uid = tools.get_uuid()
         try:
-            entry = CabPost2Reply.create(
+            entry = self.tab.create(
                 uid=uid,
                 post_id=id_post,
                 reply_id= id_reply,
@@ -40,7 +40,7 @@ class MPost2Reply():
             return False
 
     def get_by_id(self, in_uid):
-        recs = CabPost2Reply.select().join(CabReply).where(CabPost2Reply.post_id == in_uid).order_by(CabPost2Reply.timestamp.desc())
+        recs = self.tab.select().join(CabReply).where(self.tab.post_id == in_uid).order_by(self.tab.timestamp.desc())
         return recs
 
 
