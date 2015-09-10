@@ -10,12 +10,13 @@ import tornado.web
 import os
 from urls import urls
 from torlite.core.core_cfg import core_modules as modules
+import config
 
 # 添加扩展的模块。
 # from modules.extends import *
 
 SETTINGS = {
-    "template_path": os.path.join(os.path.dirname(__file__), "templates"),
+    "template_path": os.path.join(os.path.dirname(__file__), config.template_dir_name),
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
     'debug': True,
     "cookie_secret": "61oETzsdafKasdsdfXQA",

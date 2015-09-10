@@ -28,6 +28,8 @@ site_url = 'http://127.0.0.1:8088'
 dbtype = 1
 dbconnect = peewee.SqliteDatabase('./database/torcms.db')
 
+tmplate_dir_name = 'template_a'
+
 smtp_cfg = {
     'host': "smtp.ym.163.com",
     'user': "user_name@yunsuan.org",
