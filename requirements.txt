@@ -3,6 +3,7 @@ docutils
 html2text
 jieba
 markdown2
+jinja2
 peewee
 Pillow
 PyMySQL3
